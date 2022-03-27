@@ -27,7 +27,7 @@ function QuestionsList({canalId}) {
         keyExtractor={question => String(question.idQuestion)}
         contentContainerStyle={styles.container}
         renderItem={({ item }) => (
-          <Question question={item} />
+          <Question style={styles.item}  question={item} />
         )}
         refreshing={loading}
         onRefresh={loadQuestions}
@@ -44,11 +44,19 @@ function QuestionsList({canalId}) {
         textAlign: "left",
         alignContent: "center",
         color: "#292929",
-        backgroundColor: "#a2d3fc4d",
+        backgroundColor: "#dfecf7",
         borderColor: "#4e4e4e",
         flexDirection: "column"
       },
-      container:{
-          justifyContent:"space-between"
-      }
+      container: {
+        flex: 1,
+      },
+      item: {
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 16,
+      },
+      title: {
+        fontSize: 32,
+      },
   })

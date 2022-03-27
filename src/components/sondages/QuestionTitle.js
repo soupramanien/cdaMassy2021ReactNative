@@ -15,12 +15,11 @@ const QuestionTitle = ({question}) => { //props = {todos: [{}, {}]}
 
 const styles = StyleSheet.create({
     titleStyle: {
-        backgroundColor:  "#0068bde5",
+        backgroundColor:  "#0068bd",
         color: "rgb(255, 255, 255)",
-        fontSize: "15px",
-        padding: "2px 20px",
+        padding: 12,
         margin: "3px 0px",
-        borderRadius: "10px",
+        borderRadius: 10,
         width:"inherit"
     },
     libelleQuestion: {
@@ -28,15 +27,15 @@ const styles = StyleSheet.create({
         fontFamily: "Roboto",
         textAlign: "left",
         fontStyle: "bold",
-        fontSize: "25px"
+        fontSize: 20
     },
     nomAuteur: {
-        color:  "#99d1ff",
+        color:  "#bfd9ef",
         fontFamily: "Roboto",
         textAlign: "left",
         fontStyle: "italic",
         fontSize: "15px",
-        padding: "2px 20px",
+        padding: 4,
         margin: "3px 0px"
     }
   })
