@@ -1,31 +1,6 @@
 import Question from "./Question";
 import { useEffect, useState, useCallback } from "react";
-import { Alert, FlatList, Image, Modal, Pressable, StyleSheet, Text, View } from "react-native"
-import { useDispatch,  useSelector  } from "react-redux";
-import { actionsCreators } from "../../redux/store";
-
-// const QuestionList = ({list}) => {//props = {todos: [{}, {}]}
-//     // const onAddQuestionPress = () => dispatch(actionCreators.setAddQuestionMode(true))
-//     return (
-//         <View>
-//             <div>
-//                 {list.map((question) => {
-//                     return <Question key={question.idQuestion.toString()} question={question} />
-//                 })}
-//             </div>
-//             {/* <Button title="Add new question" onPress={onAddQuestionPress} /> */}
-//         </View>
-//     )
-// }
-
-// static getEFG(props, idEFG) {
-//     fetch(`http://localhost:8080/cdamassy2021/api/1/EFGs/${idEFG}`)
-//         .then((response) => response.json())
-//         .then((data) => {
-//             props(data);
-//         })
-//         .catch((error) => error);
-// }
+import { FlatList, StyleSheet} from "react-native"
 
 function QuestionsList({canalId}) {
     const [questions, setQuestions] = useState([]);
