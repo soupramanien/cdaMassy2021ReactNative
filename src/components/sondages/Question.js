@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
 //import { QuestionsProvider, useQuestionsContext } from "../../contexts/questions.context";
-//import PropositionList from "./PropositionList";
+import PropositionList from "./PropositionList";
 import QuestionTitle from "./QuestionTitle";
 //import ReponseList from "./ReponseList";
 
 const Question = ({question}) => { //props = {todos: [{}, {}]}
     //const questionsContext = useQuestionsContext();
-    const currentUserId = 1;
+    const currentUserId = 2;
 
     const isAutor = (currentUserId==question.idAuteur);
     var hasAnswered = false;
@@ -18,12 +18,12 @@ const Question = ({question}) => { //props = {todos: [{}, {}]}
     
 
     return (
-        <View>
-                <QuestionTitle style={styles.questionStyle} question={question}></QuestionTitle> 
+        <View  style={styles.questionStyle}>
+                <QuestionTitle question={question}></QuestionTitle> 
             <div>
                 <div>
                         {!isAutor  && !hasAnswered
-                         ? null/*<PropositionList list={question.propositions}/>*/
+                         ? <PropositionList propositions={question.propositions}/>
                         : null /*<ReponseList list={question.reponses}/>*/}
                 </div>
             </div>
@@ -36,11 +36,13 @@ export default Question;
 
 const styles = StyleSheet.create({
     questionStyle: {
-        margin: "12px",
-        borderRadius: "15px",
-        padding: "8px",
+        margin: 4,
+        borderWidth:3,
+        borderColor:"#0068bde5",
+        borderRadius: 15,
+        padding: 3,
         alignContent: "center",
-        backgroundColor: "#a2d3fc4d",
+        backgroundColor: "#bfd9ef",
         flexDirection: "column"
       }
   })

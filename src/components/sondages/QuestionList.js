@@ -1,31 +1,6 @@
 import Question from "./Question";
 import { useEffect, useState, useCallback } from "react";
-import { Alert, FlatList, Image, Modal, Pressable, StyleSheet, Text, View } from "react-native"
-import { useDispatch,  useSelector  } from "react-redux";
-import { actionsCreators } from "../../redux/store";
-
-// const QuestionList = ({list}) => {//props = {todos: [{}, {}]}
-//     // const onAddQuestionPress = () => dispatch(actionCreators.setAddQuestionMode(true))
-//     return (
-//         <View>
-//             <div>
-//                 {list.map((question) => {
-//                     return <Question key={question.idQuestion.toString()} question={question} />
-//                 })}
-//             </div>
-//             {/* <Button title="Add new question" onPress={onAddQuestionPress} /> */}
-//         </View>
-//     )
-// }
-
-// static getEFG(props, idEFG) {
-//     fetch(`http://localhost:8080/cdamassy2021/api/1/EFGs/${idEFG}`)
-//         .then((response) => response.json())
-//         .then((data) => {
-//             props(data);
-//         })
-//         .catch((error) => error);
-// }
+import { FlatList, StyleSheet } from "react-native"
 
 function QuestionsList({canalId}) {
     const [questions, setQuestions] = useState([]);
@@ -52,7 +27,7 @@ function QuestionsList({canalId}) {
         keyExtractor={question => String(question.idQuestion)}
         contentContainerStyle={styles.container}
         renderItem={({ item }) => (
-          <Question question={item} />
+          <Question style={styles.item}  question={item} />
         )}
         refreshing={loading}
         onRefresh={loadQuestions}
@@ -69,11 +44,19 @@ function QuestionsList({canalId}) {
         textAlign: "left",
         alignContent: "center",
         color: "#292929",
-        backgroundColor: "#a2d3fc4d",
+        backgroundColor: "#dfecf7",
         borderColor: "#4e4e4e",
         flexDirection: "column"
       },
-      container:{
-          justifyContent:"space-between"
-      }
+      container: {
+        flex: 1,
+      },
+      item: {
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 16,
+      },
+      title: {
+        fontSize: 32,
+      },
   })
