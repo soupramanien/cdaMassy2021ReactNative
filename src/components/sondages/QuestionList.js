@@ -1,42 +1,37 @@
 import Question from "./Question";
-import { useEffect, useState, useCallback } from "react";
-import { FlatList, StyleSheet } from "react-native"
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { FlatList, StyleSheet, View, Text} from "react-native"
+import { useSelector, useDispatch } from "react-redux";
+import { selectAllQuestions, fetchQuestions } from "../../redux/slices/questionsSlice";
 
 
-function QuestionsList({canalId}) {
-    //const [questions, setQuestions] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const idCanalSelectionne = useSelector(state => state.canal.idCanalSelectionne);
-    const questions = useSelector(state => state.question.questions);
-    
-    // const loadQuestions = useCallback(async () => {
-    //   setLoading(true);
-    //   try {
-    //     const res = await fetch("http://localhost:8080/cdamassy2021/api/question/bycanal/"+idCanalSelectionne);
-    //     const newQuestions = await res.json();
-    //     setQuestions(newQuestions);
-    //   } catch (error) {
-    //     alert("Network Error");
-    //   }
-    //   setLoading(false);
-    // }, [])
+function QuestionsList() {
+    const dispatch = useDispatch();
+    const questions = useSelector(selectAllQuestions)
+    const questionsStatus = useSelector(state => state.questions.status)
+    const error = useSelector(state => state.questions.error)
+
 
     useEffect(() => {
-      //loadQuestions();
-    }, []);
+      if (questionsStatus === 'idle') {
+        dispatch(fetchQuestions())
+      }
+    }, [questionsStatus, dispatch]);
 
     return (
-      <FlatList style={styles.questionList} 
-        data={questions}
-        keyExtractor={question => String(question.idQuestion)}
-        contentContainerStyle={styles.container}
-        renderItem={({ item }) => (
-          <Question style={styles.item}  question={item} />
-        )}
-        refreshing={loading}
-       // onRefresh={loadQuestions}
-      />
+      <View>
+        <Text>{questionsStatus}</Text>
+        <FlatList style={styles.questionList} 
+          data={questions}
+          keyExtractor={question => String(question.idQuestion)}
+          contentContainerStyle={styles.container}
+          renderItem={({ item }) => (
+            <Question style={styles.item}  question={item} />
+          )}
+          //refreshing={loading}
+        // onRefresh={loadQuestions}
+        />
+      </View>
     )
   }
   export default QuestionsList

@@ -6,7 +6,7 @@ import SondagesScreen from './src/screens/SondagesScreen';
 import CreerSondageScreen from './src/screens/CreerSondageScreen'
 
 import { Provider } from 'react-redux';
-import { store } from './src/redux/store';
+import  store  from './src/redux/store';
 
 const Stack = createNativeStackNavigator();
 export default function App() {

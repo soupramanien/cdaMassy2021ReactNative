@@ -6,7 +6,7 @@ import QuestionTitle from "./QuestionTitle";
 
 const Question = ({question}) => { //props = {todos: [{}, {}]}
     //const questionsContext = useQuestionsContext();
-    const idUtilisateurCourant = useSelector(state => state.utilisateur.idUtilisateurCourant)
+    const idUtilisateurCourant = 2; //useSelector(state => state.utilisateur.idUtilisateurCourant)
     const isAutor = (idUtilisateurCourant==question.idAuteur);
     var hasAnswered = false;
     
