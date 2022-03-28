@@ -2,7 +2,7 @@ import { createStore } from 'redux';
 
 const initialState = {
 	utilisateur: {
-		idUtilisateurCourant:2
+		idUtilisateurCourant:1
 	},
 	canal: {
 		idCanalSelectionne:1,
@@ -38,6 +38,13 @@ const initialState = {
 						"libelle": "ArrayList",
 						"dateRendu": "2022-03-22 10:13:26"
 					},
+					{
+						"idQuestion": 3,
+						"idAuteur": 11,
+						"nomAuteur": "Michel Martin",
+						"libelle": "String",
+						"dateRendu": "2022-03-22 10:13:26"
+					},
 				],
 				"typeQuestion": "LIBRE"
 			},
@@ -45,7 +52,7 @@ const initialState = {
 				"idQuestion": 2,
 				"libelle": "Quel est la couleur du cheval blanc d'Henry IV?",
 				"idCanal": 1,
-				"idAuteur": 3,
+				"idAuteur": 12,
 				"nomAuteur": "Henry IV",
 				"idQuestionnaire": 0,
 				"propositions": [
