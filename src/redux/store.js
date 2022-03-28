@@ -1,94 +1,48 @@
 import { createStore } from 'redux';
 
 const initialState = {
-	questions:
-	[
-		{
-			"idQuestion": 3,
-			"libelle": "Donnez un exemple de classe abstraite",
-			"idCanal": 1,
-			"idAuteur": 1,
-			"nomAuteur": "Tryphon Tournesol",
-			"idQuestionnaire": 0,
-			"propositions": [],
-			"reponses": [
-				{
-					"idQuestion": 3,
-					"idAuteur": 4,
-					"nomAuteur": "Marguerite Moulin",
-					"libelle": "ArrayList",
-					"dateRendu": "2022-03-22 10:13:26"
-				},
-				{
-					"idQuestion": 3,
-					"idAuteur": 5,
-					"nomAuteur": "Nadia Lupin",
-					"libelle": "java.sql.Connection",
-					"dateRendu": "2022-03-22 10:13:26"
-				},
-				{
-					"idQuestion": 3,
-					"idAuteur": 6,
-					"nomAuteur": "Marguerite Gatot",
-					"libelle": "je sais pas",
-					"dateRendu": "2022-03-22 10:13:26"
-				},
-				{
-					"idQuestion": 3,
-					"idAuteur": 3,
-					"nomAuteur": "Manuel Rivière",
-					"libelle": "java.util.List",
-					"dateRendu": "2022-03-22 10:13:26"
-				}
-			],
-			"typeQuestion": "LIBRE"
-		},
-		{
-			"idQuestion": 4,
-			"libelle": "Chassez l'intrus",
-			"idCanal": 1,
-			"idAuteur": 2,
-			"nomAuteur": "Bianca Castafiore",
-			"idQuestionnaire": 1,
-			"propositions": [
-				{
-					"idProposition": 2,
-					"idQuestion": 4,
-					"libelle": "protege",
-					"estCorrecte": 1
-				},
-				{
-					"idProposition": 1,
-					"idQuestion": 4,
-					"libelle": "private",
-					"estCorrecte": 0
-				},
-				{
-					"idProposition": 3,
-					"idQuestion": 4,
-					"libelle": "public",
-					"estCorrecte": 0
-				}
-			],
-			"reponses": [
-				{
-					"idQuestion": 4,
-					"idAuteur": 1,
-					"nomAuteur": "Tryphon Tournesol",
-					"libelle": "protege",
-					"dateRendu": null
-				},
-				{
-					"idQuestion": 4,
-					"idAuteur": 2,
-					"nomAuteur": "Bianca Castafiore",
-					"libelle": "protege",
-					"dateRendu": null
-				}
-			],
-			"typeQuestion": "CHOIXMULTIPLES"
-		}
-	],
+	utilisateur: {
+		idUtilisateurCourant:2
+	},
+	canal: {
+		idCanalSelectionne:1,
+		canaux: [
+			{ idCanal: 1, nom: 'CANAL N°1'},
+			{ idCanal: 2, nom: 'CANAL N°2'},
+			{ idCanal: 3, nom: 'CANAL N°3'},
+			{ idCanal: 4, nom: 'CANAL N°4'}
+		]
+	},
+	question: {
+		questions: [
+			{
+				"idQuestion": 3,
+				"libelle": "Donnez un exemple de classe abstraite",
+				"idCanal": 1,
+				"idAuteur": 1,
+				"nomAuteur": "Tryphon Tournesol",
+				"idQuestionnaire": 0,
+				"propositions": [
+					{
+						"idProposition": 2,
+						"idQuestion": 4,
+						"libelle": "protege",
+						"estCorrecte": 1
+					},
+				],
+				"reponses": [
+					{
+						"idQuestion": 3,
+						"idAuteur": 4,
+						"nomAuteur": "Marguerite Moulin",
+						"libelle": "ArrayList",
+						"dateRendu": "2022-03-22 10:13:26"
+					},
+				],
+				"typeQuestion": "LIBRE"
+			},
+		]
+	},
 	efgs: [
 		{
 			idEfg: 1,
@@ -127,12 +81,21 @@ const initialState = {
 	},
 };
 
-const actionTypes = {};
+const actionTypes = {
+	LOAD_QUESTIONS: "LOAD_QUESTIONS",
+};
 
-export const actionCreators = {};
+export const actionsCreators = {
+	loadQuestions: (questions) => ({
+		type: actionTypes.LOAD_QUESTIONS,
+		value: questions
+	  }),
+};
 
 const reducer = function (state = initialState, action) {
 	switch (action.type) {
+		case actionTypes.LOAD_QUESTIONS:
+			return { ...state, question: { ...state.question, questions: [ ...state.question.questions,action.value ] }}
 		default:
 			return state;
 	}
