@@ -7,7 +7,8 @@ function SondagesScreen({navigation, route}) {
     <View style={styles.container}>
         <Text>Sondages Screen</Text>
         <Button title='Go to Home' onPress={()=>navigation.goBack()}/>
-        <QuestionList></QuestionList>
+        <Button title='Creer Sondage' onPress={()=>navigation.navigate('CreerSondageScreen')}/>
+        {/* <QuestionList canalId={canalId}></QuestionList> */}
     </View>
   )
 }
