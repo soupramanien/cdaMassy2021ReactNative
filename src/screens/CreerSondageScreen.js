@@ -1,17 +1,18 @@
 import { Button, StyleSheet, Text, View } from 'react-native'
-import QuestionList from '../components/sondages/QuestionList';
 
-function SondagesScreen({navigation, route}) {
+
+function CreerSondageScreen({navigation, route}) {
     const {canalId, currentUserId} = route.params;//{itemId: 50, otherParam: "abc"}
   
   return (
     <View style={styles.container}>
-        <Text>Sondages Screen</Text>
+        <Text>Creer Sondage Screen</Text>
         <Text>Selected canal : {canalId}</Text>
         <Text>currentUserId: {currentUserId}</Text>
-        <Button title='Go to Home' onPress={()=>navigation.goBack()}/> <br></br>
-        <Button title='Creer Sondage' onPress={()=>navigation.navigate('CreerSondageScreen')}/>
-        <QuestionList canalId={canalId}></QuestionList>
+        <Button title='Go Back' onPress={()=>navigation.goBack()}/> <br></br>
+        
+        {/* <QuestionList canalId={canalId}></QuestionList> */}
+        
     </View>
   )
 }
@@ -23,4 +24,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-export default SondagesScreen 
+export default CreerSondageScreen 
