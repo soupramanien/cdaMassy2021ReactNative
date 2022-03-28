@@ -1,19 +1,17 @@
 import { StyleSheet, Text, View } from "react-native";
-//import { QuestionsProvider, useQuestionsContext } from "../../contexts/questions.context";
+import { useSelector } from "react-redux";
 import PropositionList from "./PropositionList";
 import QuestionTitle from "./QuestionTitle";
 //import ReponseList from "./ReponseList";
 
 const Question = ({question}) => { //props = {todos: [{}, {}]}
     //const questionsContext = useQuestionsContext();
-    const currentUserId = 2;
-
-    const isAutor = (currentUserId==question.idAuteur);
+    const idUtilisateurCourant = useSelector(state => state.utilisateur.idUtilisateurCourant)
+    const isAutor = (idUtilisateurCourant==question.idAuteur);
     var hasAnswered = false;
     
     question.reponses.forEach((reponse) => {
-        if(currentUserId == reponse.idAuteur) hasAnswered=true;
-        //console.log(reponse);
+        if(idUtilisateurCourant == reponse.idAuteur) hasAnswered=true;
     })
     
 

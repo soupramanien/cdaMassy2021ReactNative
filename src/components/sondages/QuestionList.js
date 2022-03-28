@@ -1,14 +1,17 @@
 import Question from "./Question";
 import { useEffect, useState, useCallback } from "react";
 import { FlatList, StyleSheet } from "react-native"
+import { useSelector } from "react-redux";
 
 function QuestionsList({canalId}) {
     const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(false);
+    const idCanalSelectionne = useSelector(state => state.canal.idCanalSelectionne)
+    
     const loadQuestions = useCallback(async () => {
       setLoading(true);
       try {
-        const res = await fetch("http://localhost:8080/cdamassy2021/api/question/bycanal/"+canalId);
+        const res = await fetch("http://localhost:8080/cdamassy2021/api/question/bycanal/"+idCanalSelectionne);
         const newQuestions = await res.json();
         setQuestions(newQuestions);
       } catch (error) {
@@ -16,7 +19,7 @@ function QuestionsList({canalId}) {
       }
       setLoading(false);
     }, [])
-    //componentDidMount
+
     useEffect(() => {
       loadQuestions();
     }, []);
