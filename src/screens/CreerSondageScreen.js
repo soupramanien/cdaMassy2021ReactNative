@@ -9,8 +9,7 @@ function CreerSondageScreen({navigation, route}) {
         <Text>Creer Sondage Screen</Text>
         <Text>Selected canal : {canalId}</Text>
         <Text>currentUserId: {currentUserId}</Text>
-        <Button title='Go Back' onPress={()=>navigation.goBack()}/> <br></br>
-        
+        <Button title='Go Back' onPress={()=>navigation.goBack()}/>
         {/* <QuestionList canalId={canalId}></QuestionList> */}
         
     </View>
