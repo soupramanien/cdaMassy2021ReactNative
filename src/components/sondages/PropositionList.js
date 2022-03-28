@@ -35,15 +35,15 @@ export default PropositionList;
 
   const styles = StyleSheet.create({
     propositionsList: {
-        margin: 3,
-        borderRadius: "15px",
-        fontFamily: "Roboto",
-        textAlign: "left",
-        alignContent: "center",
-        color: "#292929",
-        flexDirection: "column"
+        // margin: 3,
+        // borderRadius: "15px",
+        // fontFamily: "Roboto",
+        // textAlign: "left",
+        // alignContent: "center",
+        // color: "#292929",
+        // flexDirection: "column"
       },
       container:{
-          justifyContent:"space-between"
+        //   justifyContent:"space-between"
       }
   })
