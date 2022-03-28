@@ -19,21 +19,17 @@ export default Proposition;
 
 const styles = StyleSheet.create({
     boutonStyle: {
-        // backgroundColor: "#dfecf7",
-        // padding: 12,
-        // borderRadius: 8,
-        // margin: 6,
-        // cursor: "pointer",
-        // alignSelf: "inherit",
-        // borderWidth:1,
-        // borderColor:"rgb(255, 255, 255)",
+        backgroundColor: "#dfecf7",
+        padding: 12,
+        borderRadius: 8,
+        margin: 6,
+        borderWidth:1,
+        borderColor:"rgb(255, 255, 255)",
       },
     libelleReponse: {
-        // color: "#0068bd",
-        // fontSize: 15,
-        // fontFamily:"Roboto",
-        // fontStyle: "bold",
-        // alignSelf:"center"
+        color: "#0068bd",
+        fontSize: 15,
+        alignSelf:"center"
     }
   })
 

@@ -5,9 +5,10 @@ import { useSelector } from "react-redux";
 
 
 function QuestionsList({canalId}) {
-    const [questions, setQuestions] = useState([]);
+    //const [questions, setQuestions] = useState([]);
     const [loading, setLoading] = useState(false);
-    const idCanalSelectionne = useSelector(state => state.canal.idCanalSelectionne)
+    const idCanalSelectionne = useSelector(state => state.canal.idCanalSelectionne);
+    const questions = useSelector(state => state.question.questions);
     
     const loadQuestions = useCallback(async () => {
       setLoading(true);
@@ -42,25 +43,23 @@ function QuestionsList({canalId}) {
 
   const styles = StyleSheet.create({
     questionList: {
-        // margin: "12px",
-        // borderRadius: "15px",
-        // fontFamily: "Roboto",
-        // textAlign: "left",
-        // alignContent: "center",
-        // color: "#292929",
-        // backgroundColor: "#dfecf7",
-        // borderColor: "#4e4e4e",
-        // flexDirection: "column"
+        borderRadius: 12,
+        textAlign: "left",
+        alignContent: "center",
+        color: "#292929",
+        backgroundColor: "#dfecf7",
+        borderColor: "#4e4e4e",
+        flexDirection: "column"
       },
       container: {
-        // flex: 1,
+        flex: 1,
       },
       item: {
-        // padding: 20,
-        // marginVertical: 8,
-        // marginHorizontal: 16,
+        padding: 20,
+        marginVertical: 8,
+        marginHorizontal: 16,
       },
       title: {
-        // fontSize: 32,
+        fontSize: 32,
       },
   })

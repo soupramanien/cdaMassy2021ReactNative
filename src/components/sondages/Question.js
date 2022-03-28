@@ -18,13 +18,11 @@ const Question = ({question}) => { //props = {todos: [{}, {}]}
     return (
         <View  style={styles.questionStyle}>
                 <QuestionTitle question={question}></QuestionTitle> 
-            <div>
-                <div>
-                        {!isAutor  && !hasAnswered
-                         ? <PropositionList propositions={question.propositions}/>
-                        : null /*<ReponseList list={question.reponses}/>*/}
-                </div>
-            </div>
+            <View>
+                {!isAutor  && !hasAnswered
+                    ? <PropositionList propositions={question.propositions}/>
+                : null /*<ReponseList list={question.reponses}/>*/}
+            </View>
         </View>
 
     )

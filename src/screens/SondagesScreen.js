@@ -8,14 +8,14 @@ function SondagesScreen({navigation, route}) {
         <Text>Sondages Screen</Text>
         <Button title='Go to Home' onPress={()=>navigation.goBack()}/>
         <Button title='Creer Sondage' onPress={()=>navigation.navigate('CreerSondageScreen')}/>
-        {/* <QuestionList canalId={canalId}></QuestionList> */}
+        <QuestionList></QuestionList>
     </View>
   )
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#dfecf7",
     alignItems: 'center',
     justifyContent: 'center',
   },

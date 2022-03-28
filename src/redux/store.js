@@ -25,8 +25,40 @@ const initialState = {
 				"propositions": [
 					{
 						"idProposition": 2,
-						"idQuestion": 4,
+						"idQuestion": 3,
 						"libelle": "protege",
+						"estCorrecte": 1
+					},
+				],
+				"reponses": [
+					{
+						"idQuestion": 3,
+						"idAuteur": 4,
+						"nomAuteur": "Marguerite Moulin",
+						"libelle": "ArrayList",
+						"dateRendu": "2022-03-22 10:13:26"
+					},
+				],
+				"typeQuestion": "LIBRE"
+			},
+			{
+				"idQuestion": 2,
+				"libelle": "Quel est la couleur du cheval blanc d'Henry IV?",
+				"idCanal": 1,
+				"idAuteur": 3,
+				"nomAuteur": "Henry IV",
+				"idQuestionnaire": 0,
+				"propositions": [
+					{
+						"idProposition": 1,
+						"idQuestion": 2,
+						"libelle": "blanc",
+						"estCorrecte": 1
+					},
+					{
+						"idProposition": 2,
+						"idQuestion": 2,
+						"libelle": "gris",
 						"estCorrecte": 1
 					},
 				],
