@@ -10,20 +10,20 @@ function QuestionsList({canalId}) {
     const idCanalSelectionne = useSelector(state => state.canal.idCanalSelectionne);
     const questions = useSelector(state => state.question.questions);
     
-    const loadQuestions = useCallback(async () => {
-      setLoading(true);
-      try {
-        const res = await fetch("http://localhost:8080/cdamassy2021/api/question/bycanal/"+idCanalSelectionne);
-        const newQuestions = await res.json();
-        setQuestions(newQuestions);
-      } catch (error) {
-        alert("Network Error");
-      }
-      setLoading(false);
-    }, [])
+    // const loadQuestions = useCallback(async () => {
+    //   setLoading(true);
+    //   try {
+    //     const res = await fetch("http://localhost:8080/cdamassy2021/api/question/bycanal/"+idCanalSelectionne);
+    //     const newQuestions = await res.json();
+    //     setQuestions(newQuestions);
+    //   } catch (error) {
+    //     alert("Network Error");
+    //   }
+    //   setLoading(false);
+    // }, [])
 
     useEffect(() => {
-      loadQuestions();
+      //loadQuestions();
     }, []);
 
     return (
@@ -35,7 +35,7 @@ function QuestionsList({canalId}) {
           <Question style={styles.item}  question={item} />
         )}
         refreshing={loading}
-        onRefresh={loadQuestions}
+       // onRefresh={loadQuestions}
       />
     )
   }
