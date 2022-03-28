@@ -30,6 +30,11 @@ const styles = StyleSheet.create({
         color: "#0068bd",
         fontSize: 15,
         alignSelf:"center"
-    }
+    },
+    info: {
+        color: "#0068bd",
+        fontSize: 8,
+        alignSelf:"center"
+    },
   })
 
