@@ -1,4 +1,4 @@
-import { View, Text, FlatList, StyleSheet, Button } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import { useEffect, useState } from "react";
 import Reponse from './Reponse';
 
@@ -27,17 +27,20 @@ const ReponseList = ({ reponses }) => {
 			) : (
 				<View>
 					<Text style={styles.info}>Ont répondu:</Text>
-					<FlatList
-					    initialNumToRender={3}
-						style={styles.reponsesList}
-						data={displayedResponses}
-						keyExtractor={(reponse) => String(reponse.idAuteur)}
-						contentContainerStyle={styles.container}
-						renderItem={({ item }) => <Reponse reponse={item} />}
-						//refreshing={loading}
-						//onRefresh={loadQuestions}
-					/>
-					{totalItems>3 && displayedResponses.length<=3 && <Button onPress={onShowMoreResponse} title="Afficher plus" />}
+					<TouchableOpacity onPress={onShowMoreResponse} >
+						<FlatList
+							initialNumToRender={3}
+							style={styles.reponsesList}
+							data={displayedResponses}
+							keyExtractor={(reponse) => String(reponse.idAuteur)}
+							contentContainerStyle={styles.container}
+							renderItem={({ item }) => <Reponse reponse={item} />}
+							//refreshing={loading}
+							//onRefresh={loadQuestions}
+						/>
+						{totalItems>3 && displayedResponses.length<=3 && <Text style={styles.infoShowMore} >...</Text>}
+					</TouchableOpacity>
+					
 				</View>
 			)}
 		</View>
@@ -64,5 +67,12 @@ const styles = StyleSheet.create({
 		marginTop: 5,
 		marginLeft: 12,
 		marginBottom: 3
+	},
+	infoShowMore: {
+		color: '#0068bd',
+		fontSize: 20,
+		textAlign: 'center',
+		fontWeight: '900',
+		marginBottom: 10
 	}
 });
