@@ -1,8 +1,20 @@
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Button } from 'react-native';
+import { useEffect, useState } from "react";
 import Reponse from './Reponse';
 
 const ReponseList = ({ reponses }) => {
-	const isNoReponse = reponses.length < 1;
+	console.log("reponse: "+ reponses.indexOf(0).libelle + "nb other:" + reponses.length);
+	const [displayedResponses, setDisplayedResponses] = useState(reponses.slice(0,2));
+	const totalItems = reponses.length;
+	const isNoReponse = totalItems < 1;
+
+	function onShowMoreResponse() {
+		console.log('Show more:')
+		setDisplayedResponses(reponses);
+		console.log("displayed:"+totalItems)
+
+	}
+	
 	return (
 		<View>
 			{isNoReponse ? (
@@ -16,14 +28,16 @@ const ReponseList = ({ reponses }) => {
 				<View>
 					<Text style={styles.info}>Ont répondu:</Text>
 					<FlatList
+					    initialNumToRender={3}
 						style={styles.reponsesList}
-						data={reponses}
+						data={displayedResponses}
 						keyExtractor={(reponse) => String(reponse.idAuteur)}
 						contentContainerStyle={styles.container}
 						renderItem={({ item }) => <Reponse reponse={item} />}
 						//refreshing={loading}
 						//onRefresh={loadQuestions}
 					/>
+					{totalItems>3 && displayedResponses.length<=3 && <Button onPress={onShowMoreResponse} title="Afficher plus" />}
 				</View>
 			)}
 		</View>
