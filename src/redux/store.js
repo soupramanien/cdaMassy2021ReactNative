@@ -1,14 +1,14 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import thunk from 'redux-thunk';
-const URL_CONTEXT = 'http://291f-2a01-e0a-5db-3370-81bc-63aa-d6-a859.ngrok.io'; //tunnel kamal
+const URL_CONTEXT = 'http://ddf9-2a01-e0a-5db-3370-4913-65ef-c754-cead.ngrok.io'; //tunnel kamal
 //const URL_CONTEXT = 'http://localhost:8080';
 const initialState = {
 	loading: false,
 	error: false,
 
 	utilisateur: {
-		idUtilisateurCourant: 2
+		idUtilisateurCourant: 1
 	},
 
 	canal: {
