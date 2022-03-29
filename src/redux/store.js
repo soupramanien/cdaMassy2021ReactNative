@@ -179,9 +179,5 @@ const reducer = function (state = initialState, action) {
 	}
 };
 
-const rootReducer = combineReducers({
-	reducer: reducer,
-	form: formReducer,
-});
-
-export const store = createStore(rootReducer);
+const rootReducer = combineReducers({ reducer: reducers, form: formReducer });
+export const store = createStore(rootReducer, applyMiddleware(thunk));

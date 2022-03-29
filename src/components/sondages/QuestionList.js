@@ -6,14 +6,17 @@ import { actionsCreators } from '../../redux/store';
 
 function QuestionsList({ canalId }) {
 	const dispatch = useDispatch();
-	const loading = useSelector((state) => state.loading);
+	// Changé ici aussi : state.reducer.loading
+	const loading = useSelector((state) => state.reducer.loading);
 	// Thomas, Kamal, Ben et Vinoth : c'est ici qu'on changé une ligne. On a juste rajouté ".reducer" après votre state pour que cela fonctionne. On passe donc à state.reducer.canal.idCanalSelectionne Bisous, la teamVerte !
 	const idCanalSelectionne = useSelector(
 		(state) => state.reducer.canal.idCanalSelectionne
-	); // Idem ici. On passe donc à state.reducer.question.questions Bisous, la teamVerte !
+	);
+	// Idem ici. state.reducer.question.questions
 	const questions = useSelector((state) => state.reducer.question.questions);
 
 	const loadQuestions = (idCanalSelectionne) => {
+		// Calls the thunk action creator, and passes the thunk function to dispatch
 		dispatch(actionsCreators.loadQuestionsAsync(idCanalSelectionne));
 	};
 

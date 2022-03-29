@@ -8,7 +8,7 @@ const Question = ({ question }) => {
 	//props = {todos: [{}, {}]}
 	//const questionsContext = useQuestionsContext();
 	const idUtilisateurCourant = useSelector(
-		// Thomas, Kamal, Ben et Vinoth : c'est ici qu'on changé une ligne. On a juste rajouté ".reducer" après votre state pour que cela fonctionne. On passe donc à state.reducer.idUtilisateurCourant Bisous, la teamVerte !
+		// Thomas, Kamal, Ben et Vinoth : c'est ici qu'on changé une ligne. On a juste rajouté ".reducer" après votre state pour que cela fonctionne. On passe donc à state.reducer.utilisateur.idUtilisateurCourant Bisous, la teamVerte !
 		(state) => state.reducer.utilisateur.idUtilisateurCourant
 	);
 	const isAutor = idUtilisateurCourant == question.idAuteur;
