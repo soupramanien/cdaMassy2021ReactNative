@@ -2,13 +2,16 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 
 function HomeScreen(props) {
 	const navigation = props.navigation;
+	const members = 24;
 
 	return (
 		<View style={styles.container}>
 			<Text>Home Screen</Text>
 			<Button
 				title='Créer un EFG'
-				onPress={() => navigation.navigate('EFGAddScreen', {})}
+				onPress={() =>
+					navigation.navigate('EFGAddScreen', { students: members - 1 })
+				}
 			/>
 			<Button
 				title='Go to Sondages'
