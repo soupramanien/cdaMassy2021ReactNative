@@ -1,6 +1,6 @@
 import Question from './Question';
 import { useEffect, useState, useCallback } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { actionsCreators } from '../../redux/store';
 
@@ -25,20 +25,21 @@ function QuestionsList({ canalId }) {
 	}, []);
 
 	return (
-		<View>
-			{loading && <Text>loading...</Text>}
-			<FlatList
-				style={styles.questionList}
-				data={questions}
-				keyExtractor={(question) => String(question.idQuestion)}
-				contentContainerStyle={styles.container}
-				renderItem={({ item }) => (
-					<Question style={styles.item} question={item} />
-				)}
-				refreshing={loading}
-				onRefresh={loadQuestions}
-			/>
-		</View>
+
+			<View>
+				{loading && <Text>loading...</Text>}
+				<FlatList nestedScrollEnabled 
+					style={styles.questionList}
+					data={questions}
+					keyExtractor={(question) => String(question.idQuestion)}
+					contentContainerStyle={styles.container}
+					renderItem={({ item }) => (
+						<Question style={styles.item} question={item} />
+					)}
+					refreshing={loading}
+					onRefresh={loadQuestions}
+				/>
+			</View>
 	);
 }
 export default QuestionsList;
@@ -53,9 +54,7 @@ const styles = StyleSheet.create({
 		borderColor: '#4e4e4e',
 		flexDirection: 'column',
 	},
-	container: {
-		flex: 1,
-	},
+	container: {},
 	item: {
 		padding: 20,
 		marginVertical: 8,
