@@ -13,6 +13,11 @@ function HomeScreen(props) {
         currentUserId: 1
       })}
     />
+    <Button 
+      title='Les EFGs' 
+      onPress={()=>navigation.navigate("EFGScreens", {
+      })}
+    />
   </View>
   )
 }

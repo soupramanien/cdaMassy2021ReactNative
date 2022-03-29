@@ -35,6 +35,12 @@ export default function App() {
         </Stack.Screen>
 
         <Stack.Screen 
+          name='EFGScreens' 
+          component={EFGScreens}
+          options={{title: "Ecran des EFGs"}}
+          />
+
+        <Stack.Screen 
           name='CreerSondageScreen' 
           options={{title: "Creer Sondage", }}
           initialParams={{canalId: 1, currentUserId: 1}}
