@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 // et utiliser les requetes tunnelées vers le localhost de votre machine:
 // https://ngrok.com/download
 
-//const URL_CONTEXT = 'http://18df-2a01-e0a-5db-3370-35da-d2ab-80a8-c977.ngrok.io'; 
+//const URL_CONTEXT = 'http://68f0-2a01-e0a-5db-3370-35da-d2ab-80a8-c977.ngrok.io'; // <- l'adresse de votre tunnel
 const URL_CONTEXT = 'http://localhost:8080';
 
 const initialState = {
@@ -151,7 +151,7 @@ export const actionsCreators = {
 	loadQuestionsAsync: (idCanalSelectionne) => async (dispatch) => {
 		dispatch(actionsCreators.setAsyncOperationStart());
 		try {
-			const res = await fetch( URL_CONTEXT + '/cdamassy2021/api/question/bycanal/' + idCanalSelectionne);
+			const res = await fetch(URL_CONTEXT+`/cdamassy2021/api/question/bycanal/${idCanalSelectionne}`);
 			const newQuestions = await res.json();
 			dispatch(actionsCreators.loadQuestions(newQuestions));
 			dispatch(actionsCreators.setAsyncOperationSuccess());
