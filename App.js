@@ -7,6 +7,7 @@ import CreerSondageScreen from './src/screens/CreerSondageScreen'
 
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
+import EFGScreens from './src/screens/EFG/EFGScreens';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -37,7 +38,7 @@ export default function App() {
         <Stack.Screen 
           name='EFGScreens' 
           component={EFGScreens}
-          options={{title: "Ecran des EFGs"}}
+          options={{title: "Exercices en groupes"}}
           />
 
         <Stack.Screen 

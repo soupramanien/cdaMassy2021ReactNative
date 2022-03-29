@@ -15,8 +15,7 @@ function HomeScreen(props) {
     />
     <Button 
       title='Les EFGs' 
-      onPress={()=>navigation.navigate("EFGScreens", {
-      })}
+      onPress={()=>navigation.navigate("EFGScreens")}
     />
   </View>
   )
