@@ -2,7 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 import Canal from './Canal'
 
-function Canaux(props) {
+export default function Canaux(props) {
     return (
         <View>
             <Canal />

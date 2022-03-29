@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import HomeScreen from './src/screens/HomeScreen';
 import SondagesScreen from './src/screens/SondagesScreen';
 import CreerSondageScreen from './src/screens/CreerSondageScreen'
+import CanauxScreen from './src/screens/CanauxScreen'
 
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
@@ -11,41 +12,49 @@ import { store } from './src/redux/store';
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
-  <Provider store={store}>
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home" screenOptions={{
-        headerStyle: {
-          backgroundColor: "red"
-        },
-        headerTintColor: "white"
-      }}>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home" screenOptions={{
+          headerStyle: {
+            backgroundColor: "red"
+          },
+          headerTintColor: "white"
+        }}>
 
-        <Stack.Screen 
-          name='Home' 
-          component={HomeScreen}
-          options={{title: "Ecran d'accueil"}}
+          <Stack.Screen
+            name='Home'
+            component={HomeScreen}
+            options={{ title: "Ecran d'accueil" }}
           />
 
-        <Stack.Screen 
-          name='SondagesScreen' 
-          options={{title: "Sondages", }}
-          initialParams={{canalId: 1, currentUserId: 1}}
+          <Stack.Screen
+            name='SondagesScreen'
+            options={{ title: "Sondages", }}
+            initialParams={{ canalId: 1, currentUserId: 1 }}
           >
-            {(props)=> <SondagesScreen {...props}/>}
-        </Stack.Screen>
+            {(props) => <SondagesScreen {...props} />}
+          </Stack.Screen>
 
-        <Stack.Screen 
-          name='CreerSondageScreen' 
-          options={{title: "Creer Sondage", }}
-          initialParams={{canalId: 1, currentUserId: 1}}
-          >
-            {(props)=> <CreerSondageScreen {...props}/>}
-        </Stack.Screen>
-  
+      <Stack.Screen
+        name='CanauxScreen' component={CanauxScreen}
+        options={{ title: "Canaux", }}
+        initialParams={{ canalId: 1, currentUserId: 1 }}
+      >
+        {/* {(props) => <CanauxScreen {...props} />} */}
+      </Stack.Screen>
 
-      </Stack.Navigator>
-    </NavigationContainer>
-  </Provider>
+      <Stack.Screen
+        name='CreerSondageScreen'
+        options={{ title: "Creer Sondage", }}
+        initialParams={{ canalId: 1, currentUserId: 1 }}
+      >
+        {(props) => <CreerSondageScreen {...props} />}
+      </Stack.Screen>
+
+
+    </Stack.Navigator>
+    </NavigationContainer >
+  </Provider >
   );
 }
 

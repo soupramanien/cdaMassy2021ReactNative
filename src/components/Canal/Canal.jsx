@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-function Canal(props) {
+export default function Canal(props) {
     return (
         <View>
             <Text>Canal 1</Text>
