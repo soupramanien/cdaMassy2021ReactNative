@@ -1,48 +1,44 @@
 import Question from './Question';
 import { useEffect, useState, useCallback } from 'react';
-import { FlatList, StyleSheet } from 'react-native';
-import { useSelector } from 'react-redux';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { actionsCreators } from '../../redux/store';
 
 function QuestionsList({ canalId }) {
-	//const [questions, setQuestions] = useState([]);
-	const [loading, setLoading] = useState(false);
-	const idCanalSelectionne = useSelector((state) => state);
-
-	// Thomas, Kamal, Ben et Vinoth : c'est ici qu'on changé une ligne. On a juste rajouté ".reducer" après votre state pour que cela fonctionne. On passe donc à state.reducer.question.questions. Bisous, la teamVerte !
+	const dispatch = useDispatch();
+	const loading = useSelector((state) => state.loading);
+	// Thomas, Kamal, Ben et Vinoth : c'est ici qu'on changé une ligne. On a juste rajouté ".reducer" après votre state pour que cela fonctionne. On passe donc à state.reducer.canal.idCanalSelectionne Bisous, la teamVerte !
+	const idCanalSelectionne = useSelector(
+		(state) => state.reducer.canal.idCanalSelectionne
+	); // Idem ici. On passe donc à state.reducer.question.questions Bisous, la teamVerte !
 	const questions = useSelector((state) => state.reducer.question.questions);
 
-	// const loadQuestions = useCallback(async () => {
-	//   setLoading(true);
-	//   try {
-	//     const res = await fetch("http://localhost:8080/cdamassy2021/api/question/bycanal/"+idCanalSelectionne);
-	//     const newQuestions = await res.json();
-	//     setQuestions(newQuestions);
-	//   } catch (error) {
-	//     alert("Network Error");
-	//   }
-	//   setLoading(false);
-	// }, [])
+	const loadQuestions = (idCanalSelectionne) => {
+		dispatch(actionsCreators.loadQuestionsAsync(idCanalSelectionne));
+	};
 
 	useEffect(() => {
-		//loadQuestions();
+		loadQuestions(idCanalSelectionne);
 	}, []);
 
 	return (
-		<FlatList
-			style={styles.questionList}
-			data={questions}
-			keyExtractor={(question) => String(question.idQuestion)}
-			contentContainerStyle={styles.container}
-			renderItem={({ item }) => (
-				<Question style={styles.item} question={item} />
-			)}
-			refreshing={loading}
-			// onRefresh={loadQuestions}
-		/>
+		<View>
+			{loading && <Text>loading...</Text>}
+			<FlatList
+				style={styles.questionList}
+				data={questions}
+				keyExtractor={(question) => String(question.idQuestion)}
+				contentContainerStyle={styles.container}
+				renderItem={({ item }) => (
+					<Question style={styles.item} question={item} />
+				)}
+				refreshing={loading}
+				onRefresh={loadQuestions}
+			/>
+		</View>
 	);
 }
 export default QuestionsList;
-
 const styles = StyleSheet.create({
 	questionList: {
 		borderRadius: 12,
