@@ -4,7 +4,7 @@ import Reponse from './Reponse';
 
 const ReponseList = ({ reponses }) => {
 	console.log("reponse: "+ reponses.indexOf(0).libelle + "nb other:" + reponses.length);
-	const [displayedResponses, setDisplayedResponses] = useState(reponses.slice(0,2));
+	const [displayedResponses, setDisplayedResponses] = useState(reponses.slice(0,3));
 	const totalItems = reponses.length;
 	const isNoReponse = totalItems < 1;
 
