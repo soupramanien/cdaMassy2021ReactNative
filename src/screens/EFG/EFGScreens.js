@@ -1,25 +1,35 @@
-import { Text, View ,FlatList} from 'react-native'
+import { useEffect, useState } from 'react';
+import { Text, View ,FlatList,TouchableOpacity} from 'react-native'
+import EFGServices from '../../fetch/EFGfetch';
 
 function EFGScreens({navigation, route}) {
 
-  const data = [
-    {
-      idCanal : 1,
-      nom : "truc" 
-    },
-    {
-      idCanal : 2,
-      nom : "bidule"
-    }
-  ]
+    const [canaux,setCanaux] = useState([
+      {
+        idCanal : 1,
+        nom : "truc" 
+      },
+      {
+        idCanal : 2,
+        nom : "bidule"
+      }
+    ]);
+
+    useEffect(()=>{
+      EFGServices.getCanaux((canaux)=>setCanaux(canaux),1)
+    },[]);
   
     return (
       <View>
           <Text>EFGScreens</Text>
           <FlatList
-              data={data}
-              keyExtractor={(machin)=>String(machin.idCanal)}
-              renderItem = {({item})=>(<Text>coucou {item.nom}</Text>)}
+              data={canaux}
+              keyExtractor={(canal)=>String(canal.idCanal)}
+              renderItem = {({item})=>(
+                  <TouchableOpacity>
+                      <Text>exercices du Canal {item.nom}</Text>
+                  </TouchableOpacity>
+              )}
           />
       </View>
     )
