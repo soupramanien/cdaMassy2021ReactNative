@@ -6,15 +6,15 @@ import thunk from 'redux-thunk';
 // et utiliser les requetes tunnelées vers le localhost de votre machine:
 // https://ngrok.com/download
 
-const URL_CONTEXT = 'http://18df-2a01-e0a-5db-3370-35da-d2ab-80a8-c977.ngrok.io'; 
-// const URL_CONTEXT = 'http://localhost:8080';
+//const URL_CONTEXT = 'http://18df-2a01-e0a-5db-3370-35da-d2ab-80a8-c977.ngrok.io'; 
+const URL_CONTEXT = 'http://localhost:8080';
 
 const initialState = {
 	loading: false,
 	error: false,
 
 	utilisateur: {
-		idUtilisateurCourant: 2
+		idUtilisateurCourant: 1
 	},
 
 	canal: {

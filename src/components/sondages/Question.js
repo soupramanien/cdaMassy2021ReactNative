@@ -20,7 +20,7 @@ const Question = ({ question }) => {
 
 	return (
 		<View style={styles.questionStyle}>
-			<QuestionTitle question={question}></QuestionTitle>
+			<QuestionTitle question={question} />
 			<View>
 				{!isAutor && !hasAnswered ? (
 					<PropositionList propositions={question.propositions} />
@@ -36,12 +36,13 @@ export default Question;
 
 const styles = StyleSheet.create({
 	questionStyle: {
-		margin: 4,
+		margin: 12,
 		borderWidth: 3,
 		borderColor: '#0068bde5',
 		borderRadius: 15,
 		padding: 3,
 		alignContent: 'center',
 		backgroundColor: '#bfd9ef',
-	},
+		flexDirection: 'column'
+	}
 });
