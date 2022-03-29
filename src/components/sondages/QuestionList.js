@@ -1,6 +1,6 @@
 import Question from './Question';
 import { useEffect, useState, useCallback } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { actionsCreators } from '../../redux/store';
 
@@ -9,7 +9,9 @@ function QuestionsList({ canalId }) {
 	// Changé ici aussi : state.reducer.loading
 	const loading = useSelector((state) => state.reducer.loading);
 	// Thomas, Kamal, Ben et Vinoth : c'est ici qu'on changé une ligne. On a juste rajouté ".reducer" après votre state pour que cela fonctionne. On passe donc à state.reducer.canal.idCanalSelectionne Bisous, la teamVerte !
-	const idCanalSelectionne = useSelector((state) => state.reducer.canal.idCanalSelectionne);
+	const idCanalSelectionne = useSelector(
+		(state) => state.reducer.canal.idCanalSelectionne
+	);
 	// Idem ici. state.reducer.question.questions
 	const questions = useSelector((state) => state.reducer.question.questions);
 
@@ -23,21 +25,21 @@ function QuestionsList({ canalId }) {
 	}, []);
 
 	return (
-		<View>
-			{loading && <Text>loading...</Text>}
 
-			<FlatList
-				style={styles.questionList}
-				data={questions}
-				keyExtractor={(question) => String(question.idQuestion)}
-				contentContainerStyle={styles.container}
-				renderItem={({ item }) => <Question style={styles.item} question={item} />}
-				refreshing={loading}
-				onRefresh={loadQuestions}
-				showsVerticalScrollIndicator={true}
-				vertical
-			/>
-		</View>
+			<View>
+				{loading && <Text>loading...</Text>}
+				<FlatList nestedScrollEnabled 
+					style={styles.questionList}
+					data={questions}
+					keyExtractor={(question) => String(question.idQuestion)}
+					contentContainerStyle={styles.container}
+					renderItem={({ item }) => (
+						<Question style={styles.item} question={item} />
+					)}
+					refreshing={loading}
+					onRefresh={loadQuestions}
+				/>
+			</View>
 	);
 }
 export default QuestionsList;
@@ -50,13 +52,15 @@ const styles = StyleSheet.create({
 		color: '#292929',
 		backgroundColor: '#dfecf7',
 		borderColor: '#4e4e4e',
-		flexDirection: 'column'
+		flexDirection: 'column',
 	},
-	container: {
-		flex: 1
+	container: {},
+	item: {
+		padding: 20,
+		marginVertical: 8,
+		marginHorizontal: 16,
 	},
-	item: {},
 	title: {
-		fontSize: 32
-	}
+		fontSize: 32,
+	},
 });
