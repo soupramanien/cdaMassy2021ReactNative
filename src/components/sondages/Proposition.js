@@ -1,16 +1,22 @@
 //import { useQuestionsContext } from "../../contexts/questions.context";
 
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { actionsCreators } from '../../redux/store';
 
-const Proposition = ({ proposition }) => {
+const Proposition = ({ proposition, idQuestion, idUtilisateurCourant }) => {
+	const dispatch = useDispatch();
 	//props = {todos: [{}, {}]}
 	//const QuestionsContext = useQuestionsContext();
-	function postQuestion() {
+	function onPostReponse() {
 		// QuestionsContext.postReponse({idAuteur:1,idQuestion:4,libelle:proposition.libelle});
+		let reponse = { proposition, idQuestion, idUtilisateurCourant };
+		// Calls the thunk action creator, and passes the thunk function to dispatch
+		dispatch(actionsCreators.addReponseAsync(reponse));
 	}
 	return (
 		<View>
-			<TouchableOpacity /*onPress={onPress}*/ style={styles.boutonStyle}>
+			<TouchableOpacity onPress={onPostReponse} style={styles.boutonStyle}>
 				<Text style={styles.libelleReponse}>{proposition.libelle}</Text>
 			</TouchableOpacity>
 		</View>

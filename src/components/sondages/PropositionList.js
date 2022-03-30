@@ -1,7 +1,7 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import Proposition from './Proposition';
 
-const PropositionList = ({ propositions }) => {
+const PropositionList = ({ propositions, idUtilisateurCourant, idQuestion }) => {
 	const isNoProposition = propositions.length < 1;
 	return (
 		<View>
@@ -20,7 +20,13 @@ const PropositionList = ({ propositions }) => {
 						data={propositions}
 						keyExtractor={(proposition) => String(proposition.idProposition)}
 						contentContainerStyle={styles.container}
-						renderItem={({ item }) => <Proposition proposition={item} />}
+						renderItem={({ item }) => (
+							<Proposition
+								proposition={item}
+								idUtilisateurCourant={idUtilisateurCourant}
+								idQuestion={idQuestion}
+							/>
+						)}
 						//refreshing={loading}
 						//onRefresh={loadQuestions}
 					/>

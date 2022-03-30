@@ -128,6 +128,7 @@ const initialState = {
 };
 
 const actionTypes = {
+	LOAD_REPONSE: 'LOAD_REPONSE',
 	LOAD_QUESTIONS: 'LOAD_QUESTIONS',
 	ASYNC_OP_START: 'ASYNC_OP_START',
 	ASYNC_OP_SUCCESS: 'ASYNC_OP_SUCCESS',
@@ -148,15 +149,44 @@ export const actionsCreators = {
 		type: actionTypes.LOAD_QUESTIONS,
 		value: questions
 	}),
+	loadReponse: (reponse) => ({
+		type: actionsTypes.LOAD_REPONSE,
+		value: reponse
+	}),
 	loadQuestionsAsync: (idCanalSelectionne) => async (dispatch) => {
 		dispatch(actionsCreators.setAsyncOperationStart());
 		try {
-			const res = await fetch(URL_CONTEXT+`/cdamassy2021/api/question/bycanal/${idCanalSelectionne}`);
+			const res = await fetch(URL_CONTEXT + `/cdamassy2021/api/question/bycanal/${idCanalSelectionne}`);
 			const newQuestions = await res.json();
 			dispatch(actionsCreators.loadQuestions(newQuestions));
 			dispatch(actionsCreators.setAsyncOperationSuccess());
 		} catch (error) {
 			alert('Network Error');
+			console.log(error);
+			dispatch(actionsCreators.setAsyncOperationFailure());
+		}
+	},
+	addReponseAsync: (reponse) => async (dispatch) => {
+		dispatch(actionsCreators.setAsyncOperationStart());
+		try {
+			const res = await fetch(URL_CONTEXT + `/cdamassy2021/api/question/reponse`, {
+				method: 'POST',
+				headers: {
+					'content-type': 'application/json',
+					Accept: 'application/json',
+					'Access-Control-Allow-Origin': '*'
+				},
+				body: JSON.stringify(reponse)
+			});
+
+			alert('parsed:' + res);
+			const newReponse = await res.json();
+			dispatch(actionsCreators.loadReponse(newReponse));
+			dispatch(actionsCreators.setAsyncOperationSuccess());
+
+			console.log(newReponse);
+		} catch (error) {
+			alert('ADD Reponse Failure' + error);
 			console.log(error);
 			dispatch(actionsCreators.setAsyncOperationFailure());
 		}
@@ -175,6 +205,20 @@ const reducers = function(state = initialState, action) {
 			return {
 				...state,
 				question: { ...state.question, questions: action.value }
+			};
+		case actionTypes.LOAD_REPONSE:
+			return {
+				...state,
+				question: {
+					...state.question,
+					questions: [
+						state.question.questions.map((question) => {
+							return question.idQuestion == action.value.idQuestion
+								? { ...question, reponses: [ ...question.reponses, action.value ] }
+								: question;
+						})
+					]
+				}
 			};
 		default:
 			return state;

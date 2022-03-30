@@ -23,7 +23,11 @@ const Question = ({ question }) => {
 			<QuestionTitle question={question} />
 			<View>
 				{!isAutor && !hasAnswered ? (
-					<PropositionList propositions={question.propositions} />
+					<PropositionList
+						propositions={question.propositions}
+						idUtilisateurCourant={idUtilisateurCourant}
+						idQuestion={question.idQuestion}
+					/>
 				) : (
 					<ReponseList reponses={question.reponses} />
 				)}
