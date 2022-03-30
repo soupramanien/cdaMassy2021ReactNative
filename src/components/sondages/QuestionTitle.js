@@ -17,22 +17,21 @@ const styles = StyleSheet.create({
     titleStyle: {
         backgroundColor:  "#0068bd",
         color: "rgb(255, 255, 255)",
-        padding: 12,
+        padding: 8,
         margin: 2,
         borderRadius: 10
     },
     libelleQuestion: {
         color: "#ffffff",
         textAlign: "left",
-        fontSize: 20
+        fontSize: 16
     },
     nomAuteur: {
         color:  "#bfd9ef",
         textAlign: "left",
         fontStyle: "italic",
-        fontSize: 15,
-        padding: 4,
-        margin: 2
+        fontSize: 12,
+        marginLeft: 6
     }
   })
 export default QuestionTitle;

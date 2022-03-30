@@ -29,7 +29,13 @@ const styles = StyleSheet.create({
     libelleReponse: {
         color: "#0068bd",
         fontSize: 15,
+        alignSelf:"center",
+        fontWeight:"bold"
+    },
+    info: {
+        color: "#0068bd",
+        fontSize: 8,
         alignSelf:"center"
-    }
+    },
   })
 

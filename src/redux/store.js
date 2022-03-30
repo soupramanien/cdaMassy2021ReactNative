@@ -1,9 +1,15 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from "redux";
+import thunk from 'redux-thunk';
 
 const initialState = {
+
+  loading: false,
+  error: false,
+
 	utilisateur: {
 		idUtilisateurCourant:2
 	},
+
 	canal: {
 		idCanalSelectionne:1,
 		canaux: [
@@ -13,6 +19,7 @@ const initialState = {
 			{ idCanal: 4, nom: 'CANAL N°4'}
 		]
 	},
+
 	question: {
 		questions: [
 			{
@@ -115,22 +122,53 @@ const initialState = {
 
 const actionTypes = {
 	LOAD_QUESTIONS: "LOAD_QUESTIONS",
+  ASYNC_OP_START: "ASYNC_OP_START",
+  ASYNC_OP_SUCCESS: "ASYNC_OP_SUCCESS",
+  ASYNC_OP_FAILURE: "ASYNC_OP_FAILURE",
 };
 
 export const actionsCreators = {
+  setAsyncOperationStart: () => ({
+    type: actionTypes.ASYNC_OP_START
+  }),
+  setAsyncOperationSuccess: () => ({
+    type: actionTypes.ASYNC_OP_SUCCESS
+  }),
+  setAsyncOperationFailure: () => ({
+    type: actionTypes.ASYNC_OP_FAILURE
+  }),
 	loadQuestions: (questions) => ({
 		type: actionTypes.LOAD_QUESTIONS,
 		value: questions
 	  }),
+  loadQuestionsAsync: (idCanalSelectionne) => async (dispatch) => {
+    dispatch(actionsCreators.setAsyncOperationStart());
+    try {
+      const res = await fetch("http://localhost:8080/cdamassy2021/api/question/bycanal/"+idCanalSelectionne);
+      const newQuestions = await res.json();
+      dispatch(actionsCreators.loadQuestions(newQuestions));
+      dispatch(actionsCreators.setAsyncOperationSuccess());
+    } catch (error) {
+      alert("Network Error");
+      console.log(error);
+      dispatch(actionsCreators.setAsyncOperationFailure());
+    }
+  },
 };
 
-const reducer = function (state = initialState, action) {
+const reducers = function (state = initialState, action) {
 	switch (action.type) {
+    case actionTypes.ASYNC_OP_START:
+      return { ...state, loading: true }
+    case actionTypes.ASYNC_OP_SUCCESS:
+      return { ...state, loading: false, error: false }
+    case actionTypes.ASYNC_OP_FAILURE:
+      return { ...state, loading: false, error: true }
 		case actionTypes.LOAD_QUESTIONS:
-			return { ...state, question: { ...state.question, questions: [ ...state.question.questions,action.value ] }}
+			return { ...state, question: { ...state.question, questions: action.value }}
 		default:
 			return state;
 	}
 };
 
-export const store = createStore(reducer);
+export const store = createStore(reducers, applyMiddleware(thunk));

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import PropositionList from "./PropositionList";
 import QuestionTitle from "./QuestionTitle";
-//import ReponseList from "./ReponseList";
+import ReponseList from "./ReponseList";
 
 const Question = ({question}) => { //props = {todos: [{}, {}]}
     //const questionsContext = useQuestionsContext();
@@ -21,7 +21,7 @@ const Question = ({question}) => { //props = {todos: [{}, {}]}
             <View>
                 {!isAutor  && !hasAnswered
                     ? <PropositionList propositions={question.propositions}/>
-                : null /*<ReponseList list={question.reponses}/>*/}
+                    : <ReponseList reponses={question.reponses}/>}
             </View>
         </View>
 

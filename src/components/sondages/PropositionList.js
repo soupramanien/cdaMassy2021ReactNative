@@ -1,8 +1,7 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import Proposition from "./Proposition";
 
-const PropositionList = ({propositions}) => {//props = {todos: [{}, {}]}
-    // const onAddQuestionPress = () => dispatch(actionCreators.setAddQuestionMode(true))
+const PropositionList = ({propositions}) => {
     const isNoProposition = (propositions.length <1);
     return (
         <View>
@@ -13,7 +12,9 @@ const PropositionList = ({propositions}) => {//props = {todos: [{}, {}]}
                         <button type="button" class="input_btn input_btn--primary input_btn--inside input_uppercase">Envoyer</button>
                     </form> */}
                 </Text>
-                    : <FlatList style={styles.propositionsList} 
+                    : <View>
+                        <Text style={styles.info}> Votre réponse: </Text>
+                        <FlatList style={styles.propositionsList} 
                         data={propositions}
                         keyExtractor={proposition => String(proposition.idProposition)}
                         contentContainerStyle={styles.container}
@@ -23,6 +24,8 @@ const PropositionList = ({propositions}) => {//props = {todos: [{}, {}]}
                         //refreshing={loading}
                         //onRefresh={loadQuestions}
                     />
+                    </View>
+
             }
         </View>
     )
@@ -41,5 +44,12 @@ export default PropositionList;
       },
       container:{
         //   justifyContent:"space-between"
-      }
+      },
+      info: {
+        color: "#0068bd",
+        fontSize: 10,
+        textAlign:"left",
+        marginLeft: 6,
+        fontWeight:"bold"
+    }
   })

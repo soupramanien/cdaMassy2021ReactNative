@@ -1,33 +1,29 @@
 import Question from "./Question";
 import { useEffect, useState, useCallback } from "react";
-import { FlatList, StyleSheet } from "react-native"
-import { useSelector } from "react-redux";
-
+import { FlatList, StyleSheet, Text, View } from "react-native"
+import { useSelector, useDispatch } from "react-redux";
+import { actionsCreators } from "../../redux/store";
 
 function QuestionsList({canalId}) {
-    //const [questions, setQuestions] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch();
+    const loading = useSelector(state => state.loading)
     const idCanalSelectionne = useSelector(state => state.canal.idCanalSelectionne);
     const questions = useSelector(state => state.question.questions);
     
-    const loadQuestions = useCallback(async () => {
-      setLoading(true);
-      try {
-        const res = await fetch("http://localhost:8080/cdamassy2021/api/question/bycanal/"+idCanalSelectionne);
-        const newQuestions = await res.json();
-        setQuestions(newQuestions);
-      } catch (error) {
-        alert("Network Error");
-      }
-      setLoading(false);
-    }, [])
+    const loadQuestions = (idCanalSelectionne) => {
+      // Calls the thunk action creator, and passes the thunk function to dispatch
+      dispatch(actionsCreators.loadQuestionsAsync(idCanalSelectionne));
+    }
+
 
     useEffect(() => {
-      loadQuestions();
+      loadQuestions(idCanalSelectionne);
     }, []);
 
     return (
-      <FlatList style={styles.questionList} 
+      <View>
+        {loading &&<Text>loading...</Text>}
+        <FlatList style={styles.questionList} 
         data={questions}
         keyExtractor={question => String(question.idQuestion)}
         contentContainerStyle={styles.container}
@@ -36,7 +32,9 @@ function QuestionsList({canalId}) {
         )}
         refreshing={loading}
         onRefresh={loadQuestions}
-      />
+        />
+      </View>
+
     )
   }
   export default QuestionsList
