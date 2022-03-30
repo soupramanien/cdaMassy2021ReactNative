@@ -6,13 +6,15 @@ import {  View, Text } from 'react-native'
 
 function Canaux(){
     let idPersonneConnecter =1;
-    const canaux = useSelector(state => state.canal.canaux)
+    const canaux = useSelector(state => state.reducer.canal.canaux)
     return (
         <View>
-            <Text> Liste des canaux  </Text>
+            <Text> Liste des canaux  
             {canaux.map((canal) => {
                     return <Canal key={canal.idCanal} canal={canal} idPersonneConnecter={idPersonneConnecter}/>
                 })}
+
+            </Text>
 
            
         </View>

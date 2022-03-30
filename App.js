@@ -3,7 +3,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet, Text, View } from 'react-native';
 import HomeScreen from './src/screens/HomeScreen';
 import SondagesScreen from './src/screens/SondagesScreen';
-import CreerSondageScreen from './src/screens/CreerSondageScreen'
+import CreerSondageScreen from './src/screens/CreerSondageScreen';
+import CanauxScreen from './src/screens/CanauxScreen';
+import MembresScreen from './src/screens/Membres/MembresScreen';
 
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
@@ -48,6 +50,20 @@ export default function App() {
           >
             {(props)=> <CreerSondageScreen {...props}/>}
         </Stack.Screen>
+
+        <Stack.Screen
+      name='CanauxScreen' component={CanauxScreen}
+      options={{ title: "Canaux", }}
+      initialParams={{ canalId: 1, currentUserId: 1 }}>
+
+      </Stack.Screen>
+
+      <Stack.Screen
+      name='MembresScreen' component={MembresScreen}
+      options={{ title: "Membres", }}
+      initialParams={{ canalId: 1, currentUserId: 1 }}>
+
+      </Stack.Screen>
   
 
       </Stack.Navigator>

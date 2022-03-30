@@ -13,6 +13,14 @@ function HomeScreen(props) {
         currentUserId: 1
       })}
     />
+
+    <Button 
+      title='Go to Canaux' 
+      onPress={()=>navigation.navigate("CanauxScreen", {
+        canalId : 1,
+        currentUserId: 1
+      })}
+    />
     <Button 
       title='Les EFGs' 
       onPress={()=>navigation.navigate("EFGScreens")}

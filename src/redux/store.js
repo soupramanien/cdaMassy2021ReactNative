@@ -11,13 +11,21 @@ const initialState = {
 	},
 
 	canal: {
-		idCanalSelectionne: 1,
+		
 		canaux: [
 			{ idCanal: 1, nom: 'CANAL N°1' },
 			{ idCanal: 2, nom: 'CANAL N°2' },
 			{ idCanal: 3, nom: 'CANAL N°3' },
 			{ idCanal: 4, nom: 'CANAL N°4' },
 		],
+	},
+	membre: {
+		personnes:[
+			{ idpersonne: 1, nom: 'Tournesol Tryphon'},
+			{ idpersonne: 2, nom: 'Castafiore Bianca'},
+			{ idpersonne: 3, nom: ' Rivière Manuel'},
+			{ idpersonne: 4, nom: ' Moulin Marguerite'},
+		]
 	},
 
 	question: {
@@ -125,6 +133,9 @@ const actionTypes = {
 	ASYNC_OP_START: 'ASYNC_OP_START',
 	ASYNC_OP_SUCCESS: 'ASYNC_OP_SUCCESS',
 	ASYNC_OP_FAILURE: 'ASYNC_OP_FAILURE',
+	ADD_CANAL: "addCanal",
+    ADD_MEMBRE: "addMembre",
+  	DELETE_MEMBRE: "deleteMembre",
 };
 
 export const actionsCreators = {
@@ -136,6 +147,18 @@ export const actionsCreators = {
 	}),
 	setAsyncOperationFailure: () => ({
 		type: actionTypes.ASYNC_OP_FAILURE,
+	}),
+	addCanal: (canal) => ({
+		type: actionTypes.ADD_CANAL,
+		value: canal
+    }),
+	  addMembre: (membre) =>({
+		type: actionTypes.ADD_MEMBRE,
+		value: membre
+	}),
+	  deleteMembre: (membreCanal) =>({
+		type: actionTypes.DELETE_MEMBRE,
+		value: membreCanal
 	}),
 	loadQuestions: (questions) => ({
 		type: actionTypes.LOAD_QUESTIONS,
@@ -172,6 +195,15 @@ const reducers = function (state = initialState, action) {
 				...state,
 				question: { ...state.question, questions: action.value },
 			};
+		
+		case actionTypes.ADD_CANAL:
+			return{  ...state, canal: { ...state.canal, canaux: [ ...state.canal.canaux,action.value ] }}
+				
+		case actionTypes.ADD_MEMBRE:
+			return { ...state, membreCanal: {...state.membreCanal, membresCanal: [ ...state.membreCanal.membresCanal,action.value ] }}
+				
+		case actionTypes.DELETE_MEMBRE:
+			return { ...state, membreCanal: {...state.membreCanal, membresCanal: [...state.membreCanal.membresCanal.filter((mc) =>{ return !(mc.idMembre===action.value.idMembre && mc.idCanal === action.value.idCanal) })] } }
 		default:
 			return state;
 	}
