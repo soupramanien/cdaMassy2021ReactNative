@@ -10,7 +10,11 @@ const Proposition = ({ proposition, idQuestion, idUtilisateurCourant }) => {
 	//const QuestionsContext = useQuestionsContext();
 	function onPostReponse() {
 		// QuestionsContext.postReponse({idAuteur:1,idQuestion:4,libelle:proposition.libelle});
-		let reponse = { proposition, idQuestion, idUtilisateurCourant };
+		let reponse = new Object();
+		reponse.idQuestion = idQuestion;
+		reponse.libelle = proposition.libelle;
+		reponse.idAuteur = idUtilisateurCourant;
+
 		// Calls the thunk action creator, and passes the thunk function to dispatch
 		dispatch(actionsCreators.addReponseAsync(reponse));
 	}
