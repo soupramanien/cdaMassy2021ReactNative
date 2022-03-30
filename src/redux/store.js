@@ -161,7 +161,7 @@ export const actionsCreators = {
 	},
 };
 
-const reducer = function (state = initialState, action) {
+const reducers = function (state = initialState, action) {
 	switch (action.type) {
 		case actionTypes.ASYNC_OP_START:
 			return { ...state, loading: true };
