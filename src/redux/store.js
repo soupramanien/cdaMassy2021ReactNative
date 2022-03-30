@@ -19,16 +19,16 @@ const initialState = {
 		idUtilisateurCourant: 4,
 	},
 
-	canal: { 
+	canal: {
 		idCanalSelectionne: 1,
-		canaux: [] 
+		canaux: [],
 	},
 
 	membreCanal: {
 		membresCanal: [
 			// { idMembre: 1, nom: 'Rivière', prenom: 'Manuel' },
 			// { idMembre: 2, nom: 'Moulin', prenom: 'Marguerite' },
-		]
+		],
 	},
 
 	question: {
@@ -47,10 +47,10 @@ const initialState = {
 						idAuteur: 4,
 						nomAuteur: 'Marguerite Moulin',
 						libelle: 'ArrayList',
-						dateRendu: '2022-03-22 10:13:26'
-					}
+						dateRendu: '2022-03-22 10:13:26',
+					},
 				],
-				typeQuestion: 'LIBRE'
+				typeQuestion: 'LIBRE',
 			},
 			{
 				idQuestion: 2,
@@ -64,14 +64,14 @@ const initialState = {
 						idProposition: 1,
 						idQuestion: 2,
 						libelle: 'blanc',
-						estCorrecte: 1
+						estCorrecte: 1,
 					},
 					{
 						idProposition: 2,
 						idQuestion: 2,
 						libelle: 'gris',
-						estCorrecte: 1
-					}
+						estCorrecte: 1,
+					},
 				],
 				reponses: [
 					{
@@ -79,12 +79,12 @@ const initialState = {
 						idAuteur: 4,
 						nomAuteur: 'Marguerite Moulin',
 						libelle: 'ArrayList',
-						dateRendu: '2022-03-22 10:13:26'
-					}
+						dateRendu: '2022-03-22 10:13:26',
+					},
 				],
-				typeQuestion: 'CHOIXMULTIPLES'
-			}
-		]
+				typeQuestion: 'CHOIXMULTIPLES',
+			},
+		],
 	},
 
 	efg: 'test',
@@ -93,24 +93,24 @@ const initialState = {
 			idEfg: 1,
 			createur: {
 				idCanal: 1,
-				idPersonne: 1
+				idPersonne: 1,
 			},
 			intitule: 'TP définir objectif',
 			groupes: '2,3',
 			idCanal: 1,
-			idCreateur: 1
+			idCreateur: 1,
 		},
 		{
 			idEfg: 2,
 			createur: {
 				idCanal: 1,
-				idPersonne: 2
+				idPersonne: 2,
 			},
 			intitule: 'TP définir but',
 			groupes: '2,2,3',
 			idCanal: 1,
-			idCreateur: 2
-		}
+			idCreateur: 2,
+		},
 	],
 	formateur: {
 		idPersonne: 0,
@@ -122,8 +122,8 @@ const initialState = {
 		est_formateur: 0,
 		est_gestionnaire: 0,
 		est_administrateur: 0,
-		allCanauxMembre: null
-	}
+		allCanauxMembre: null,
+	},
 };
 
 const actionTypes = {
@@ -132,58 +132,60 @@ const actionTypes = {
 	ASYNC_OP_START: 'ASYNC_OP_START',
 	ASYNC_OP_SUCCESS: 'ASYNC_OP_SUCCESS',
 	ASYNC_OP_FAILURE: 'ASYNC_OP_FAILURE',
-	LOAD_CANAUX : 'loadCanaux',
-	LOAD_MEMEBRS_CANAL : 'loadMembresCanal',
+	LOAD_CANAUX: 'loadCanaux',
+	LOAD_MEMEBRS_CANAL: 'loadMembresCanal',
 	LOAD_QUESTION: 'LOAD_QUESTION',
 };
 
 export const actionsCreators = {
 	setAsyncOperationStart: () => ({
-		type: actionTypes.ASYNC_OP_START
+		type: actionTypes.ASYNC_OP_START,
 	}),
 	setAsyncOperationSuccess: () => ({
-		type: actionTypes.ASYNC_OP_SUCCESS
+		type: actionTypes.ASYNC_OP_SUCCESS,
 	}),
 	setAsyncOperationFailure: (error) => ({
 		type: actionTypes.ASYNC_OP_FAILURE,
-		value: error
+		value: error,
 	}),
 	addCanal: (canal) => ({
 		type: actionTypes.ADD_CANAL,
-		value: canal
+		value: canal,
 	}),
 	addMembre: (membre) => ({
 		type: actionTypes.ADD_MEMBRE,
-		value: membre
+		value: membre,
 	}),
 	deleteMembre: (membreCanal) => ({
 		type: actionTypes.DELETE_MEMBRE,
-		value: membreCanal
+		value: membreCanal,
 	}),
 	loadCanaux: (canaux) => ({
 		type: actionTypes.LOAD_CANAUX,
-		value: canaux
+		value: canaux,
 	}),
 	loadMembresDuCanal: (membresCanal) => ({
 		type: actionTypes.LOAD_MEMEBRS_CANAL,
-		value: membresCanal
+		value: membresCanal,
 	}),
 	loadQuestions: (questions) => ({
 		type: actionTypes.LOAD_QUESTIONS,
-		value: questions
+		value: questions,
 	}),
 	loadReponse: (reponse) => ({
 		type: actionTypes.LOAD_REPONSE,
-		value: reponse
+		value: reponse,
 	}),
 	loadQuestion: (question) => ({
 		type: actionTypes.LOAD_QUESTION,
-		value: question
+		value: question,
 	}),
 	loadQuestionsAsync: (idCanalSelectionne) => async (dispatch) => {
 		dispatch(actionsCreators.setAsyncOperationStart());
 		try {
-			const res = await fetch(URL_CONTEXT + `/cdamassy2021/api/question/bycanal/${idCanalSelectionne}`);
+			const res = await fetch(
+				URL_CONTEXT + `/cdamassy2021/api/question/bycanal/${idCanalSelectionne}`
+			);
 			const newQuestions = await res.json();
 			dispatch(actionsCreators.loadQuestions(newQuestions));
 			dispatch(actionsCreators.setAsyncOperationSuccess());
@@ -201,9 +203,9 @@ export const actionsCreators = {
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
-				'Access-Control-Allow-Origin': '*'
+				'Access-Control-Allow-Origin': '*',
 			},
-			body: JSON.stringify(reponse)
+			body: JSON.stringify(reponse),
 		})
 			.then((response) => response.json())
 			//Then with the data from the response in JSON...
@@ -228,9 +230,9 @@ export const actionsCreators = {
 			headers: {
 				'Content-Type': 'application/json',
 				Accept: 'application/json',
-				'Access-Control-Allow-Origin': '*'
+				'Access-Control-Allow-Origin': '*',
 			},
-			body: JSON.stringify(question)
+			body: JSON.stringify(question),
 		})
 			.then((question) => question.json())
 			//Then with the data from the response in JSON...
@@ -244,14 +246,10 @@ export const actionsCreators = {
 				console.error('Error:', error);
 				dispatch(actionsCreators.setAsyncOperationFailure(error));
 			});
-	}
+	},
 };
 
-<<<<<<< HEAD
-const reducers = function(state = initialState, action) {
-=======
 const reducers = function (state = initialState, action) {
->>>>>>> d641adc (ajoute picker pour membre par groupe)
 	switch (action.type) {
 		case actionTypes.ASYNC_OP_START:
 			return { ...state, loading: true };
@@ -260,26 +258,67 @@ const reducers = function (state = initialState, action) {
 		case actionTypes.ASYNC_OP_FAILURE:
 			return { ...state, loading: false, error: true };
 		case actionTypes.LOAD_QUESTIONS:
-			return { ...state, question: { ...state.question, questions: action.value } };
-			case actionTypes.LOAD_REPONSE:
-			return { ...state, question: { ...state.question, questions:  
-						state.question.questions.map((item)=>(item.idQuestion == action.value.idQuestion) 	// trouver la question pour laquelle (id == action.value.idQuestion) 
-								? { ...item, reponses: [ ...item.reponses, action.value ]}					// et ajouter action.value (la reponse) à sa liste de réponses
-								: item)}};
+			return {
+				...state,
+				question: { ...state.question, questions: action.value },
+			};
+		case actionTypes.LOAD_REPONSE:
+			return {
+				...state,
+				question: {
+					...state.question,
+					questions: state.question.questions.map((item) =>
+						item.idQuestion == action.value.idQuestion // trouver la question pour laquelle (id == action.value.idQuestion)
+							? { ...item, reponses: [...item.reponses, action.value] } // et ajouter action.value (la reponse) à sa liste de réponses
+							: item
+					),
+				},
+			};
 		case actionTypes.ADD_CANAL:
-			return { ...state, canal: { ...state.canal, canaux: [...state.canal.canaux, action.value] } }
+			return {
+				...state,
+				canal: {
+					...state.canal,
+					canaux: [...state.canal.canaux, action.value],
+				},
+			};
 		case actionTypes.ADD_MEMBRE:
-			return { ...state, membreCanal: { ...state.membreCanal, membresCanal: [...state.membreCanal.membresCanal, action.value] } }
+			return {
+				...state,
+				membreCanal: {
+					...state.membreCanal,
+					membresCanal: [...state.membreCanal.membresCanal, action.value],
+				},
+			};
 		case actionTypes.DELETE_MEMBRE:
-			return { ...state, membreCanal: { ...state.membreCanal, membresCanal: [...state.membreCanal.membresCanal.filter((mc) => { return !(mc.idMembre === action.value.idMembre && mc.idCanal === action.value.idCanal) })] } }
+			return {
+				...state,
+				membreCanal: {
+					...state.membreCanal,
+					membresCanal: [
+						...state.membreCanal.membresCanal.filter((mc) => {
+							return !(
+								mc.idMembre === action.value.idMembre &&
+								mc.idCanal === action.value.idCanal
+							);
+						}),
+					],
+				},
+			};
 		case actionTypes.LOAD_CANAUX:
-			return { ...state, canal: { ...state.canal, canaux: action.value } }
+			return { ...state, canal: { ...state.canal, canaux: action.value } };
 		case actionTypes.LOAD_MEMEBRS_CANAL:
-			return { ...state, membreCanal: { ...state.membreCanal, membresCanal: action.value } }
+			return {
+				...state,
+				membreCanal: { ...state.membreCanal, membresCanal: action.value },
+			};
 		case actionTypes.LOAD_QUESTION:
 			return {
 				...state,
-				question: { ...state.question, questions: [ ...state.question.questions, action.value ] }
+				question: {
+					...state.question,
+					questions: [...state.question.questions, action.value],
+				},
 			};
 		default:
 			return state;

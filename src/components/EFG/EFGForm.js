@@ -1,8 +1,13 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { propTypes } from 'redux-form';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import EFGServices from '../../fetch/EFGfetch';
+=======
+import {useState} from 'react';
+import { Text, View, TextInput, Picker } from 'react-native';
+>>>>>>> d641adc (ajoute picker pour membre par groupe)
 
 let SelectingFormValuesForm = (props) => {
 	const {
