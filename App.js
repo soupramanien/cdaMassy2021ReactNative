@@ -5,6 +5,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import SondagesScreen from './src/screens/SondagesScreen';
 import CreerSondageScreen from './src/screens/CreerSondageScreen'
 import CanauxScreen from './src/screens/CanauxScreen'
+import MembresScreen from './src/screens/Membres/MembresScreen'
 
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
@@ -41,6 +42,13 @@ export default function App() {
         initialParams={{ canalId: 1, currentUserId: 1 }}
       >
         {/* {(props) => <CanauxScreen {...props} />} */}
+      </Stack.Screen>
+
+      <Stack.Screen
+      name='MembresScreen' component={MembresScreen}
+      options={{ title: "Membres", }}
+      initialParams={{ idpersonne: 1, nom: 'Tournesol Tryphon' }}>
+
       </Stack.Screen>
 
       <Stack.Screen

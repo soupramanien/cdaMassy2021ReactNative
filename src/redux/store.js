@@ -19,6 +19,15 @@ const initialState = {
 			{ idCanal: 4, nom: 'CANAL N°4'}
 		]
 	},
+	
+	membre: {
+		personnes:[
+			{ idpersonne: 1, nom: 'Tournesol Tryphon'},
+			{ idpersonne: 2, nom: 'Castafiore Bianca'},
+			{ idpersonne: 3, nom: ' Rivière Manuel'},
+			{ idpersonne: 4, nom: ' Moulin Marguerite'},
+		]
+	},
 
 	question: {
 		questions: [
@@ -121,7 +130,10 @@ const initialState = {
 };
 
 const actionTypes = {
-	LOAD_QUESTIONS: "LOAD_QUESTIONS",
+  LOAD_QUESTIONS: "LOAD_QUESTIONS",
+  ADD_CANAL: "addCanal",
+  ADD_MEMBRE: "addMembre",
+  DELETE_MEMBRE: "deleteMembre",
   ASYNC_OP_START: "ASYNC_OP_START",
   ASYNC_OP_SUCCESS: "ASYNC_OP_SUCCESS",
   ASYNC_OP_FAILURE: "ASYNC_OP_FAILURE",
@@ -137,10 +149,24 @@ export const actionsCreators = {
   setAsyncOperationFailure: () => ({
     type: actionTypes.ASYNC_OP_FAILURE
   }),
+  addCanal: (canal) => ({
+	type: actionTypes.ADD_CANAL,
+	value: canal
+  }),
+  addMembre: (membre) =>({
+	type: actionTypes.ADD_MEMBRE,
+	value: membre
+  }),
+  deleteMembre: (membreCanal) =>({
+	type: actionTypes.DELETE_MEMBRE,
+	value: membreCanal
+}),
+
 	loadQuestions: (questions) => ({
 		type: actionTypes.LOAD_QUESTIONS,
 		value: questions
 	  }),
+
   loadQuestionsAsync: (idCanalSelectionne) => async (dispatch) => {
     dispatch(actionsCreators.setAsyncOperationStart());
     try {
@@ -160,12 +186,24 @@ const reducers = function (state = initialState, action) {
 	switch (action.type) {
     case actionTypes.ASYNC_OP_START:
       return { ...state, loading: true }
+
     case actionTypes.ASYNC_OP_SUCCESS:
       return { ...state, loading: false, error: false }
+
     case actionTypes.ASYNC_OP_FAILURE:
       return { ...state, loading: false, error: true }
+
 		case actionTypes.LOAD_QUESTIONS:
 			return { ...state, question: { ...state.question, questions: action.value }}
+
+		case actionTypes.ADD_CANAL:
+			return{  ...state, canal: { ...state.canal, canaux: [ ...state.canal.canaux,action.value ] }}
+			
+		case actionTypes.ADD_MEMBRE:
+			return { ...state, membreCanal: {...state.membreCanal, membresCanal: [ ...state.membreCanal.membresCanal,action.value ] }}
+			
+		case actionTypes.DELETE_MEMBRE:
+			return { ...state, membreCanal: {...state.membreCanal, membresCanal: [...state.membreCanal.membresCanal.filter((mc) =>{ return !(mc.idMembre===action.value.idMembre && mc.idCanal === action.value.idCanal) })] } }
 		default:
 			return state;
 	}
