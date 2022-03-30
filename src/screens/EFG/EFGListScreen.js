@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import { Text, View ,FlatList,StyleSheet} from 'react-native'
+import EFGServices from '../../fetch/EFGfetch'
 
 export default function EFGListScreen({route}){
 
@@ -27,6 +28,10 @@ export default function EFGListScreen({route}){
 			idCreateur: 2,
 		}
     ])
+
+    useEffect(()=>{
+        EFGServices.getAllEFGs((efgs)=>{setEfgs(efgs)},route.params.idCanal)
+    },[])
 
     return (
         <View style={styles.container}>
