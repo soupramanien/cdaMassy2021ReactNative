@@ -247,7 +247,11 @@ export const actionsCreators = {
 	}
 };
 
+<<<<<<< HEAD
 const reducers = function(state = initialState, action) {
+=======
+const reducers = function (state = initialState, action) {
+>>>>>>> d641adc (ajoute picker pour membre par groupe)
 	switch (action.type) {
 		case actionTypes.ASYNC_OP_START:
 			return { ...state, loading: true };
