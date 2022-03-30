@@ -1,11 +1,21 @@
-import React from 'react'
-import { View } from 'react-native'
-import Canal from './Canal'
+import React from "react";
+import Canal from "./Canal";
+import {useSelector} from "react-redux";
+import {  View, Text } from 'react-native'
 
-export default function Canaux(props) {
+
+function Canaux(){
+    let idPersonneConnecter =1;
+    const canaux = useSelector(state => state.canal.canaux)
     return (
         <View>
-            <Canal />
+            <Text> Liste des canaux  </Text>
+            {canaux.map((canal) => {
+                    return <Canal key={canal.idCanal} canal={canal} idPersonneConnecter={idPersonneConnecter}/>
+                })}
+
+           
         </View>
     )
 }
+export default Canaux;

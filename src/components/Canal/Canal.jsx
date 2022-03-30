@@ -1,19 +1,21 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react'
 import { Button, View, Text } from 'react-native'
-import MembresScreen from '../../screens/Membres/MembresScreen';
 
-export default function Canal() {
+
+export default function Canal(props) {
     const navigation = useNavigation();
     return (
         <View>
-            <Text>Canal 1
+            <Text>  {props.canal.nom}
+           
             <Button
                 title='Go to Membres'
                 onPress={() => navigation.navigate("MembresScreen")}
              />
-            </Text>
-            <Text>Canal 2
+             </Text>
+            
+            {/* <Text>Canal 2
             <Button
                 title='Go to Membres'
                 onPress={() => navigation.navigate("MembresScreen")}
@@ -24,8 +26,9 @@ export default function Canal() {
                 title='Go to Membres'
                 onPress={() => navigation.navigate("MembresScreen")}
              />
-             </Text> 
+             </Text>  */}
             
         </View>
     )
 }
+

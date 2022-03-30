@@ -11,7 +11,7 @@ const initialState = {
 	},
 
 	canal: {
-		idCanalSelectionne:1,
+		
 		canaux: [
 			{ idCanal: 1, nom: 'CANAL N°1'},
 			{ idCanal: 2, nom: 'CANAL N°2'},
@@ -198,7 +198,7 @@ const reducers = function (state = initialState, action) {
 
 		case actionTypes.ADD_CANAL:
 			return{  ...state, canal: { ...state.canal, canaux: [ ...state.canal.canaux,action.value ] }}
-			
+
 		case actionTypes.ADD_MEMBRE:
 			return { ...state, membreCanal: {...state.membreCanal, membresCanal: [ ...state.membreCanal.membresCanal,action.value ] }}
 			
