@@ -13,25 +13,10 @@ const initialState = {
 
 	canal: {canaux: []},
 
-	membre: {
-		personnes:[
-			{ idpersonne: 1, nom: 'Tournesol Tryphon'},
-			{ idpersonne: 2, nom: 'Castafiore Bianca'},
-			{ idpersonne: 3, nom: 'Rivière Manuel'},
-			{ idpersonne: 4, nom: 'Moulin Marguerite'},
-		]
-	},
-
 	membreCanal: {
 		membresCanal:[
-			{idCanal: 1, idMembre: 1},
-			{idCanal: 1, idMembre: 2},
-			{idCanal: 1, idMembre: 4},
-			{idCanal: 2, idMembre: 2},
-			{idCanal: 2, idMembre: 3},
-			{idCanal: 3, idMembre: 3},
-			{idCanal: 3, idMembre: 4},
-			{idCanal: 4, idMembre: 1},
+			{idMembre: 1, nom:'Rivière', prenom:'Manuel'},
+			{idMembre: 2, nom:'Moulin', prenom:'Marguerite'},
 		]
 	},
 
