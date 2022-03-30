@@ -28,6 +28,19 @@ const initialState = {
 		]
 	},
 
+	membreCanal: {
+		membresCanal:[
+			{idCanal: 1, idMembre: 1},
+			{idCanal: 1, idMembre: 2},
+			{idCanal: 1, idMembre: 4},
+			{idCanal: 2, idMembre: 2},
+			{idCanal: 2, idMembre: 3},
+			{idCanal: 3, idMembre: 3},
+			{idCanal: 3, idMembre: 4},
+			{idCanal: 4, idMembre: 1},
+		]
+	},
+
 	question: {
 		questions: [
 			{
