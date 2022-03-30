@@ -49,11 +49,7 @@ const EFGAddScreen = (props) => {
 					label="Intitulé de l'exercice"
 					component={EFGForm}
 				/>
-				<Field
-					name='groupes'
-					label='Nombre de membres par groupe'
-					component={EFGForm}
-				/>
+				<Field name='groupes' label='dede' component={EFGForm} value='sddde' />
 
 				<View>
 					<Button
