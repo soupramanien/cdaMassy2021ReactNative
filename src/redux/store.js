@@ -7,17 +7,12 @@ const initialState = {
 	error: false,
 
 	utilisateur: {
+		// TeamRed l'a changé à id 4 parce que pas de donnés sur canal avec id 2
 		idUtilisateurCourant: 4,
 	},
 
-	canal: {
-		canaux: [
-			// { idCanal: 1, nom: 'CANAL N°1' },
-			// { idCanal: 2, nom: 'CANAL N°2' },
-			// { idCanal: 3, nom: 'CANAL N°3' },
-			// { idCanal: 4, nom: 'CANAL N°4' },
-		],
-	},
+	canal: {canaux: []},
+
 	membre: {
 		personnes:[
 			{ idpersonne: 1, nom: 'Tournesol Tryphon'},
