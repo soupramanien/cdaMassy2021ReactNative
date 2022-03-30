@@ -9,14 +9,14 @@ function Canaux(){
     const canaux = useSelector(state => state.reducer.canal.canaux)
     return (
         <View>
-            <Text> Liste des canaux  
+            <Text> Liste des canaux  </Text>
             {canaux.map((canal) => {
-                    return <Canal key={canal.idCanal} canal={canal} idPersonneConnecter={idPersonneConnecter}/>
+                    return (
+                    <Canal key={canal.idCanal} 
+                        canal={canal} 
+                        idPersonneConnecter={idPersonneConnecter}/>
+                    )
                 })}
-
-            </Text>
-
-           
         </View>
     )
 }

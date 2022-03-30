@@ -23,8 +23,8 @@ const initialState = {
 		personnes:[
 			{ idpersonne: 1, nom: 'Tournesol Tryphon'},
 			{ idpersonne: 2, nom: 'Castafiore Bianca'},
-			{ idpersonne: 3, nom: ' Rivière Manuel'},
-			{ idpersonne: 4, nom: ' Moulin Marguerite'},
+			{ idpersonne: 3, nom: 'Rivière Manuel'},
+			{ idpersonne: 4, nom: 'Moulin Marguerite'},
 		]
 	},
 

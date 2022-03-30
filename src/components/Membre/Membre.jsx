@@ -4,13 +4,10 @@ import { View, Text } from 'react-native'
 
 function Membre(props) {
 
-    return(
+    return (
         <View>
-            <Text> {props.membre.nom}</Text>
-            
+            <Text>{props.membre.nom}</Text>
         </View>
-
     )
-    
 }
 export default Membre;
