@@ -5,28 +5,15 @@ import { Button, View, Text } from 'react-native'
 
 export default function Canal(props) {
     const navigation = useNavigation();
+
     return (
         <View>
             <Text>  {props.canal.nom}
-           
             <Button
                 title='Go to Membres'
                 onPress={() => navigation.navigate("MembresScreen")}
              />
              </Text>
-            
-            {/* <Text>Canal 2
-            <Button
-                title='Go to Membres'
-                onPress={() => navigation.navigate("MembresScreen")}
-             />
-            </Text>
-            <Text>Canal 3
-            <Button
-                title='Go to Membres'
-                onPress={() => navigation.navigate("MembresScreen")}
-             />
-             </Text>  */}
             
         </View>
     )

@@ -7,16 +7,15 @@ const initialState = {
 	error: false,
 
 	utilisateur: {
-		idUtilisateurCourant: 2,
+		idUtilisateurCourant: 4,
 	},
 
 	canal: {
-		
 		canaux: [
-			{ idCanal: 1, nom: 'CANAL N°1' },
-			{ idCanal: 2, nom: 'CANAL N°2' },
-			{ idCanal: 3, nom: 'CANAL N°3' },
-			{ idCanal: 4, nom: 'CANAL N°4' },
+			// { idCanal: 1, nom: 'CANAL N°1' },
+			// { idCanal: 2, nom: 'CANAL N°2' },
+			// { idCanal: 3, nom: 'CANAL N°3' },
+			// { idCanal: 4, nom: 'CANAL N°4' },
 		],
 	},
 	membre: {
@@ -149,6 +148,7 @@ const actionTypes = {
 	ADD_CANAL: "addCanal",
     ADD_MEMBRE: "addMembre",
   	DELETE_MEMBRE: "deleteMembre",
+	LOAD_CANAUX : "loadCanaux",
 };
 
 export const actionsCreators = {
@@ -165,13 +165,17 @@ export const actionsCreators = {
 		type: actionTypes.ADD_CANAL,
 		value: canal
     }),
-	  addMembre: (membre) =>({
+	addMembre: (membre) =>({
 		type: actionTypes.ADD_MEMBRE,
 		value: membre
 	}),
-	  deleteMembre: (membreCanal) =>({
+	deleteMembre: (membreCanal) =>({
 		type: actionTypes.DELETE_MEMBRE,
 		value: membreCanal
+	}),
+	loadCanaux : (canaux) =>({
+		type : actionTypes.LOAD_CANAUX,
+		value : canaux
 	}),
 	loadQuestions: (questions) => ({
 		type: actionTypes.LOAD_QUESTIONS,
@@ -217,6 +221,8 @@ const reducers = function (state = initialState, action) {
 				
 		case actionTypes.DELETE_MEMBRE:
 			return { ...state, membreCanal: {...state.membreCanal, membresCanal: [...state.membreCanal.membresCanal.filter((mc) =>{ return !(mc.idMembre===action.value.idMembre && mc.idCanal === action.value.idCanal) })] } }
+		case actionTypes.LOAD_CANAUX:
+			return {...state, canal:{...state.canal, canaux:action.value}}
 		default:
 			return state;
 	}
