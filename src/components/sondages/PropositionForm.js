@@ -25,8 +25,8 @@ export default function PropositionForm() {
         // style={styles.input}
         onChangeText={onChangeLibelle}
         value={libelle}
-        placeholder="Ecrivez votre question"
-        keyboardType="numeric"
+        placeholder="Ecrivez votre proposition"
+        keyboardType="default"
       />
       <RadioForm
         radio_props={options}
