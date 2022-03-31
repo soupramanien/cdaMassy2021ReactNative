@@ -50,7 +50,13 @@ const EFGAddScreen = (props) => {
 					component={EFGForm}
 				/>
 				<Field name='groupes' label='dede' component={EFGForm} value='sddde' />
-
+				<View>
+					<Field
+						name='membreParGroupe'
+						label="Membres d'élèves par groupes"
+						component={EFGForm.select}
+					/>
+				</View>
 				<View>
 					<Button
 						onPress={props.handleSubmit(onSubmit)}
