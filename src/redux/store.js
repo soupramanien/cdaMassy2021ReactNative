@@ -1,4 +1,4 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import thunk from 'redux-thunk';
 
@@ -14,7 +14,7 @@ const initialState = {
 	error: false,
 
 	utilisateur: {
-		idUtilisateurCourant: 1
+		idUtilisateurCourant: 6
 	},
 
 	canal: {
@@ -142,15 +142,16 @@ export const actionsCreators = {
 	setAsyncOperationSuccess: () => ({
 		type: actionTypes.ASYNC_OP_SUCCESS
 	}),
-	setAsyncOperationFailure: () => ({
-		type: actionTypes.ASYNC_OP_FAILURE
+	setAsyncOperationFailure: (error) => ({
+		type: actionTypes.ASYNC_OP_FAILURE,
+		value: error
 	}),
 	loadQuestions: (questions) => ({
 		type: actionTypes.LOAD_QUESTIONS,
 		value: questions
 	}),
 	loadReponse: (reponse) => ({
-		type: actionsTypes.LOAD_REPONSE,
+		type: actionTypes.LOAD_REPONSE,
 		value: reponse
 	}),
 	loadQuestionsAsync: (idCanalSelectionne) => async (dispatch) => {
@@ -166,10 +167,12 @@ export const actionsCreators = {
 			dispatch(actionsCreators.setAsyncOperationFailure());
 		}
 	},
-	addReponseAsync: (reponse) => async (dispatch) => {
+	addReponseAsync: (reponse) => (dispatch) => {
 		dispatch(actionsCreators.setAsyncOperationStart());
-		try {
-			const res = await fetch(URL_CONTEXT + `/cdamassy2021/api/question/reponse`, {
+		console.log('start');
+		{
+			/** 
+			const res =  fetch(URL_CONTEXT + `/cdamassy2021/api/question/reponse`, {
 				method: 'POST',
 				headers: {
 					'content-type': 'application/json',
@@ -179,17 +182,41 @@ export const actionsCreators = {
 				body: JSON.stringify(reponse)
 			});
 
-			alert('parsed:' + res);
-			const newReponse = await res.json();
-			dispatch(actionsCreators.loadReponse(newReponse));
-			dispatch(actionsCreators.setAsyncOperationSuccess());
+			//alert('parsed:' + res);
+			const newReponse =  res.json();
+			console.log('result');
+			//	
 
-			console.log(newReponse);
-		} catch (error) {
-			alert('ADD Reponse Failure' + error);
+			//console.log(newReponse);
+		  
+			//alert('ADD Reponse Failure' + error);
 			console.log(error);
-			dispatch(actionsCreators.setAsyncOperationFailure());
+
+			
+			*/
 		}
+		//promise methode
+		fetch(URL_CONTEXT + `/cdamassy2021/api/question/reponse`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+				'Access-Control-Allow-Origin': '*'
+			},
+			body: JSON.stringify(reponse)
+		})
+			.then((response) => response.json())
+			//Then with the data from the response in JSON...
+			.then((reponse) => {
+				console.log('Success:', initialState);
+				dispatch(actionsCreators.loadReponse(reponse));
+				dispatch(actionsCreators.setAsyncOperationSuccess());
+			})
+			//Then with the error genereted...
+			.catch((error) => {
+				console.error('Error:', error);
+				dispatch(actionsCreators.setAsyncOperationFailure(error));
+			});
 	}
 };
 
@@ -211,19 +238,17 @@ const reducers = function(state = initialState, action) {
 				...state,
 				question: {
 					...state.question,
-					questions: [
-						state.question.questions.map((question) => {
-							return question.idQuestion == action.value.idQuestion
-								? { ...question, reponses: [ ...question.reponses, action.value ] }
-								: question;
-						})
-					]
+					questions: { ...state.question.questions }
 				}
 			};
 		default:
 			return state;
 	}
 };
-
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({ reducer: reducers, form: formReducer });
-export const store = createStore(rootReducer, applyMiddleware(thunk));
+export const store = createStore(
+	rootReducer,
+	composeEnhancers(applyMiddleware(thunk))
+	//applyMiddleware(, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+);
