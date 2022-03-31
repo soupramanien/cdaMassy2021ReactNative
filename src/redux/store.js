@@ -14,7 +14,7 @@ const initialState = {
 	error: false,
 
 	utilisateur: {
-		idUtilisateurCourant: 6
+		idUtilisateurCourant: 4
 	},
 
 	canal: {
@@ -233,14 +233,18 @@ const reducers = function(state = initialState, action) {
 				...state,
 				question: { ...state.question, questions: action.value }
 			};
-		case actionTypes.LOAD_REPONSE:
-			return {
-				...state,
-				question: {
-					...state.question,
-					questions: { ...state.question.questions }
-				}
-			};
+			case actionTypes.LOAD_REPONSE:
+				return {
+					...state,
+					question: {
+						...state.question,
+						questions:  
+							state.question.questions.map((item)=>(item.idQuestion == action.value.idQuestion)
+									? { ...item, reponses: [ ...item.reponses, action.value ] }
+									: item)
+						
+					}
+				};
 		default:
 			return state;
 	}
