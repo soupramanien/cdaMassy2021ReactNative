@@ -1,13 +1,33 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { View, Text } from 'react-native';
 import Membre from './Membre';
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux';
+import {actionsCreators} from '../../redux/store'
 
-function Membres() {
+
+function Membres(props) {
     const membres = useSelector(state => state.reducer.membreCanal.membresCanal)
+    const dispatch = useDispatch()
+    //récupérer idCanal dans props
+    const idCanalCurrent = props.idCanalCurrent
+    const loadMembres = async () => {
+        try {
+            const res = await fetch("http://localhost:8080/cdamassy2021/api/canal/" + idCanalCurrent)
+            const newMembres = await res.json();
+            dispatch(actionsCreators.loadMembresDuCanal(newMembres))
+        } catch (error) {
+            alert("Network Error")
+            console.log(error)
+        }
+    }
+
+    useEffect(()=>{
+        loadMembres()
+    },[])
+
     return (
         <View>
-            <Text>Liste Des Memebres</Text>
+            <Text>Liste Des Memebres : IdCanal = {idCanalCurrent}</Text>
             <Text>Id Membre  |  Nom  |  Prenom</Text>
             {membres.map((membre) => {
                 return <Membre key={membre.idMembre} membre={membre}/>

@@ -6,7 +6,7 @@ function Membre(props) {
 
     return (
         <View>
-            <Text>        {props.membre.idMembre}          |  {props.membre.nom}  |  {props.membre.prenom}</Text>
+            <Text>{props.membre.idMembre} | {props.membre.nom} | {props.membre.prenom} </Text>
         </View>
     )
 }

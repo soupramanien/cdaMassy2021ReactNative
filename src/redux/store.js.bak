@@ -10,13 +10,42 @@ const initialState = {
 		idUtilisateurCourant: 4,
 	},
 
+<<<<<<< Updated upstream
+	canal: {
+		canaux: [
+			// { idCanal: 1, nom: 'CANAL N°1' },
+			// { idCanal: 2, nom: 'CANAL N°2' },
+			// { idCanal: 3, nom: 'CANAL N°3' },
+			// { idCanal: 4, nom: 'CANAL N°4' },
+		],
+	},
+	membre: {
+		personnes:[
+			{ idpersonne: 1, nom: 'Tournesol Tryphon'},
+			{ idpersonne: 2, nom: 'Castafiore Bianca'},
+			{ idpersonne: 3, nom: 'Rivière Manuel'},
+			{ idpersonne: 4, nom: 'Moulin Marguerite'},
+		]
+	},
 
+	membreCanal: {
+		membresCanal:[
+			{idCanal: 1, idMembre: 1},
+			{idCanal: 1, idMembre: 2},
+			{idCanal: 1, idMembre: 4},
+			{idCanal: 2, idMembre: 2},
+			{idCanal: 2, idMembre: 3},
+			{idCanal: 3, idMembre: 3},
+			{idCanal: 3, idMembre: 4},
+			{idCanal: 4, idMembre: 1},
+=======
 	canal: { canaux: [] },
 
 	membreCanal: {
 		membresCanal: [
-			// { idMembre: 1, nom: 'Rivière', prenom: 'Manuel' },
-			// { idMembre: 2, nom: 'Moulin', prenom: 'Marguerite' },
+			{ idMembre: 1, nom: 'Rivière', prenom: 'Manuel' },
+			{ idMembre: 2, nom: 'Moulin', prenom: 'Marguerite' },
+>>>>>>> Stashed changes
 		]
 	},
 
@@ -129,7 +158,7 @@ const actionTypes = {
 	ADD_MEMBRE: "addMembre",
 	DELETE_MEMBRE: "deleteMembre",
 	LOAD_CANAUX: "loadCanaux",
-	LOAD_MEMEBRS_CANAL: "loadMembresDuCanal"
+	LOAD_MEMEBRS_CANAL: "loadMembreDuCanal"
 };
 
 export const actionsCreators = {
