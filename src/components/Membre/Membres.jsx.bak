@@ -3,7 +3,13 @@ import { View, Text } from 'react-native';
 import Membre from './Membre';
 import { useSelector, useDispatch } from "react-redux";
 
-
+<<<<<<< Updated upstream
+function Membres() {
+    const membres = useSelector(state => state.reducer.membre.personnes)
+    return (
+        <View>
+            <Text>Liste Des Memebres</Text>
+=======
 function Membres(props) {
     const membres = useSelector(state => state.reducer.membreCanal.membresCanal)
     const idCanal = 2
@@ -12,6 +18,7 @@ function Membres(props) {
         <View>
             <Text>Liste Des Memebres : IdCanal = {idCanal}</Text>
             <Text>Id Membre  |  Nom  |  Prenom</Text>
+>>>>>>> Stashed changes
             {membres.map((membre) => {
                 return <Membre key={membre.idpersonne} membre={membre}/>
             })}
