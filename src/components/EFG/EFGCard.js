@@ -1,6 +1,6 @@
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text,Button} from 'react-native';
 
-export default function EFGCard({efg,formateur,navigation,isEFGScreen}){
+export default function EFGCard({efg,formateur,isEFGScreen}){
 
     return(
         <>
@@ -8,6 +8,7 @@ export default function EFGCard({efg,formateur,navigation,isEFGScreen}){
                 <>
                     <Text>Exercice n°{efg.idEfg} : {efg.intitule}</Text>
                     <Text>Formateur : {formateur.prenom} {formateur.nom}</Text>
+                    <Button title='modifier groupes'/>
                 </>
             )}
 
