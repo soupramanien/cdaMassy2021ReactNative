@@ -10,6 +10,7 @@ function Membres(props) {
     const dispatch = useDispatch()
     //récupérer idCanal dans props
     const idCanalCurrent = props.idCanalCurrent
+    const nomCanalCurrent = props.nomCanalCurrent
     const loadMembres = async () => {
         try {
             const res = await fetch("http://localhost:8080/cdamassy2021/api/canal/" + idCanalCurrent)
@@ -27,7 +28,8 @@ function Membres(props) {
 
     return (
         <View>
-            <Text>Liste Des Memebres : IdCanal = {idCanalCurrent}</Text>
+            <Text>Memebres de {nomCanalCurrent}</Text>
+            <Text>--------------------------------</Text>
             <Text>Id Membre  |  Nom  |  Prenom</Text>
             {membres.map((membre) => {
                 return <Membre key={membre.idMembre} membre={membre}/>

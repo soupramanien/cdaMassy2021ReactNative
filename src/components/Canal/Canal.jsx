@@ -7,15 +7,16 @@ export default function Canal(props) {
     const navigation = useNavigation();
     //récupérer idCanal actuelle
     const idCanalCurrent = props.canal.idCanal
+    const nomCanalCurrent = props.canal.nom
     return (
         <View>
             <Text>  {props.canal.nom}  :  Id Canal = {idCanalCurrent}
                 <Button
-                    title='Go to Membres'
+                    title='Show Membres'
                     onPress={() => navigation.navigate(
                         "MembresScreen",
-                        //envoyer idCanal à l'écran appelée
-                        { idCanalCurrent })}
+                        //envoyer idCanal et nom à l'écran appelée
+                        { idCanalCurrent, nomCanalCurrent })}
                 />
             </Text>
 
