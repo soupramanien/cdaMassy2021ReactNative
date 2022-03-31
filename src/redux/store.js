@@ -3,22 +3,24 @@ import { reducer as formReducer } from 'redux-form';
 import thunk from 'redux-thunk';
 
 // Pour switcher le contexte avec votre lien de tunnel ngrok
-// et utiliser les requetes tunnelées vers le localhost de votre machine:
+// et utiliser les requetes tunnelées depuuis votre mobile vers le localhost de votre machine:
 // https://ngrok.com/download
 
-const URL_CONTEXT = ' http://855c-2a01-e0a-5db-3370-79e0-d0ae-ee14-5441.ngrok.io'; // <- l'adresse de votre tunnel
-//const URL_CONTEXT = 'http://localhost:8080';
+//const URL_CONTEXT = 'http://ff94-92-184-106-170.ngrok.io'; // <- l'adresse de votre tunnel
+const URL_CONTEXT = 'http://localhost:8080';
 
 const initialState = {
+	//Async operation state:
 	loading: false,
+	//Async operation result:
 	error: false,
 
 	utilisateur: {
-		idUtilisateurCourant: 7
+		idUtilisateurCourant: 4
 	},
 
 	canal: {
-		idCanalSelectionne: 2,
+		idCanalSelectionne: 1,
 		canaux: [
 			{ idCanal: 1, nom: 'CANAL N°1' },
 			{ idCanal: 2, nom: 'CANAL N°2' },
@@ -36,14 +38,7 @@ const initialState = {
 				idAuteur: 1,
 				nomAuteur: 'Tryphon Tournesol',
 				idQuestionnaire: 0,
-				propositions: [
-					{
-						idProposition: 2,
-						idQuestion: 3,
-						libelle: 'protege',
-						estCorrecte: 1
-					}
-				],
+				propositions: [],
 				reponses: [
 					{
 						idQuestion: 3,
@@ -85,10 +80,12 @@ const initialState = {
 						dateRendu: '2022-03-22 10:13:26'
 					}
 				],
-				typeQuestion: 'LIBRE'
+				typeQuestion: 'CHOIXMULTIPLES'
 			}
 		]
 	},
+
+	efg: 'test',
 	efgs: [
 		{
 			idEfg: 1,
@@ -172,17 +169,14 @@ export const actionsCreators = {
 			dispatch(actionsCreators.setAsyncOperationFailure());
 		}
 	},
-
 	addReponseAsync: (reponse) => (dispatch) => {
 		dispatch(actionsCreators.setAsyncOperationStart());
-		console.log('start');
-
 		//promise methode
 		fetch(URL_CONTEXT + `/cdamassy2021/api/question/reponse`, {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json',
 				Accept: 'application/json',
+				'Content-Type': 'application/json',
 				'Access-Control-Allow-Origin': '*'
 			},
 			body: JSON.stringify(reponse)
@@ -238,36 +232,29 @@ const reducers = function(state = initialState, action) {
 		case actionTypes.ASYNC_OP_FAILURE:
 			return { ...state, loading: false, error: true };
 		case actionTypes.LOAD_QUESTIONS:
-			return {
-				...state,
-				question: { ...state.question, questions: action.value }
+			return { ...state, question: { ...state.question, questions: action.value } };
+			case actionTypes.LOAD_REPONSE:
+				return { // trouver la question pour laquelle (id == action.value.idQuestion) 
+					     // et ajouter action.value (la reponse) à sa liste de réponses
+					...state, question: { ...state.question, questions:  
+							state.question.questions.map(
+								(item)=>(item.idQuestion == action.value.idQuestion)
+									? { ...item, reponses: [ ...item.reponses, action.value ] }
+									: item)}
 			};
-		case actionTypes.LOAD_REPONSE:
-			return {
-				...state,
-				question: {
-					...state.question,
-					questions: state.question.questions.map(
-						(item) =>
-							item.idQuestion == action.value.idQuestion
-								? { ...item, reponses: [ ...item.reponses, action.value ] }
-								: item
-					)
-				}
-			};
-		case actionTypes.LOAD_QUESTION:
-			return {
-				...state,
-				question: { ...state.question, questions: [ ...state.question.questions, action.value ] }
-			};
-		default:
-			return state;
+
+			case actionTypes.LOAD_QUESTION:
+				return {
+					...state,
+					question: { ...state.question, questions: [ ...state.question.questions, action.value ] }
+				};
+			default:
+				return state;
 	}
 };
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // ajout du module Redux Devtools
 const rootReducer = combineReducers({ reducer: reducers, form: formReducer });
 export const store = createStore(
 	rootReducer,
 	composeEnhancers(applyMiddleware(thunk))
-	//applyMiddleware(, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 );
