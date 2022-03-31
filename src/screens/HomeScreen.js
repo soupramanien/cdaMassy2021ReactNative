@@ -7,6 +7,14 @@ function HomeScreen(props) {
 		<View style={styles.container}>
 			<Text>Home Screen</Text>
 			<Button
+				title='Go to Canaux'
+				onPress={() => navigation.navigate("CanauxScreen", {
+					canalId: 1,
+					currentUserId: 1
+				})}
+			/>
+			
+			<Button
 				title='Go to Sondages'
 				onPress={() =>
 					navigation.navigate('SondagesScreen', {
