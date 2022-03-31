@@ -7,10 +7,6 @@ function HomeScreen(props) {
 		<View style={styles.container}>
 			<Text>Home Screen</Text>
 			<Button
-				title='Créer un EFG'
-				onPress={() => navigation.navigate('EFGAddScreen', {})}
-			/>
-			<Button
 				title='Go to Sondages'
 				onPress={() =>
 					navigation.navigate('SondagesScreen', {
@@ -18,6 +14,14 @@ function HomeScreen(props) {
 						currentUserId: 1,
 					})
 				}
+			/>
+			<Button
+				title='Créer un EFG'
+				onPress={() => navigation.navigate('EFGAddScreen', {})}
+			/>
+			<Button
+				title='Les EFGs'
+				onPress={() => navigation.navigate('EFGScreens')}
 			/>
 		</View>
 	);

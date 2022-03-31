@@ -4,11 +4,12 @@ import { StyleSheet, Text, View } from 'react-native';
 import HomeScreen from './src/screens/HomeScreen';
 import SondagesScreen from './src/screens/SondagesScreen';
 import CreerSondageScreen from './src/screens/CreerSondageScreen';
-import EFGAddScreen from './src/screens/EFG/EFGAddScreen';
 
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
 import EFGScreens from './src/screens/EFG/EFGScreens';
+import EFGListScreen from './src/screens/EFG/EFGListScreen';
+import EFGAddScreen from './src/screens/EFG/EFGAddScreen';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -30,12 +31,6 @@ export default function App() {
 					/>
 
 					<Stack.Screen
-						name='EFGAddScreen'
-						component={EFGAddScreen}
-						options={{ title: 'Créer un EFG' }}
-					/>
-
-					<Stack.Screen
 						name='SondagesScreen'
 						options={{ title: 'Sondages' }}
 						initialParams={{ canalId: 1, currentUserId: 1 }}>
@@ -48,6 +43,16 @@ export default function App() {
 						options={{ title: 'Exercices en groupes' }}
 					/>
 
+					<Stack.Screen
+						name='EFGList'
+						component={EFGListScreen}
+						options={({ route }) => ({ title: route.params.nom })}
+					/>
+
+					<Stack.Screen
+						name='EFGAddScreen'
+						options={{ title: 'Créer un EFG' }}
+						component={EFGAddScreen}></Stack.Screen>
 					<Stack.Screen
 						name='CreerSondageScreen'
 						options={{ title: 'Creer Sondage' }}
