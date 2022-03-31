@@ -1,5 +1,6 @@
 import { useState,useEffect } from 'react'
 import { Text, View ,FlatList,StyleSheet} from 'react-native'
+import EFGCard from '../../components/EFG/EFGCard'
 import EFGServices from '../../fetch/EFGfetch'
 
 export default function EFGListScreen({route}){
@@ -29,8 +30,21 @@ export default function EFGListScreen({route}){
 		}
     ])
 
+    const formateur = {
+        idPersonne : 1,
+        prenom : "Tryphon",
+        nom : "Tournesol",
+        email : "formateur1@gmail.com",
+        tel : "0601020304",
+        pwd : "azerty",
+        est_formateur : 1,
+        est_gestionnaire : 0,
+        est_administrateur : 0,
+        allCanauxMembre : null
+    }
+
     useEffect(()=>{
-        EFGServices.getAllEFGs((efgs)=>{setEfgs(efgs)},route.params.idCanal)
+        EFGServices.getAllEFGs((efgs)=>{setEfgs(efgs)},route.params.idCanal);
     },[])
 
     return (
@@ -39,13 +53,9 @@ export default function EFGListScreen({route}){
                 data={efgs}
                 keyExtractor={(efg)=>(String(efg.idEfg))}
                 renderItem={(efgs)=>(
-
-                    // a remplacer par <EFGCard efg={efg}/>
-                    <View style={styles.item}>
-                        <Text>{efgs.item.intitule}</Text>
-                        <Text>cree par :{efgs.item.createur.idPersonne}</Text>
-                        <Text>groupes :{efgs.item.groupes}</Text>
-                    </View>)}/>
+                    <EFGCard efg={efgs.item} 
+                        formateur={formateur}/>
+                )}/>
         </View>
     )
 }
@@ -55,11 +65,5 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
-    },
-    item : {
-        padding: 16,
-        backgroundColor: 'white',
-        borderBottomWidth: 1,
-        borderBottomColor: 'lightgray'
-      }
+    }
   });
