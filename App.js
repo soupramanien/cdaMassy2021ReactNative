@@ -14,61 +14,61 @@ import EFGScreens from './src/screens/EFG/EFGScreens';
 const Stack = createNativeStackNavigator();
 export default function App() {
   return (
-  <Provider store={store}>
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home" screenOptions={{
-        headerStyle: {
-          backgroundColor: "red"
-        },
-        headerTintColor: "white"
-      }}>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home" screenOptions={{
+          headerStyle: {
+            backgroundColor: "red"
+          },
+          headerTintColor: "white"
+        }}>
 
-        <Stack.Screen 
-          name='Home' 
-          component={HomeScreen}
-          options={{title: "Ecran d'accueil"}}
+          <Stack.Screen
+            name='Home'
+            component={HomeScreen}
+            options={{ title: "Ecran d'accueil" }}
           />
 
-        <Stack.Screen 
-          name='SondagesScreen' 
-          options={{title: "Sondages", }}
-          initialParams={{canalId: 1, currentUserId: 1}}
+          <Stack.Screen
+            name='SondagesScreen'
+            options={{ title: "Sondages", }}
+            initialParams={{ canalId: 1, currentUserId: 1 }}
           >
-            {(props)=> <SondagesScreen {...props}/>}
-        </Stack.Screen>
+            {(props) => <SondagesScreen {...props} />}
+          </Stack.Screen>
 
-        <Stack.Screen 
-          name='EFGScreens' 
-          component={EFGScreens}
-          options={{title: "Exercices en groupes"}}
+          <Stack.Screen
+            name='EFGScreens'
+            component={EFGScreens}
+            options={{ title: "Exercices en groupes" }}
           />
 
-        <Stack.Screen 
-          name='CreerSondageScreen' 
-          options={{title: "Creer Sondage", }}
-          initialParams={{canalId: 1, currentUserId: 1}}
+          <Stack.Screen
+            name='CreerSondageScreen'
+            options={{ title: "Creer Sondage", }}
+            initialParams={{ canalId: 1, currentUserId: 1 }}
           >
-            {(props)=> <CreerSondageScreen {...props}/>}
-        </Stack.Screen>
+            {(props) => <CreerSondageScreen {...props} />}
+          </Stack.Screen>
 
-        <Stack.Screen
-      name='CanauxScreen' component={CanauxScreen}
-      options={{ title: "Canaux", }}
-      initialParams={{ canalId: 1, currentUserId: 1 }}>
+          <Stack.Screen
+            name='CanauxScreen' component={CanauxScreen}
+            options={{ title: "Canaux", }}
+            initialParams={{}}
+          >
+          </Stack.Screen>
 
-      </Stack.Screen>
+          <Stack.Screen
+            name='MembresScreen' component={MembresScreen}
+            options={{ title: "Membres", }}
+            initialParams={{}}
+          >
+          </Stack.Screen>
 
-      <Stack.Screen
-      name='MembresScreen' component={MembresScreen}
-      options={{ title: "Membres", }}
-      initialParams={{ canalId: 1, currentUserId: 1 }}>
 
-      </Stack.Screen>
-  
-
-      </Stack.Navigator>
-    </NavigationContainer>
-  </Provider>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 

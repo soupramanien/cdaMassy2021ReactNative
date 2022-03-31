@@ -8,9 +8,8 @@ import {actionsCreators} from '../../redux/store'
 function Membres(props) {
     const membres = useSelector(state => state.reducer.membreCanal.membresCanal)
     const dispatch = useDispatch()
-    // en dur
-    const idCanalCurrent = 1
-
+    //récupérer idCanal dans props
+    const idCanalCurrent = props.idCanalCurrent
     const loadMembres = async () => {
         try {
             const res = await fetch("http://localhost:8080/cdamassy2021/api/canal/" + idCanalCurrent)
