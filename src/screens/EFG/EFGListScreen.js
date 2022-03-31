@@ -1,9 +1,9 @@
 import { useState,useEffect } from 'react'
-import { Text, View ,FlatList,StyleSheet} from 'react-native'
+import {Button, View ,FlatList,StyleSheet} from 'react-native'
 import EFGCard from '../../components/EFG/EFGCard'
 import EFGServices from '../../fetch/EFGfetch'
 
-export default function EFGListScreen({route}){
+export default function EFGListScreen({navigation,route}){
 
     const [efgs,setEfgs] = useState([
         {
@@ -40,8 +40,10 @@ export default function EFGListScreen({route}){
                 data={efgs}
                 keyExtractor={(efg)=>(String(efg.idEfg))}
                 renderItem={(efgs)=>(
-                    <EFGCard efg={efgs.item} 
-                        isEFGScreen={false}/>
+                    <View style ={styles.item}>
+                        <EFGCard efg={efgs.item} isEFGScreen={false}/>
+                        <Button title="voir l'exercice" onPress={()=>navigation.navigate("EFGDetailScreen")}/>
+                    </View>
                 )}/>
         </View>
     )
@@ -52,5 +54,11 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
-    }
+    },
+        item : {
+            padding: 16,
+            backgroundColor: 'white',
+            borderBottomWidth: 1,
+            borderBottomColor: 'lightgray'
+          }
   });

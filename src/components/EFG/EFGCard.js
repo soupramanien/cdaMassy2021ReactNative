@@ -1,31 +1,23 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
 
-export default function EFGCard(props){
+export default function EFGCard({efg,formateur,navigation,isEFGScreen}){
+
     return(
         <>
-            {props.isEFGScreen && (
-                <View style={styles.item}>
-                    <Text>Exercice n°{props.efg.idEfg} : {props.efg.intitule}</Text>
-                    <Text>Formateur : {props.formateur.prenom} {props.formateur.nom}</Text>
-                </View>
+            {isEFGScreen && (
+                <>
+                    <Text>Exercice n°{efg.idEfg} : {efg.intitule}</Text>
+                    <Text>Formateur : {formateur.prenom} {formateur.nom}</Text>
+                </>
             )}
 
-            {!props.isEFGScreen && (
-                <View style={styles.item}>
-                    <Text>Exercice n°{props.efg.idEfg} : {props.efg.intitule}</Text>
-                    <Text>Groupes : {props.efg.groupes} </Text>
-                </View>
+            {!isEFGScreen && (
+                <>
+                    <Text>Exercice n°{efg.idEfg} : {efg.intitule}</Text>
+                    <Text>Groupes : {efg.groupes} </Text>
+                </>
             )}
             
         </>
     )
 }
-
-const styles = StyleSheet.create({
-    item : {
-        padding: 16,
-        backgroundColor: 'white',
-        borderBottomWidth: 1,
-        borderBottomColor: 'lightgray'
-      }
-})
