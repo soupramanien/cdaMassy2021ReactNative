@@ -30,19 +30,6 @@ export default function EFGListScreen({route}){
 		}
     ])
 
-    const formateur = {
-        idPersonne : 1,
-        prenom : "Tryphon",
-        nom : "Tournesol",
-        email : "formateur1@gmail.com",
-        tel : "0601020304",
-        pwd : "azerty",
-        est_formateur : 1,
-        est_gestionnaire : 0,
-        est_administrateur : 0,
-        allCanauxMembre : null
-    }
-
     useEffect(()=>{
         EFGServices.getAllEFGs((efgs)=>{setEfgs(efgs)},route.params.idCanal);
     },[])
@@ -54,7 +41,7 @@ export default function EFGListScreen({route}){
                 keyExtractor={(efg)=>(String(efg.idEfg))}
                 renderItem={(efgs)=>(
                     <EFGCard efg={efgs.item} 
-                        formateur={formateur}/>
+                        isEFGScreen={false}/>
                 )}/>
         </View>
     )
