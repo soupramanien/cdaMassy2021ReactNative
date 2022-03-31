@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, Text, View, Button } from 'react-native';
 import { Field, reduxForm } from 'redux-form';
-import EFGForm from '../../components/EFG/EFGForm';
+import FormServices from '../../components/EFG/EFGForm';
 
 const EFGAddScreen = (props) => {
 	const route = props.route;
@@ -47,14 +47,21 @@ const EFGAddScreen = (props) => {
 				<Field
 					name='intitule'
 					label="Intitulé de l'exercice"
-					component={EFGForm}
+					component={FormServices.inputForm}
 				/>
 				<Field
 					name='groupes'
-					label='Nombre de membres par groupe'
-					component={EFGForm}
+					label='dede'
+					component={FormServices.inputForm}
+					value='sddde'
 				/>
-
+				<View>
+					<Field
+						name='membreParGroupe'
+						label="Membres d'élèves par groupes"
+						component={FormServices.pickerForm}
+					/>
+				</View>
 				<View>
 					<Button
 						onPress={props.handleSubmit(onSubmit)}
