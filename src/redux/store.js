@@ -15,8 +15,8 @@ const initialState = {
 
 	membreCanal: {
 		membresCanal: [
-			{ idMembre: 1, nom: 'Rivière', prenom: 'Manuel' },
-			{ idMembre: 2, nom: 'Moulin', prenom: 'Marguerite' },
+			// { idMembre: 1, nom: 'Rivière', prenom: 'Manuel' },
+			// { idMembre: 2, nom: 'Moulin', prenom: 'Marguerite' },
 		]
 	},
 
@@ -129,7 +129,7 @@ const actionTypes = {
 	ADD_MEMBRE: "addMembre",
 	DELETE_MEMBRE: "deleteMembre",
 	LOAD_CANAUX: "loadCanaux",
-	LOAD_MEMEBRS_CANAL: "loadMembreDuCanal"
+	LOAD_MEMEBRS_CANAL: "loadMembresDuCanal"
 };
 
 export const actionsCreators = {
