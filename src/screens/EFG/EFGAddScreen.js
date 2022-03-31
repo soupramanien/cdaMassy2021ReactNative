@@ -12,6 +12,7 @@ const EFGAddScreen = (props) => {
 	return (
 		<ScrollView>
 			<Text>Création d'un exercice</Text>
+			<Text>Il y a {students} élèves dans le canal.</Text>
 			<View>
 				<Field
 					name='intitule'
