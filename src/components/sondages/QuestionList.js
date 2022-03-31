@@ -42,7 +42,6 @@ function QuestionsList({ canalId }) {
 	);
 }
 export default QuestionsList;
-
 const styles = StyleSheet.create({
 	questionList: {
 		borderRadius: 12,
