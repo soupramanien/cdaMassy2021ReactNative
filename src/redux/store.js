@@ -6,19 +6,19 @@ import thunk from 'redux-thunk';
 // et utiliser les requetes tunnelées vers le localhost de votre machine:
 // https://ngrok.com/download
 
-//const URL_CONTEXT = 'http://68f0-2a01-e0a-5db-3370-35da-d2ab-80a8-c977.ngrok.io'; // <- l'adresse de votre tunnel
-const URL_CONTEXT = 'http://localhost:8080';
+const URL_CONTEXT = ' http://855c-2a01-e0a-5db-3370-79e0-d0ae-ee14-5441.ngrok.io'; // <- l'adresse de votre tunnel
+//const URL_CONTEXT = 'http://localhost:8080';
 
 const initialState = {
 	loading: false,
 	error: false,
 
 	utilisateur: {
-		idUtilisateurCourant: 4
+		idUtilisateurCourant: 7
 	},
 
 	canal: {
-		idCanalSelectionne: 1,
+		idCanalSelectionne: 2,
 		canaux: [
 			{ idCanal: 1, nom: 'CANAL N°1' },
 			{ idCanal: 2, nom: 'CANAL N°2' },
@@ -132,7 +132,8 @@ const actionTypes = {
 	LOAD_QUESTIONS: 'LOAD_QUESTIONS',
 	ASYNC_OP_START: 'ASYNC_OP_START',
 	ASYNC_OP_SUCCESS: 'ASYNC_OP_SUCCESS',
-	ASYNC_OP_FAILURE: 'ASYNC_OP_FAILURE'
+	ASYNC_OP_FAILURE: 'ASYNC_OP_FAILURE',
+	LOAD_QUESTION: 'LOAD_QUESTION'
 };
 
 export const actionsCreators = {
@@ -154,6 +155,10 @@ export const actionsCreators = {
 		type: actionTypes.LOAD_REPONSE,
 		value: reponse
 	}),
+	loadQuestion: (question) => ({
+		type: actionTypes.LOAD_QUESTION,
+		value: question
+	}),
 	loadQuestionsAsync: (idCanalSelectionne) => async (dispatch) => {
 		dispatch(actionsCreators.setAsyncOperationStart());
 		try {
@@ -167,34 +172,11 @@ export const actionsCreators = {
 			dispatch(actionsCreators.setAsyncOperationFailure());
 		}
 	},
+
 	addReponseAsync: (reponse) => (dispatch) => {
 		dispatch(actionsCreators.setAsyncOperationStart());
 		console.log('start');
-		{
-			/** 
-			const res =  fetch(URL_CONTEXT + `/cdamassy2021/api/question/reponse`, {
-				method: 'POST',
-				headers: {
-					'content-type': 'application/json',
-					Accept: 'application/json',
-					'Access-Control-Allow-Origin': '*'
-				},
-				body: JSON.stringify(reponse)
-			});
 
-			//alert('parsed:' + res);
-			const newReponse =  res.json();
-			console.log('result');
-			//	
-
-			//console.log(newReponse);
-		  
-			//alert('ADD Reponse Failure' + error);
-			console.log(error);
-
-			
-			*/
-		}
 		//promise methode
 		fetch(URL_CONTEXT + `/cdamassy2021/api/question/reponse`, {
 			method: 'POST',
@@ -210,6 +192,33 @@ export const actionsCreators = {
 			.then((reponse) => {
 				console.log('Success:', initialState);
 				dispatch(actionsCreators.loadReponse(reponse));
+				dispatch(actionsCreators.setAsyncOperationSuccess());
+			})
+			//Then with the error genereted...
+			.catch((error) => {
+				console.error('Error:', error);
+				dispatch(actionsCreators.setAsyncOperationFailure(error));
+			});
+	},
+	addQuestionAsync: (question) => (dispatch) => {
+		dispatch(actionsCreators.setAsyncOperationStart());
+		console.log('start');
+
+		//promise methode
+		fetch(URL_CONTEXT + `/cdamassy2021/api/question/`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+				'Access-Control-Allow-Origin': '*'
+			},
+			body: JSON.stringify(question)
+		})
+			.then((question) => question.json())
+			//Then with the data from the response in JSON...
+			.then((question) => {
+				console.log('Success:', initialState);
+				dispatch(actionsCreators.loadQuestion(question));
 				dispatch(actionsCreators.setAsyncOperationSuccess());
 			})
 			//Then with the error genereted...
@@ -233,18 +242,24 @@ const reducers = function(state = initialState, action) {
 				...state,
 				question: { ...state.question, questions: action.value }
 			};
-			case actionTypes.LOAD_REPONSE:
-				return {
-					...state,
-					question: {
-						...state.question,
-						questions:  
-							state.question.questions.map((item)=>(item.idQuestion == action.value.idQuestion)
-									? { ...item, reponses: [ ...item.reponses, action.value ] }
-									: item)
-						
-					}
-				};
+		case actionTypes.LOAD_REPONSE:
+			return {
+				...state,
+				question: {
+					...state.question,
+					questions: state.question.questions.map(
+						(item) =>
+							item.idQuestion == action.value.idQuestion
+								? { ...item, reponses: [ ...item.reponses, action.value ] }
+								: item
+					)
+				}
+			};
+		case actionTypes.LOAD_QUESTION:
+			return {
+				...state,
+				question: { ...state.question, questions: [ ...state.question.questions, action.value ] }
+			};
 		default:
 			return state;
 	}
