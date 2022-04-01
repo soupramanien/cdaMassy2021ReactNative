@@ -20,10 +20,14 @@ const Question = ({ question }) => {
 
 	return (
 		<View style={styles.questionStyle}>
-			<QuestionTitle question={question}></QuestionTitle>
+			<QuestionTitle question={question} />
 			<View>
 				{!isAutor && !hasAnswered ? (
-					<PropositionList propositions={question.propositions} />
+					<PropositionList
+						propositions={question.propositions}
+						idUtilisateurCourant={idUtilisateurCourant}
+						idQuestion={question.idQuestion}
+					/>
 				) : (
 					<ReponseList reponses={question.reponses} />
 				)}
@@ -36,13 +40,13 @@ export default Question;
 
 const styles = StyleSheet.create({
 	questionStyle: {
-		margin: 4,
+		margin: 12,
 		borderWidth: 3,
 		borderColor: '#0068bde5',
 		borderRadius: 15,
-		padding: 3,
+		padding: 12,
 		alignContent: 'center',
 		backgroundColor: '#bfd9ef',
-		flexDirection: 'column',
-	},
+		flexDirection: 'column'
+	}
 });
