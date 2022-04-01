@@ -37,8 +37,10 @@ const QuestionForm = () => {
 		// Calls the thunk action creator, and passes the thunk function to dispatch
 		//	dispatch(actionsCreators.addQuestionAsync(reponse));
 	}
-	function handlePropositionChangeCallBack() {
+  const handlePropositionChangeCallBack = () => {
+	// function handlePropositionChangeCallBack() {
 		console.log('coucou');
+    
 	}
 
 	return (
@@ -71,6 +73,7 @@ const QuestionForm = () => {
 							etat={proposition.etat}
 							propId={proposition.propId}
 							onclick={() => onPostQuestion(question.propositions)}
+              callBack={handlePropositionChangeCallBack}
 						/>
 					))}
 				</View>
