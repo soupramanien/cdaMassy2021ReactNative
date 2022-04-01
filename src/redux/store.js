@@ -180,6 +180,29 @@ export const actionsCreators = {
 		type: actionTypes.LOAD_QUESTION,
 		value: question
 	}),
+	resetDatabaseAsync: () => (dispatch) => {
+		dispatch(actionsCreators.setAsyncOperationStart());
+		//promise methode
+		fetch(URL_CONTEXT + `/cdamassy2021/api/database/reset`, {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*'
+			}
+		})
+			.then((response) => response.json())
+			//Then with the data from the response in JSON...
+			.then((reponse) => {
+				console.log('Success:', reponse);
+				dispatch(actionsCreators.setAsyncOperationSuccess());
+			})
+			//Then with the error genereted...
+			.catch((error) => {
+				console.error('Error:', error);
+				dispatch(actionsCreators.setAsyncOperationFailure(error));
+			});
+	},
 	loadQuestionsAsync: (idCanalSelectionne) => async (dispatch) => {
 		dispatch(actionsCreators.setAsyncOperationStart());
 		try {
