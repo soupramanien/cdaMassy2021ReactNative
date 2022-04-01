@@ -23,7 +23,7 @@ function QuestionsList({ canalId }) {
 	}, []);
 
 	return (
-		<View>
+		<View style={styles.listContainer}>
 			{loading && <Text>loading...</Text>}
 
 			<FlatList
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
 		borderColor: '#4e4e4e',
 		flexDirection: 'column'
 	},
-	container: {},
+	listContainer: {flex:1},
 	item: {
 	},
 	title: {
