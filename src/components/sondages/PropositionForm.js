@@ -1,30 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import RadioForm from 'react-native-simple-radio-button';
 import { StyleSheet, Text, View } from 'react-native';
 import { TextInput } from 'react-native';
+import { useSelector } from 'react-redux';
 
-export default function PropositionForm({propId, callBack,etat}) {
+export default function PropositionForm({propId, callBack}) {
     
 
     const [libelle, setLibelle] = React.useState('');
+    const [chosenOption, setChosenOption] = useState('indéfinie'); //will store our current user options
+
+    const loading = useSelector((state) => state.reducer.loading);
+
     const onChangeEtat=(value)=>{
       setChosenOption(value);
-      callBack({propId,libelle,etat:chosenOption});
     }
-    const onChangeLibelle = (libelle) => {
-      setLibelle(libelle);
-      callBack({propId,libelle,etat:chosenOption});
-      // alert(`The name you entered was:` +name);
+    const onChangeLibelle = (value) => {
+      setLibelle(value);
     }
-  const [chosenOption, setChosenOption] = useState('indefini'); //will store our current user options
+
+    useEffect(() => {
+       callBack({propId,libelle,etat:chosenOption});
+    }, [libelle,chosenOption]);
+ 
   const options = [
     { label: 'indéfinie', value: 'indéfinie' },
     { label: 'correcte', value: 'correcte' },
     { label: 'incorrecte', value: 'incorrecte' },
   ]; //create our options for radio group
   return (
+    
     <View  contentContainerStyle={styles.PropositionForm}>
+      { !loading &&
       <View style={styles.libelleStyle}>
       <Text style={styles.title}> Proposition {propId}</Text>
       <Text style={styles.libelleLabel} > Ecrivez une proposition de réponse {chosenOption}:</Text>
@@ -54,7 +62,7 @@ export default function PropositionForm({propId, callBack,etat}) {
               onChangeEtat(value);
             }} //if the user changes options, set the new value
           />
-      </View>
+      </View> }
       </View >
 
 
