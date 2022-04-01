@@ -23,6 +23,15 @@ function HomeScreen(props) {
 			</TouchableOpacity>
 
 			<TouchableOpacity 
+					onPress={() => navigation.navigate("MembresScreen", {
+						canalId: 1,
+						currentUserId: 1})} 
+					style={styles.button}>
+				<Text style={styles.libelle}>Go to Membres</Text>
+			</TouchableOpacity>
+
+
+			<TouchableOpacity 
 					onPress={() =>
 						navigation.navigate('SondagesScreen', {
 						canalId: 1,

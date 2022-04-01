@@ -1,42 +1,53 @@
-import React, {useEffect} from 'react';
-import { View, Text } from 'react-native';
-import Membre from './Membre';
-import { useSelector, useDispatch } from 'react-redux';
-import {actionsCreators} from '../../redux/store'
+import React from "react";
+import { View, SafeAreaView, FlatList } from "react-native";
+import Membre from "./Membre";
+import { useSelector } from "react-redux";
+import DeleteMembre from "../../screens/Membres/DeleteMembre";
+import AddMembre from "../../screens/Membres/AddMembre";
 
-
-function Membres(props) {
-    const membres = useSelector(state => state.reducer.membreCanal.membresCanal)
-    const dispatch = useDispatch()
-    //récupérer idCanal dans props
-    const idCanalCurrent = props.idCanalCurrent
-    const nomCanalCurrent = props.nomCanalCurrent
-    const loadMembres = async () => {
-        try {
-            const res = await fetch("http://localhost:8080/cdamassy2021/api/canal/" + idCanalCurrent)
-            const newMembres = await res.json();
-            dispatch(actionsCreators.loadMembresDuCanal(newMembres))
-        } catch (error) {
-            alert("Network Error")
-            console.log(error)
-        }
+function Membres() {
+  const membres = useSelector((state) => state.reducer.membre.personnes);
+  const membresCanal = useSelector(
+    (state) => state.reducer.membreCanal.membresCanal
+  );
+  let membersfusion = [];
+  for (const membre of membres) {
+    for (const membreCanal of membresCanal) {
+      if (membre.idpersonne === membreCanal.idMembre) {
+        membersfusion.push({
+          idpersonne: membre.idpersonne,
+          idCanal: membreCanal.idCanal,
+          nom: membre.nom,
+        });
+      }
     }
+  }
 
-    useEffect(()=>{
-        loadMembres()
-    },[])
+  membersfusion = [
+    ...new Map(
+      membersfusion.map((item) => [item["idpersonne"], item])
+    ).values(),
+  ];
 
-    return (
-        <View>
-            <Text>Memebres de {nomCanalCurrent}</Text>
-            <Text>--------------------------------</Text>
-            <Text>Id Membre  |  Nom  |  Prenom</Text>
-            {membres.map((membre) => {
-                return <Membre key={membre.idMembre} membre={membre}/>
-            })}
-        </View>
+  const Item = ({ membre }) => (
+    <View>
+      <Membre key={membre.idpersonne} membre={membre} />
+      <DeleteMembre idCanal={membre.idCanal} idpersonne={membre.idpersonne} />
+    </View>
+  );
 
-    )
+  const renderItem = ({ item }) => <Item membre={item} membreCanal={item} />;
 
+  return (
+    <SafeAreaView>
+      <FlatList
+        data={membersfusion}
+        renderItem={renderItem}
+        keyExtractor={(membre) => membre.idpersonne}
+      />
+
+      <AddMembre />
+    </SafeAreaView>
+  );
 }
 export default Membres;

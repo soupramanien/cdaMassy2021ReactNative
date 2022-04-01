@@ -19,17 +19,39 @@ const initialState = {
 		idUtilisateurCourant: 4,
 	},
 
-	canal: { 
-		idCanalSelectionne: 1,
-		canaux: [] 
-	},
-
-	membreCanal: {
+	
+	canal: {
+		canaux: [
+		  { idCanal: 1, nom: "CANAL N°1" },
+		  { idCanal: 2, nom: "CANAL N°2" },
+		  { idCanal: 3, nom: "CANAL N°3" },
+		  { idCanal: 4, nom: "CANAL N°4" },
+		],
+	  },
+	  membre: {
+		personnes: [
+		  { idpersonne: 1, nom: "Tournesol Tryphon" },
+		  { idpersonne: 2, nom: "Castafiore Bianca" },
+		  { idpersonne: 3, nom: " Rivière Manuel" },
+		  { idpersonne: 4, nom: " Moulin Marguerite" },
+		],
+	  },
+	  membreCanal: {
 		membresCanal: [
-			// { idMembre: 1, nom: 'Rivière', prenom: 'Manuel' },
-			// { idMembre: 2, nom: 'Moulin', prenom: 'Marguerite' },
-		]
-	},
+		  { idCanal: 1, idMembre: 1 },
+		  { idCanal: 1, idMembre: 2 },
+		  { idCanal: 1, idMembre: 4 },
+		  { idCanal: 2, idMembre: 2 },
+		  { idCanal: 2, idMembre: 3 },
+		  { idCanal: 3, idMembre: 3 },
+		  { idCanal: 3, idMembre: 4 },
+		  { idCanal: 4, idMembre: 1 },
+		],
+	  },
+	
+	
+	
+	
 
 	question: {
 		questions: [
@@ -135,6 +157,10 @@ const actionTypes = {
 	LOAD_CANAUX : 'loadCanaux',
 	LOAD_MEMEBRS_CANAL : 'loadMembresCanal',
 	LOAD_QUESTION: 'LOAD_QUESTION',
+	ADD_CANAL: "addCanal",
+	ADD_MEMBRE: "addMembre",
+	DELETE_MEMBRE: "deleteMembre",
+  
 };
 
 export const actionsCreators = {
@@ -285,12 +311,7 @@ const reducers = function(state = initialState, action) {
 						state.question.questions.map((item)=>(item.idQuestion == action.value.idQuestion) 	// trouver la question pour laquelle (id == action.value.idQuestion) 
 								? { ...item, reponses: [ ...item.reponses, action.value ]}					// et ajouter action.value (la reponse) à sa liste de réponses
 								: item)}};
-		case actionTypes.ADD_CANAL:
-			return { ...state, canal: { ...state.canal, canaux: [...state.canal.canaux, action.value] } }
-		case actionTypes.ADD_MEMBRE:
-			return { ...state, membreCanal: { ...state.membreCanal, membresCanal: [...state.membreCanal.membresCanal, action.value] } }
-		case actionTypes.DELETE_MEMBRE:
-			return { ...state, membreCanal: { ...state.membreCanal, membresCanal: [...state.membreCanal.membresCanal.filter((mc) => { return !(mc.idMembre === action.value.idMembre && mc.idCanal === action.value.idCanal) })] } }
+		
 		case actionTypes.LOAD_CANAUX:
 			return { ...state, canal: { ...state.canal, canaux: action.value } }
 		case actionTypes.LOAD_MEMEBRS_CANAL:
@@ -300,8 +321,44 @@ const reducers = function(state = initialState, action) {
 				...state,
 				question: { ...state.question, questions: [ ...state.question.questions, action.value ] }
 			};
-		default:
-			return state;
+			case actionTypes.ADD_CANAL:
+      return {
+        ...state,
+        canal: {
+          ...state.canal,
+          canaux: [...state.canal.canaux, action.value],
+        },
+      };
+
+    case actionTypes.ADD_MEMBRE:
+      return {
+        ...state,
+        membreCanal: {
+          ...state.membreCanal,
+          membresCanal: [...state.membreCanal.membresCanal, action.value],
+        },
+      };
+
+    case actionTypes.DELETE_MEMBRE:
+      
+        return {
+          ...state,
+          membreCanal: {
+            ...state.membreCanal,
+            membresCanal: [
+              ...state.membreCanal.membresCanal.filter((mc) => {
+                return (
+                  mc.idMembre !== action.value.idMembre &&
+                  mc.idCanal !== action.value.idCanal
+                );
+              }),
+            ],
+          },
+        };
+      
+    default:
+      return state;
+
 	}
 };
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // ajout du module Redux Devtools
