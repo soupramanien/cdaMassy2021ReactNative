@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import EFGCard from '../../components/EFG/EFGCard';
+import EFGNotFound from '../../components/EFG/EFGNotFound';
 import EFGServices from '../../fetch/EFGfetch';
 
 export default function EFGDetailScreen({route}){
 
-    const [efg,setEFG] = useState(route.params.efg);
+    const [efg,setEFG] = useState({});
     const [formateur,setFormateur] = useState({
         idPersonne : 0,
         prenom : "",
@@ -20,18 +21,22 @@ export default function EFGDetailScreen({route}){
     });
 
     useEffect(()=>{
-        EFGServices.getCreator((formateur)=>{setFormateur(formateur)}
-            ,efg.idEfg)
+        EFGServices.getEFG(setEFG,route.params.idEfg)
+        EFGServices.getCreator(setFormateur,route.params.idEfg)
         }
     ,[])
 
     return(
-        <>
             <View style={styles.container}>
-                <Text> EFG DetailScreen here soon !</Text>
-                <EFGCard efg={efg} formateur={formateur} isEFGScreen={true}/>
+                {efg.idEfg === route.params.idEfg && (
+                     <>
+                        <EFGCard efg={efg} formateur={formateur} isEFGScreen={true}/>
+                        {/* COMPOSANT GROUPE */}
+                    </>
+                )}
+                
+                {efg.idEfg !== route.params.idEfg && <EFGNotFound/> }
             </View>
-        </>
     )
 }
 

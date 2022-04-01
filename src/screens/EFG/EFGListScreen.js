@@ -26,7 +26,7 @@ export default function EFGListScreen({navigation,route}){
                         <EFGCard efg={efgs.item} isEFGScreen={false}/>
                         <Button 
                             title="voir l'exercice" 
-                            onPress={()=>navigation.navigate("EFGDetailScreen",{efg : efgs.item})}
+                            onPress={()=>navigation.navigate("EFGDetailScreen",{idEfg : efgs.item.idEfg})}
                         />
                     </View>
                 )}/>
