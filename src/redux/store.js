@@ -6,8 +6,8 @@ import thunk from 'redux-thunk';
 // et utiliser les requetes tunnelées depuuis votre mobile vers le localhost de votre machine:
 // https://ngrok.com/download
 
-const URL_CONTEXT = 'http://9f8b-92-184-106-170.ngrok.io'; // <- l'adresse de votre tunnel
-//const URL_CONTEXT = 'http://localhost:8080';
+//const URL_CONTEXT = 'http://9f8b-92-184-106-170.ngrok.io'; // <- l'adresse de votre tunnel
+const URL_CONTEXT = 'http://localhost:8080';
 
 const initialState = {
 	//Async operation state:
