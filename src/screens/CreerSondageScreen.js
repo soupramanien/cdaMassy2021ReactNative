@@ -1,4 +1,5 @@
 import { Button, StyleSheet, Text, View } from 'react-native'
+import QuestionForm from '../components/sondages/QuestionForm';
 
 
 function CreerSondageScreen({navigation, route}) {
@@ -6,21 +7,15 @@ function CreerSondageScreen({navigation, route}) {
   
   return (
     <View style={styles.container}>
-        <Text>Creer Sondage Screen</Text>
-        <Text>Selected canal : {canalId}</Text>
-        <Text>currentUserId: {currentUserId}</Text>
-        <Button title='Go Back' onPress={()=>navigation.goBack()}/>
-        {/* <QuestionList canalId={canalId}></QuestionList> */}
-        
+        <QuestionForm canalId={canalId}></QuestionForm>
     </View>
   )
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#dfecf7",
     alignItems: 'center',
-    justifyContent: 'center',
   },
 });
 export default CreerSondageScreen 

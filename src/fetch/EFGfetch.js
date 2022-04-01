@@ -17,10 +17,11 @@ export default class EFGServices {
 			.catch((error) => error);
 	}
 
-	static postEFG(props, efg) {
+	static postEFG(props, efg, idCanal) {
 		let headers = new Headers();
+		efg.idCanal = idCanal;
 		headers.append('Content-Type', 'application/json');
-		fetch(`http://localhost:8080/cdamassy2021/api/1/EFGs/new`, {
+		fetch(`http://localhost:8080/cdamassy2021/api/${idCanal}/EFGs/new`, {
 			method: 'POST',
 			headers: headers,
 			body: JSON.stringify(efg),
