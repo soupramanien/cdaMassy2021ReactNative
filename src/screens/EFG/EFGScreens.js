@@ -16,7 +16,7 @@ function EFGScreens({navigation}) {
     ]);
 
     useEffect(()=>{
-      EFGServices.getCanaux((canaux)=>setCanaux(canaux),1)
+      EFGServices.getCanaux(setCanaux,1)
     },[]);
   
     return (
@@ -27,10 +27,13 @@ function EFGScreens({navigation}) {
               renderItem = {({item})=>(
                   <TouchableOpacity 
                     style={styles.item}
-                    onPress={()=>navigation.navigate("EFGList",{
-                      idCanal : item.idCanal,
-                      nom : item.nom
-                    })}>
+                    onPress={()=>{
+                      navigation.navigate("EFGList",{
+                        idCanal : item.idCanal,
+                        nom : item.nom,
+                        membres : 6 // temporaire, il faut fetch le véritable nombre dans EFGListScreen
+                      })
+                    }}>
                       <Text>Exercices du canal "{item.nom}"</Text>
                   </TouchableOpacity>
               )}

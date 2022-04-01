@@ -1,42 +1,24 @@
 import { useState,useEffect } from 'react'
-import {Button, View ,FlatList,StyleSheet} from 'react-native'
+import {Button, View ,FlatList,StyleSheet,Text} from 'react-native'
 import EFGCard from '../../components/EFG/EFGCard'
 import EFGServices from '../../fetch/EFGfetch'
 
 export default function EFGListScreen({navigation,route}){
 
-    const [efgs,setEfgs] = useState([
-        {
-			idEfg: 1,
-			createur: {
-				idCanal: 1,
-				idPersonne: 1,
-			},
-			intitule: 'TP définir objectif',
-			groupes: '2,3',
-			idCanal: 1,
-			idCreateur: 1,
-		},
-		{
-			idEfg: 2,
-			createur: {
-				idCanal: 1,
-				idPersonne: 2,
-			},
-			intitule: 'TP définir but',
-			groupes: '2,2,3',
-			idCanal: 1,
-			idCreateur: 2,
-		}
-    ])
+    const canalId = route.params.idCanal;
+    const [nombreMembres,setNombreMembres] = useState(route.params.membres);
+    const [efgs,setEfgs] = useState([])
 
     useEffect(()=>{
-        EFGServices.getAllEFGs((efgs)=>{setEfgs(efgs)},route.params.idCanal);
-    },[])
+        EFGServices.getAllEFGs(setEfgs,canalId);
+        EFGServices.getNombreMembres(setNombreMembres,canalId);
+    },[canalId])
 
     return (
+        
         <View style={styles.container}>
-            <FlatList 
+            {efgs.length > 0 && (
+                <FlatList 
                 data={efgs}
                 keyExtractor={(efg)=>(String(efg.idEfg))}
                 renderItem={(efgs)=>(
@@ -48,6 +30,21 @@ export default function EFGListScreen({navigation,route}){
                         />
                     </View>
                 )}/>
+            )}
+
+            {efgs.length === 0 && (
+                <Text> Il n' y a aucun exercice dans ce Canal</Text>
+            )}
+            
+            { (nombreMembres < 5 || nombreMembres === undefined || nombreMembres === null) && (
+                <Text> Veuillez rajouter des élèves dans votre canal pour pouvoir créer un
+                exercice.</Text>
+            )}
+
+            {(nombreMembres >= 5) && (<Button
+				title='Créer un EFG'
+				onPress={() => navigation.navigate('EFGAddScreen', {})}
+			    />)}
         </View>
     )
 }
