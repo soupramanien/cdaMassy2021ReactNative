@@ -4,6 +4,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import HomeScreen from './src/screens/HomeScreen';
 import SondagesScreen from './src/screens/SondagesScreen';
 import CreerSondageScreen from './src/screens/CreerSondageScreen';
+import CanauxScreen from './src/screens/CanauxScreen';
+import MembresScreen from './src/screens/Membres/MembresScreen';
 
 import { Provider } from 'react-redux';
 import { store } from './src/redux/store';
@@ -58,15 +60,29 @@ export default function App() {
 
 					<Stack.Screen
 						name='EFGDetailScreen'
-						options={{title : 'Exercice'}}
+						options={{ title: 'Exercice' }}
 						component={EFGDetailScreen}
 					/>
-					
+
 					<Stack.Screen
 						name='CreerSondageScreen'
 						options={{ title: 'Creer Sondage' }}
 						initialParams={{ canalId: 1, currentUserId: 1 }}>
 						{(props) => <CreerSondageScreen {...props} />}
+					</Stack.Screen>
+
+					<Stack.Screen
+						name='CanauxScreen' component={CanauxScreen}
+						options={{ title: "Canaux", }}
+						initialParams={{}}
+					>
+					</Stack.Screen>
+
+					<Stack.Screen
+						name='MembresScreen' component={MembresScreen}
+						options={{ title: "Membres", }}
+						initialParams={{}}
+					>
 					</Stack.Screen>
 				</Stack.Navigator>
 			</NavigationContainer>
