@@ -4,15 +4,20 @@ import RadioForm from 'react-native-simple-radio-button';
 import { StyleSheet, Text, View } from 'react-native';
 import { TextInput } from 'react-native';
 
-export default function PropositionForm({propId, callBack}) {
+export default function PropositionForm({propId, callBack,etat}) {
     
+
     const [libelle, setLibelle] = React.useState('');
+    const onChangeEtat=(value)=>{
+      setChosenOption(value);
+      callBack({propId,libelle,etat:chosenOption});
+    }
     const onChangeLibelle = (libelle) => {
       setLibelle(libelle);
-      callBack();
+      callBack({propId,libelle,etat:chosenOption});
       // alert(`The name you entered was:` +name);
     }
-  const [chosenOption, setChosenOption] = useState(''); //will store our current user options
+  const [chosenOption, setChosenOption] = useState('indefini'); //will store our current user options
   const options = [
     { label: 'indéfinie', value: 'indéfinie' },
     { label: 'correcte', value: 'correcte' },
@@ -46,7 +51,7 @@ export default function PropositionForm({propId, callBack}) {
               color: 'white',
             }}
             onPress={(value) => {
-              setChosenOption(value);
+              onChangeEtat(value);
             }} //if the user changes options, set the new value
           />
       </View>

@@ -22,7 +22,7 @@ const QuestionForm = () => {
 		let newId = propId + 1;
 		setPropId(newId);
 		console.log(propId);
-		setPropositions((propositions) => [ ...propositions, { propId: newId, libelle: '', etat: 'correcte' } ]);
+		setPropositions((propositions) => [ ...propositions, { propId: newId, libelle: '', etat: 'indefini' } ]);
 	};
 
 	//handle submit question
@@ -37,9 +37,12 @@ const QuestionForm = () => {
 		// Calls the thunk action creator, and passes the thunk function to dispatch
 		//	dispatch(actionsCreators.addQuestionAsync(reponse));
 	}
-  const handlePropositionChangeCallBack = () => {
+  const handlePropositionChangeCallBack = (updatedProposition) => {
 	// function handlePropositionChangeCallBack() {
-		console.log('coucou');
+		setPropositions((propositions) => propositions = propositions.map((prop)=>(prop.propId == updatedProposition.propId) 	// trouver la question pour laquelle (id == action.value.idQuestion) 
+		? updatedProposition				// et ajouter action.value (la reponse) à sa liste de réponses
+		: prop));
+		console.log(propositions);
     
 	}
 
