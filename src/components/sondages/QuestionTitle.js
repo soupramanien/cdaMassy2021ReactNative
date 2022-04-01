@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     libelleQuestion: {
+        fontWeight:'bold',
         color: "#ffffff",
         textAlign: "left",
         fontSize: 16
