@@ -127,7 +127,9 @@ const actionTypes = {
 	LOAD_QUESTIONS: 'LOAD_QUESTIONS',
 	ASYNC_OP_START: 'ASYNC_OP_START',
 	ASYNC_OP_SUCCESS: 'ASYNC_OP_SUCCESS',
-	ASYNC_OP_FAILURE: 'ASYNC_OP_FAILURE'
+	ASYNC_OP_FAILURE: 'ASYNC_OP_FAILURE',
+	LOAD_CANAUX : 'loadCanaux',
+	LOAD_MEMEBRS_CANAL : 'loadMembresCanal',
 };
 
 export const actionsCreators = {
