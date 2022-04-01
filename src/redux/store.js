@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 // et utiliser les requetes tunnelées depuuis votre mobile vers le localhost de votre machine:
 // https://ngrok.com/download
 
-//const URL_CONTEXT = 'http://ff94-92-184-106-170.ngrok.io'; // <- l'adresse de votre tunnel
+//const URL_CONTEXT = 'http://9f8b-92-184-106-170.ngrok.io'; // <- l'adresse de votre tunnel
 const URL_CONTEXT = 'http://localhost:8080';
 
 const initialState = {
@@ -16,16 +16,18 @@ const initialState = {
 	error: false,
 
 	utilisateur: {
-		idUtilisateurCourant: 4
+		idUtilisateurCourant: 4,
 	},
 
-	canal: {
+	canal: { 
 		idCanalSelectionne: 1,
-		canaux: [
-			{ idCanal: 1, nom: 'CANAL N°1' },
-			{ idCanal: 2, nom: 'CANAL N°2' },
-			{ idCanal: 3, nom: 'CANAL N°3' },
-			{ idCanal: 4, nom: 'CANAL N°4' }
+		canaux: [] 
+	},
+
+	membreCanal: {
+		membresCanal: [
+			// { idMembre: 1, nom: 'Rivière', prenom: 'Manuel' },
+			// { idMembre: 2, nom: 'Moulin', prenom: 'Marguerite' },
 		]
 	},
 
@@ -130,7 +132,9 @@ const actionTypes = {
 	ASYNC_OP_START: 'ASYNC_OP_START',
 	ASYNC_OP_SUCCESS: 'ASYNC_OP_SUCCESS',
 	ASYNC_OP_FAILURE: 'ASYNC_OP_FAILURE',
-	LOAD_QUESTION: 'LOAD_QUESTION'
+	LOAD_CANAUX : 'loadCanaux',
+	LOAD_MEMEBRS_CANAL : 'loadMembresCanal',
+	LOAD_QUESTION: 'LOAD_QUESTION',
 };
 
 export const actionsCreators = {
@@ -144,6 +148,26 @@ export const actionsCreators = {
 		type: actionTypes.ASYNC_OP_FAILURE,
 		value: error
 	}),
+	addCanal: (canal) => ({
+		type: actionTypes.ADD_CANAL,
+		value: canal
+	}),
+	addMembre: (membre) => ({
+		type: actionTypes.ADD_MEMBRE,
+		value: membre
+	}),
+	deleteMembre: (membreCanal) => ({
+		type: actionTypes.DELETE_MEMBRE,
+		value: membreCanal
+	}),
+	loadCanaux: (canaux) => ({
+		type: actionTypes.LOAD_CANAUX,
+		value: canaux
+	}),
+	loadMembresDuCanal: (membresCanal) => ({
+		type: actionTypes.LOAD_MEMEBRS_CANAL,
+		value: membresCanal
+	}),
 	loadQuestions: (questions) => ({
 		type: actionTypes.LOAD_QUESTIONS,
 		value: questions
@@ -156,6 +180,29 @@ export const actionsCreators = {
 		type: actionTypes.LOAD_QUESTION,
 		value: question
 	}),
+	resetDatabaseAsync: () => (dispatch) => {
+		dispatch(actionsCreators.setAsyncOperationStart());
+		//promise methode
+		fetch(URL_CONTEXT + `/cdamassy2021/api/database/reset`, {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*'
+			}
+		})
+			.then((response) => response.json())
+			//Then with the data from the response in JSON...
+			.then((reponse) => {
+				console.log('Success:', reponse);
+				dispatch(actionsCreators.setAsyncOperationSuccess());
+			})
+			//Then with the error genereted...
+			.catch((error) => {
+				console.error('Error:', error);
+				dispatch(actionsCreators.setAsyncOperationFailure(error));
+			});
+	},
 	loadQuestionsAsync: (idCanalSelectionne) => async (dispatch) => {
 		dispatch(actionsCreators.setAsyncOperationStart());
 		try {
@@ -234,22 +281,27 @@ const reducers = function(state = initialState, action) {
 		case actionTypes.LOAD_QUESTIONS:
 			return { ...state, question: { ...state.question, questions: action.value } };
 			case actionTypes.LOAD_REPONSE:
-				return { // trouver la question pour laquelle (id == action.value.idQuestion) 
-					     // et ajouter action.value (la reponse) à sa liste de réponses
-					...state, question: { ...state.question, questions:  
-							state.question.questions.map(
-								(item)=>(item.idQuestion == action.value.idQuestion)
-									? { ...item, reponses: [ ...item.reponses, action.value ] }
-									: item)}
+			return { ...state, question: { ...state.question, questions:  
+						state.question.questions.map((item)=>(item.idQuestion == action.value.idQuestion) 	// trouver la question pour laquelle (id == action.value.idQuestion) 
+								? { ...item, reponses: [ ...item.reponses, action.value ]}					// et ajouter action.value (la reponse) à sa liste de réponses
+								: item)}};
+		case actionTypes.ADD_CANAL:
+			return { ...state, canal: { ...state.canal, canaux: [...state.canal.canaux, action.value] } }
+		case actionTypes.ADD_MEMBRE:
+			return { ...state, membreCanal: { ...state.membreCanal, membresCanal: [...state.membreCanal.membresCanal, action.value] } }
+		case actionTypes.DELETE_MEMBRE:
+			return { ...state, membreCanal: { ...state.membreCanal, membresCanal: [...state.membreCanal.membresCanal.filter((mc) => { return !(mc.idMembre === action.value.idMembre && mc.idCanal === action.value.idCanal) })] } }
+		case actionTypes.LOAD_CANAUX:
+			return { ...state, canal: { ...state.canal, canaux: action.value } }
+		case actionTypes.LOAD_MEMEBRS_CANAL:
+			return { ...state, membreCanal: { ...state.membreCanal, membresCanal: action.value } }
+		case actionTypes.LOAD_QUESTION:
+			return {
+				...state,
+				question: { ...state.question, questions: [ ...state.question.questions, action.value ] }
 			};
-
-			case actionTypes.LOAD_QUESTION:
-				return {
-					...state,
-					question: { ...state.question, questions: [ ...state.question.questions, action.value ] }
-				};
-			default:
-				return state;
+		default:
+			return state;
 	}
 };
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // ajout du module Redux Devtools
