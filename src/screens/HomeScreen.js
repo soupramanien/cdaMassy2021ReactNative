@@ -1,17 +1,24 @@
+import { useEffect } from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { actionsCreators } from '../redux/store';
 
 function HomeScreen(props) {
 	const dispatch = useDispatch();
 	const navigation = props.navigation;
+	const utilisateurCourant = useSelector((state) => state.reducer.utilisateur.courant);
 	const onResetDatabasePress = () => {
 		// Calls the thunk action creator, and passes the thunk function to dispatch
 		dispatch(actionsCreators.resetDatabaseAsync());
 	};
-	return (
-		<View style={styles.container}>
 
+	useEffect(() => {
+		if(utilisateurCourant==null) navigation.navigate('LoginScreen');
+
+	}, );
+	return (
+
+		<View style={styles.container}>
 			<TouchableOpacity 
 					onPress={() => navigation.navigate("CanauxScreen", {
 						canalId: 1,
