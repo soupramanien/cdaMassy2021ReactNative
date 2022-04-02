@@ -1,13 +1,9 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import ReactDOM from 'react-dom';
-import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableOpacityBase, TurboModuleRegistry, View } from 'react-native';
-import { SafeAreaView, TextInput } from 'react-native';
-import { Button } from 'react-native';
+import {  ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {  TextInput } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { isValid } from 'redux-form';
 import { actionsCreators } from '../../redux/store';
-import PropositionForm from './PropositionForm';
 
 const ReponseForm = ({idQuestion}) => {
 	const dispatch = useDispatch();
@@ -56,31 +52,27 @@ const ReponseForm = ({idQuestion}) => {
     }
 
 	return (
-
-			 <View containerstyle={styles.ReponseForm}>
-				 <View  style={styles.libelleStyle}>
-					<Text style={styles.title}> Votre  reponse:</Text>
-					<View style={styles.libelleInput}>
-						
-						<TextInput
-							multiline
-							numberOfLines={5}
-							style={styles.input}
-							onChangeText={onChangeLibelle}
-							value={libelle}
-							placeholder="Ecrivez votre réponse:"
-							keyboardType="default"
-						/>
-					</View>
-                {isError && <Text style={styles.errorMessage}>{message}</Text>}
-				{isSuccess && <Text style={styles.successMessage}>{message}</Text>}
-				<TouchableOpacity style={styles.boutonValiderStyle}onPress={onPostReponse}>
-						<Text style={styles.buttonValiderText}>Envoyer Reponse</Text>
-				</TouchableOpacity>
-				 </View>
-
-
-			</View>
+        <ScrollView containerstyle={styles.ReponseForm}>
+            <View  style={styles.libelleStyle}>
+                <Text style={styles.title}> Votre  reponse:</Text>
+                <View style={styles.libelleInput}>
+                    <TextInput
+                        multiline
+                        numberOfLines={5}
+                        style={styles.input}
+                        onChangeText={onChangeLibelle}
+                        value={libelle}
+                        placeholder="Ecrivez votre réponse:"
+                        keyboardType="default"
+                    />
+                </View>
+            {isError && <Text style={styles.errorMessage}>{message}</Text>}
+            {isSuccess && <Text style={styles.successMessage}>{message}</Text>}
+            <TouchableOpacity style={styles.boutonValiderStyle}onPress={onPostReponse}>
+                    <Text style={styles.buttonValiderText}>Envoyer Reponse</Text>
+            </TouchableOpacity>
+            </View>
+        </ScrollView>
 	);
 };
 

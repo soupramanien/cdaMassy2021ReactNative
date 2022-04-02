@@ -1,26 +1,27 @@
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Button, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import QuestionList from '../components/sondages/QuestionList';
 
 function SondagesScreen({navigation}) {
   
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={{flex: 1}} behavior="padding" enabled>
+      <View style={styles.container}>
 
-       <View style={styles.list}>
-          <QuestionList></QuestionList>
-       </View>
+        <View style={styles.list}>
+            <QuestionList></QuestionList>
+        </View>
 
-       <View style={styles.nav}>
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
-            <Text style={styles.libelle}>Home</Text>
-          </TouchableOpacity>
+        <View style={styles.nav}>
+            <TouchableOpacity onPress={() => navigation.goBack()} style={styles.button}>
+              <Text style={styles.libelle}>Home</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity onPress={()=>navigation.navigate('CreerSondageScreen')} style={styles.button}>
-            <Text style={styles.libelle}>Creer un sondage</Text>
-          </TouchableOpacity>
-       </View>
-
-    </View>
+            <TouchableOpacity onPress={()=>navigation.navigate('CreerSondageScreen')} style={styles.button}>
+              <Text style={styles.libelle}>Creer un sondage</Text>
+            </TouchableOpacity>
+        </View>
+      </View>
+    </KeyboardAvoidingView>
   )
 }
 const styles = StyleSheet.create({
