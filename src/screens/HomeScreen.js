@@ -11,15 +11,13 @@ function HomeScreen(props) {
 	};
 	return (
 		<View style={styles.container}>
-			<Text>Home Screen</Text>
-
 
 			<TouchableOpacity 
 					onPress={() => navigation.navigate("CanauxScreen", {
 						canalId: 1,
 						currentUserId: 1})} 
 					style={styles.button}>
-				<Text style={styles.libelle}>Go to Canaux</Text>
+				<Text style={styles.libelle}>Canaux</Text>
 			</TouchableOpacity>
 
 			<TouchableOpacity 
@@ -29,7 +27,7 @@ function HomeScreen(props) {
 						currentUserId: 1,
 						})
 					} style={styles.button}>
-				<Text style={styles.libelle}>Go to Sondages</Text>
+				<Text style={styles.libelle}>Sondages</Text>
 			</TouchableOpacity>
 
 			<TouchableOpacity onPress={() => navigation.navigate('EFGScreens')} style={styles.button}>
@@ -51,23 +49,24 @@ function HomeScreen(props) {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: '#dfecf7',
 		alignItems: 'center',
-		justifyContent: 'center',
+		justifyContent:'center',
 	},
 	button:{
-		backgroundColor: '#dfecf7',
-		padding: 15,
-		borderRadius: 8,
-		margin: 8,
-		borderRadius: 40,
-		borderColor: 'rgb(255, 255, 255)'
-	},
+		justifyContent:"center",
+		backgroundColor: '#0068bd',
+		padding: 6,
+		borderRadius: 12,
+		width:160,
+		margin:16,
+		},
 	libelle: {
-		color: '#0068bd',
-		fontSize: 15,
+		color: '#fff',
+		fontSize: 18,
+		padding:4,
+		margin:6,
 		alignSelf: 'center',
-		fontWeight: 'bold'
 	}
 });
 export default HomeScreen;

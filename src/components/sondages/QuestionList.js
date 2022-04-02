@@ -25,8 +25,6 @@ function QuestionsList() {
 
 	return (
 		<View style={styles.listContainer}>
-			{loading && <Text>loading...</Text>}
-
 			<FlatList
 				style={styles.questionList}
 				data={questions}
