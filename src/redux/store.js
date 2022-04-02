@@ -20,9 +20,9 @@ const initialState = {
 		idUtilisateurCourant: 1,
 	},
 
-	canal: { 
+	canal: {
 		idCanalSelectionne: 1,
-		canaux: [] 
+		canaux: []
 	},
 
 	membreCanal: {
@@ -134,8 +134,8 @@ const actionTypes = {
 	ASYNC_OP_SUCCESS: 'ASYNC_OP_SUCCESS',
 	ASYNC_OP_FAILURE: 'ASYNC_OP_FAILURE',
 	LOAD_ERROR_MESSAGE : 'LOAD_ERROR_MESSAGE',
-	LOAD_CANAUX : 'loadCanaux', // <- doit être en lettres capitales
-	LOAD_MEMEBRS_CANAL : 'loadMembresCanal', // <- typo here et doit être en lettres capitales
+	LOAD_CANAUX: 'loadCanaux',
+	LOAD_MEMEBRS_CANAL: 'loadMembresCanal',
 	LOAD_QUESTION: 'LOAD_QUESTION',
 };
 
@@ -170,10 +170,30 @@ export const actionsCreators = {
 		type: actionTypes.LOAD_CANAUX,
 		value: canaux
 	}),
+	loadCanauxAsync: (idUtilisateurCourant) => async (dispatch) => {
+		try {
+			const res = await fetch(URL_CONTEXT + `/cdamassy2021/api/canaux/${idUtilisateurCourant}`)
+			const newCanaux = await res.json()
+			dispatch(actionsCreators.loadCanaux(newCanaux))
+		} catch (error) {
+			alert("Network Error")
+			console.log(error)
+		}
+	},
 	loadMembresDuCanal: (membresCanal) => ({
 		type: actionTypes.LOAD_MEMEBRS_CANAL,
 		value: membresCanal
 	}),
+	loadMembresDuCanalAsync : (idCanalCourant) => async (dispatch) => {
+		try {
+			const res = await fetch(URL_CONTEXT + `/cdamassy2021/api/canal/1`)
+			const newMembresCanal = await res.json()
+			dispatch(actionsCreators.loadMembresDuCanal(newMembresCanal))
+		} catch (error) {
+			alert("Network Error")
+			console.log(error)
+		}
+	},
 	loadQuestions: (questions) => ({
 		type: actionTypes.LOAD_QUESTIONS,
 		value: questions
@@ -277,7 +297,7 @@ export const actionsCreators = {
 	}
 };
 
-const reducers = function(state = initialState, action) {
+const reducers = function (state = initialState, action) {
 	switch (action.type) {
 		case actionTypes.ASYNC_OP_START:
 			return { ...state, loading: true };
@@ -289,11 +309,15 @@ const reducers = function(state = initialState, action) {
 			return { ...state, errorMessage: action.value };
 		case actionTypes.LOAD_QUESTIONS:
 			return { ...state, question: { ...state.question, questions: action.value } };
-			case actionTypes.LOAD_REPONSE:
-			return { ...state, question: { ...state.question, questions:  
-						state.question.questions.map((item)=>(item.idQuestion == action.value.idQuestion) 	// trouver la question pour laquelle (id == action.value.idQuestion) 
-								? { ...item, reponses: [ ...item.reponses, action.value ]}					// et ajouter action.value (la reponse) à sa liste de réponses
-								: item)}};
+		case actionTypes.LOAD_REPONSE:
+			return {
+				...state, question: {
+					...state.question, questions:
+						state.question.questions.map((item) => (item.idQuestion == action.value.idQuestion) 	// trouver la question pour laquelle (id == action.value.idQuestion) 
+							? { ...item, reponses: [...item.reponses, action.value] }					// et ajouter action.value (la reponse) à sa liste de réponses
+							: item)
+				}
+			};
 		case actionTypes.ADD_CANAL:
 			return { ...state, canal: { ...state.canal, canaux: [...state.canal.canaux, action.value] } }
 		case actionTypes.ADD_MEMBRE:
@@ -307,7 +331,7 @@ const reducers = function(state = initialState, action) {
 		case actionTypes.LOAD_QUESTION:
 			return {
 				...state,
-				question: { ...state.question, questions: [ ...state.question.questions, action.value ] }
+				question: { ...state.question, questions: [...state.question.questions, action.value] }
 			};
 		default:
 			return state;

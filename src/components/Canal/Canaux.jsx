@@ -6,27 +6,17 @@ import { actionsCreators } from '../../redux/store';
 
 
 function Canaux(props){
-    const idUtilisateurCourant = useSelector(state => state.reducer.utilisateur.idUtilisateurCourant)
+    const idUtilisateurCourant = 4
+    // const idUtilisateurCourant = useSelector(state => state.reducer.utilisateur.idUtilisateurCourant)
     const canaux = useSelector(state => state.reducer.canal.canaux)
     const dispatch = useDispatch();
-    const loadCanaux = async () =>{
-        try {
-            const res = await fetch("http://localhost:8080/cdamassy2021/api/canaux/" + idUtilisateurCourant )
-            const newCanaux = await res.json();
-            dispatch(actionsCreators.loadCanaux(newCanaux))
-        } catch (error) {
-            alert("Network Error")
-            console.log(error)
-        }
-    };
-
     useEffect(() => {
-        loadCanaux();
+        dispatch(actionsCreators.loadCanauxAsync(idUtilisateurCourant))
     },[]);
 
     return (
         <View>
-            <Text> Liste des canaux : Utilisateur No. {idUtilisateurCourant}</Text>
+            <Text> Les canaux : Utilisateur No. {idUtilisateurCourant}</Text>
             {canaux.map((canal) => {
                     return (
                     <Canal key={canal.idCanal} 

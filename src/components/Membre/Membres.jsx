@@ -9,26 +9,15 @@ function Membres(props) {
     const membres = useSelector(state => state.reducer.membreCanal.membresCanal)
     const dispatch = useDispatch()
     //récupérer idCanal dans props
-    const idCanalCurrent = props.idCanalCurrent
-    const nomCanalCurrent = props.nomCanalCurrent
-    const loadMembres = async () => {
-        try {
-            const res = await fetch("http://localhost:8080/cdamassy2021/api/canal/" + idCanalCurrent)
-            const newMembres = await res.json();
-            dispatch(actionsCreators.loadMembresDuCanal(newMembres))
-        } catch (error) {
-            alert("Network Error")
-            console.log(error)
-        }
-    }
-
+    const idCanalCourant = props.idCanalCourant
+    const nomCanalCourant = props.nomCanalCourant
     useEffect(()=>{
-        loadMembres()
+        dispatch(actionsCreators.loadMembresDuCanalAsync(idCanalCourant))
     },[])
 
     return (
         <View>
-            <Text>Memebres de {nomCanalCurrent}</Text>
+            <Text>Membres de {nomCanalCourant} , id canal {idCanalCourant}</Text>
             <Text>--------------------------------</Text>
             <Text>Id Membre  |  Nom  |  Prenom</Text>
             {membres.map((membre) => {
