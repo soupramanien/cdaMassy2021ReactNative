@@ -100,7 +100,7 @@ const QuestionForm = () => {
 	
 
 	return (
-		<ScrollView contentContainerStyle={styles.screenStyle}>
+		<ScrollView contentContainerStyle={styles.screenStyle} keyboardShouldPersistTaps='handled'>
 
 			 <View style={styles.QuestionForm}>
 				 <View  style={styles.libelleStyle}>
