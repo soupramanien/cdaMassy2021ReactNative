@@ -15,8 +15,10 @@ export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const handleLogin = () => {
-      dispatch(actionsCreators.setSignInAsync({username:'formateur1@gmail.com',password:'azerty'}));
+    console.log("username:"+email+' '+"password"+password)
+    dispatch(actionsCreators.setSignInAsync({username:email,password:password}));
   }
+
 
   return (
     <View style={styles.container}>
