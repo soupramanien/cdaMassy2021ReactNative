@@ -72,13 +72,14 @@ const ReponseForm = ({idQuestion}) => {
 							keyboardType="default"
 						/>
 					</View>
-				 </View>
-
-				{isError && <Text style={styles.errorMessage}>{message}</Text>}
+                {isError && <Text style={styles.errorMessage}>{message}</Text>}
 				{isSuccess && <Text style={styles.successMessage}>{message}</Text>}
 				<TouchableOpacity style={styles.boutonValiderStyle}onPress={onPostReponse}>
 						<Text style={styles.buttonValiderText}>Envoyer Reponse</Text>
 				</TouchableOpacity>
+				 </View>
+
+
 			</View>
 	);
 };
@@ -136,33 +137,23 @@ const styles = StyleSheet.create({
 		borderRadius: 16,
 		margin: 0,
 		padding: 3,
-		borderColor:'#0068bd',
-	},
-
-	buttonText:{
-		textAlign:'center',
-		color:"#0068bd",
-		fontWeight:'bold',
-		fontSize:12
 	},
 	buttonValiderText:{
 		textAlign:'center',
-		color:"white",
+        color:"#0068bd",
 		fontWeight:'bold',
 		fontSize:13
 	},
 	boutonValiderStyle: {
-		backgroundColor: '#0068bd',
-		color:'white',
+		backgroundColor: '#dfecf7',
 		fontSize:20,
 		fontWeight:'bold',
 		padding: 14,
 		borderRadius: 8,
 		margin: 3,
-        marginRight:50,
-        marginLeft:50,
+        marginRight:70,
+        marginLeft:70,
 		borderRadius: 26,
-		borderColor: 'rgb(255, 255, 255)'
 	},
 });
 
