@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import RadioForm from 'react-native-simple-radio-button';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { TextInput } from 'react-native';
 import { useSelector } from 'react-redux';
 
-export default function PropositionForm({propId, callBack}) {
+export default function PropositionForm({propId, callBack,deleteCallback}) {
     
 
     const [libelle, setLibelle] = React.useState('');
@@ -34,7 +34,13 @@ export default function PropositionForm({propId, callBack}) {
     <View  contentContainerStyle={styles.PropositionForm}>
       { !loading &&
       <View style={styles.libelleStyle}>
-      <Text style={styles.title}> Proposition {propId}</Text>
+        <View style={styles.titleContainer} >
+          <Text style={styles.title}> Proposition {propId}</Text>
+          <TouchableOpacity onPress={()=>deleteCallback({deleteId:propId})}>
+						<Text style={styles.buttonSupprimerText }> X </Text>
+			  	</TouchableOpacity> 
+        </View>
+
       <Text style={styles.libelleLabel} > Ecrivez une proposition de réponse {chosenOption}:</Text>
           <View style={styles.libelleInput}>
             <TextInput
@@ -64,9 +70,6 @@ export default function PropositionForm({propId, callBack}) {
           />
       </View> }
       </View >
-
-
-
   );
 }
 
@@ -75,6 +78,7 @@ export default function PropositionForm({propId, callBack}) {
 const styles = StyleSheet.create({
 
   title:{
+
 		color: "#ffffff",
 		fontSize: 16,
 		fontWeight:'bold',
@@ -103,6 +107,19 @@ const styles = StyleSheet.create({
 	},
 QuestionForm: {
   alignItems:"center",
+},
+titleContainer: {
+  flexDirection:'row',
+},
+boutonSupprimerStyle: {
+  flex:1,
+  alignItems:"center",
+},
+buttonSupprimerText: {
+  color:'white',
+  fontSize:16,
+  fontWeight:'800',
+  marginBottom:12,
 },
 radio: {
  paddingLeft:16,

@@ -93,6 +93,9 @@ const QuestionForm = () => {
 		? updatedProposition				// et ajouter action.value (la reponse) à sa liste de réponses
 		: prop))
 	}
+const handleDeletePropositionCallback= ({deleteId}) => {
+		setPropositions(propositions.filter(prop=>prop.propId != deleteId)); 	// ne renvoie que les elements pour lesquels le test est true.)
+	}
 
 	useEffect(() => {
 		console.log(JSON.stringify(propositions));
@@ -100,7 +103,7 @@ const QuestionForm = () => {
 	
 
 	return (
-		<ScrollView contentContainerStyle={styles.screenStyle} keyboardShouldPersistTaps='handled'>
+		<ScrollView contentContainerStyle={styles.screenStyle}>
 
 			 <View style={styles.QuestionForm}>
 				 <View  style={styles.libelleStyle}>
@@ -131,6 +134,7 @@ const QuestionForm = () => {
 							propId={proposition.propId}
 							onclick={() => onPostQuestion(question.propositions)}
               				callBack={handlePropositionChangeCallBack}
+							deleteCallback={handleDeletePropositionCallback}
 						/>
 					))}
 				</View>

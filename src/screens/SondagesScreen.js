@@ -1,10 +1,10 @@
-import { Button, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Button, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import QuestionList from '../components/sondages/QuestionList';
 
 function SondagesScreen({navigation}) {
   
   return (
-    <KeyboardAvoidingView style={{flex: 1}} behavior="padding" enabled>
+    <KeyboardAvoidingView style={{flex: 1}} behavior={Platform.OS === "ios" ? "padding" : "height"} enabled>
       <View style={styles.container}>
 
         <View style={styles.list}>
