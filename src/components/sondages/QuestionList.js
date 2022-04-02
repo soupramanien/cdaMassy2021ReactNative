@@ -4,7 +4,7 @@ import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { actionsCreators } from '../../redux/store';
 
-function QuestionsList({ canalId }) {
+function QuestionsList() {
 	const dispatch = useDispatch();
 	// Changé ici aussi : state.reducer.loading
 	const loading = useSelector((state) => state.reducer.loading);

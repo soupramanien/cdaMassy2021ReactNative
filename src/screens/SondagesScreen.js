@@ -1,7 +1,7 @@
 import { Button, StyleSheet, Text, View } from 'react-native'
 import QuestionList from '../components/sondages/QuestionList';
 
-function SondagesScreen({navigation, route}) {
+function SondagesScreen({navigation}) {
   
   return (
     <View style={styles.container}>
