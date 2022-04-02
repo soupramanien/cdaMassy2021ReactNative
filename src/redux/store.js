@@ -1,129 +1,122 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import { reducer as formReducer } from 'redux-form';
-import thunk from 'redux-thunk';
+import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import { reducer as formReducer } from "redux-form";
+import thunk from "redux-thunk";
 
 // Pour switcher le contexte avec votre lien de tunnel ngrok
 // et utiliser les requetes tunnelées depuuis votre mobile vers le localhost de votre machine:
 // https://ngrok.com/download
 
 //const URL_CONTEXT = 'http://9f8b-92-184-106-170.ngrok.io'; // <- l'adresse de votre tunnel
-const URL_CONTEXT = 'http://localhost:8080';
+const URL_CONTEXT = "http://localhost:8080";
 
 const initialState = {
-	//Async operation state:
-	loading: false,
-	//Async operation result:
-	error: false,
+  //Async operation state:
+  loading: false,
+  //Async operation result:
+  error: false,
 
-	utilisateur: {
-		idUtilisateurCourant: 4,
-	},
+  utilisateur: {
+    idUtilisateurCourant: 4,
+  },
 
 	canal: {
 		idCanalSelectionne: 1,
 		canaux: []
 	},
 
-	membreCanal: {
-		membresCanal: [
-			// { idMembre: 1, nom: 'Rivière', prenom: 'Manuel' },
-			// { idMembre: 2, nom: 'Moulin', prenom: 'Marguerite' },
-		]
-	},
+  question: {
+    questions: [
+      {
+        idQuestion: 3,
+        libelle: "Donnez un exemple de classe abstraite",
+        idCanal: 1,
+        idAuteur: 1,
+        nomAuteur: "Tryphon Tournesol",
+        idQuestionnaire: 0,
+        propositions: [],
+        reponses: [
+          {
+            idQuestion: 3,
+            idAuteur: 4,
+            nomAuteur: "Marguerite Moulin",
+            libelle: "ArrayList",
+            dateRendu: "2022-03-22 10:13:26",
+          },
+        ],
+        typeQuestion: "LIBRE",
+      },
+      {
+        idQuestion: 2,
+        libelle: "Quel est la couleur du cheval blanc d'Henry IV?",
+        idCanal: 1,
+        idAuteur: 3,
+        nomAuteur: "Henry IV",
+        idQuestionnaire: 0,
+        propositions: [
+          {
+            idProposition: 1,
+            idQuestion: 2,
+            libelle: "blanc",
+            estCorrecte: 1,
+          },
+          {
+            idProposition: 2,
+            idQuestion: 2,
+            libelle: "gris",
+            estCorrecte: 1,
+          },
+        ],
+        reponses: [
+          {
+            idQuestion: 3,
+            idAuteur: 4,
+            nomAuteur: "Marguerite Moulin",
+            libelle: "ArrayList",
+            dateRendu: "2022-03-22 10:13:26",
+          },
+        ],
+        typeQuestion: "CHOIXMULTIPLES",
+      },
+    ],
+  },
 
-	question: {
-		questions: [
-			{
-				idQuestion: 3,
-				libelle: 'Donnez un exemple de classe abstraite',
-				idCanal: 1,
-				idAuteur: 1,
-				nomAuteur: 'Tryphon Tournesol',
-				idQuestionnaire: 0,
-				propositions: [],
-				reponses: [
-					{
-						idQuestion: 3,
-						idAuteur: 4,
-						nomAuteur: 'Marguerite Moulin',
-						libelle: 'ArrayList',
-						dateRendu: '2022-03-22 10:13:26'
-					}
-				],
-				typeQuestion: 'LIBRE'
-			},
-			{
-				idQuestion: 2,
-				libelle: "Quel est la couleur du cheval blanc d'Henry IV?",
-				idCanal: 1,
-				idAuteur: 3,
-				nomAuteur: 'Henry IV',
-				idQuestionnaire: 0,
-				propositions: [
-					{
-						idProposition: 1,
-						idQuestion: 2,
-						libelle: 'blanc',
-						estCorrecte: 1
-					},
-					{
-						idProposition: 2,
-						idQuestion: 2,
-						libelle: 'gris',
-						estCorrecte: 1
-					}
-				],
-				reponses: [
-					{
-						idQuestion: 3,
-						idAuteur: 4,
-						nomAuteur: 'Marguerite Moulin',
-						libelle: 'ArrayList',
-						dateRendu: '2022-03-22 10:13:26'
-					}
-				],
-				typeQuestion: 'CHOIXMULTIPLES'
-			}
-		]
-	},
-
-	efg: 'test',
-	efgs: [
-		{
-			idEfg: 1,
-			createur: {
-				idCanal: 1,
-				idPersonne: 1
-			},
-			intitule: 'TP définir objectif',
-			groupes: '2,3',
-			idCanal: 1,
-			idCreateur: 1
-		},
-		{
-			idEfg: 2,
-			createur: {
-				idCanal: 1,
-				idPersonne: 2
-			},
-			intitule: 'TP définir but',
-			groupes: '2,2,3',
-			idCanal: 1,
-			idCreateur: 2
-		}
-	],
-	formateur: {
-		idPersonne: 0,
-		prenom: '',
-		nom: '',
-		email: '',
-		tel: '',
-		pwd: '',
-		est_formateur: 0,
-		est_gestionnaire: 0,
-		est_administrateur: 0,
-		allCanauxMembre: null
-	}
+  efg: "test",
+  efgs: [
+    {
+      idEfg: 1,
+      createur: {
+        idCanal: 1,
+        idPersonne: 1,
+      },
+      intitule: "TP définir objectif",
+      groupes: "2,3",
+      idCanal: 1,
+      idCreateur: 1,
+    },
+    {
+      idEfg: 2,
+      createur: {
+        idCanal: 1,
+        idPersonne: 2,
+      },
+      intitule: "TP définir but",
+      groupes: "2,2,3",
+      idCanal: 1,
+      idCreateur: 2,
+    },
+  ],
+  formateur: {
+    idPersonne: 0,
+    prenom: "",
+    nom: "",
+    email: "",
+    tel: "",
+    pwd: "",
+    est_formateur: 0,
+    est_gestionnaire: 0,
+    est_administrateur: 0,
+    allCanauxMembre: null,
+  },
 };
 
 const actionTypes = {
@@ -265,29 +258,29 @@ export const actionsCreators = {
 		dispatch(actionsCreators.setAsyncOperationStart());
 		console.log('start');
 
-		//promise methode
-		fetch(URL_CONTEXT + `/cdamassy2021/api/question/`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-				'Access-Control-Allow-Origin': '*'
-			},
-			body: JSON.stringify(question)
-		})
-			.then((question) => question.json())
-			//Then with the data from the response in JSON...
-			.then((question) => {
-				console.log('Success:', initialState);
-				dispatch(actionsCreators.loadQuestion(question));
-				dispatch(actionsCreators.setAsyncOperationSuccess());
-			})
-			//Then with the error genereted...
-			.catch((error) => {
-				console.error('Error:', error);
-				dispatch(actionsCreators.setAsyncOperationFailure(error));
-			});
-	}
+    //promise methode
+    fetch(URL_CONTEXT + `/cdamassy2021/api/question/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(question),
+    })
+      .then((question) => question.json())
+      //Then with the data from the response in JSON...
+      .then((question) => {
+        console.log("Success:", initialState);
+        dispatch(actionsCreators.loadQuestion(question));
+        dispatch(actionsCreators.setAsyncOperationSuccess());
+      })
+      //Then with the error genereted...
+      .catch((error) => {
+        console.error("Error:", error);
+        dispatch(actionsCreators.setAsyncOperationFailure(error));
+      });
+  },
 };
 
 const reducers = function (state = initialState, action) {
@@ -331,6 +324,6 @@ const reducers = function (state = initialState, action) {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // ajout du module Redux Devtools
 const rootReducer = combineReducers({ reducer: reducers, form: formReducer });
 export const store = createStore(
-	rootReducer,
-	composeEnhancers(applyMiddleware(thunk))
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk))
 );
