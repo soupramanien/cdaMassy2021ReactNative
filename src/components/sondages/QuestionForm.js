@@ -1,17 +1,22 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import ReactDOM from 'react-dom';
-import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableOpacityBase, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableOpacityBase, TurboModuleRegistry, View } from 'react-native';
 import { SafeAreaView, TextInput } from 'react-native';
 import { Button } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { isValid } from 'redux-form';
 import { actionsCreators } from '../../redux/store';
 import PropositionForm from './PropositionForm';
 
 const QuestionForm = () => {
 	const dispatch = useDispatch();
+	const [isError, setIsError] = useState(false);
+	const [isSuccess, setIsSuccess] = useState(false);
+	const [message, setMessage] = useState('');
 	const idCanalSelectionne = useSelector((state) => state.reducer.canal.idCanalSelectionne);
 	const idUtilisateurCourant = useSelector((state) => state.reducer.utilisateur.idUtilisateurCourant);
+
 	// pour premiere partie Libelle
 	const [ libelle, setLibelle ] = React.useState('');
 	const [ propId, setPropId ] = React.useState(0);
@@ -30,34 +35,56 @@ const QuestionForm = () => {
 	}, [propId])
 	
 
-	
-	//handle submit question
-	function onPostQuestion() {
-		let question = new Object();
-		question.libelle = libelle;
-		question.idAuteur = idUtilisateurCourant;
-		question.idCanal = idCanalSelectionne;
-		question.propositions = propositions.map((prop)=>{
-			const propositionDto = {libelle:prop.libelle};
-			switch(prop.etat){
-				case 'incorrecte':
-				    return {...propositionDto,estCorrecte:0};
-				case 'correcte':
-					return {...propositionDto,estCorrecte:1};
-				case 'indéfinie':
-					return {...propositionDto,estCorrecte:2};
-				default:
-					break;
+	function isQuestionValid(){
+		let isValid = true;
+		if(libelle.length==0 || libelle.length>255){
+			setMessage("Le libelle de la question doit faire entre 1 et 255 characteres");
+			isValid = false;
+		}
+		propositions.forEach(prop => {
+			if(prop.libelle.length==0 || prop.libelle.length>255){
+				setMessage("Le libelle chaque proposition doit contenir entre 1 et 255 characteres");
+				isValid=false;
+				return;
 			}
 		});
-		console.log(question);
-
-		// Calls the thunk action creator, and passes the thunk function to dispatch
-        dispatch(actionsCreators.addQuestionAsync(question));
-
-		setLibelle('');
-		setPropositions([]);
-		setPropId(0);
+		return isValid;
+	}
+	//handle submit question
+	function onPostQuestion() {
+		if(isQuestionValid())
+		{
+			let question = new Object();
+			question.libelle = libelle;
+			question.idAuteur = idUtilisateurCourant;
+			question.idCanal = idCanalSelectionne;
+			//question.reponses = [];
+			question.propositions = propositions.map((prop)=>{
+				const propositionDto = {libelle:prop.libelle};
+				switch(prop.etat){
+					case 'incorrecte':
+						return {...propositionDto,estCorrecte:0};
+					case 'correcte':
+						return {...propositionDto,estCorrecte:1};
+					case 'indéfinie':
+						return {...propositionDto,estCorrecte:2};
+					default:
+						break;
+				}
+			});
+			console.log(question);
+			// Calls the thunk action creator, and passes the thunk function to dispatch
+			dispatch(actionsCreators.addQuestionAsync(question));
+			setLibelle('');
+			setPropositions([]);
+			setPropId(0);
+			setIsSuccess(true);
+			setIsError(false);
+			setMessage('Question Saved !');
+		}
+		else{
+			setIsError(true);
+		}
 	}
   const handlePropositionChangeCallBack = (updatedProposition) => {
 	// function handlePropositionChangeCallBack() {
@@ -73,9 +100,11 @@ const QuestionForm = () => {
 
 	return (
 		<ScrollView contentContainerStyle={styles.screenStyle}>
+
 			 <View style={styles.QuestionForm}>
 				 <View  style={styles.libelleStyle}>
 					<Text style={styles.title}> Nouveau sondage:</Text>
+
 					<Text style={styles.libelleLabel} > Ecrivez votre question:</Text>
 					<View style={styles.libelleInput}>
 						
@@ -107,6 +136,8 @@ const QuestionForm = () => {
 				<TouchableOpacity style={styles.boutonStyle} onPress={onPress}>
 						<Text style={styles.buttonText}> Ajouter proposition</Text>
 				</TouchableOpacity>
+				{isError && <Text style={styles.errorMessage}>{message}</Text>}
+				{isSuccess && <Text style={styles.successMessage}>{message}</Text>}
 				<TouchableOpacity style={styles.boutonValiderStyle}onPress={onPostQuestion}>
 						<Text style={styles.buttonValiderText}>Valider sondage</Text>
 				</TouchableOpacity>
@@ -124,6 +155,22 @@ const styles = StyleSheet.create({
 	title:{
 		color: "#ffffff",
 		fontSize: 18,
+		fontWeight:'bold',
+		width:256,
+		paddingBottom:10,
+	},
+	errorMessage:{
+		color: "red",
+		fontSize: 18,
+		textAlign:'center',
+		fontWeight:'bold',
+		width:256,
+		paddingBottom:10,
+	},
+	successMessage:{
+		color: "green",
+		fontSize: 18,
+		textAlign:'center',
 		fontWeight:'bold',
 		width:256,
 		paddingBottom:10,
