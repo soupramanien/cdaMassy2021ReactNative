@@ -188,7 +188,7 @@ export const actionsCreators = {
     try {
       const res = await fetch(
         URL_CONTEXT + `/cdamassy2021/api/canaux/${idUtilisateurCourant}`
-      );
+      ,{headers:getHeaders()});
       const newCanaux = await res.json();
       dispatch(actionsCreators.loadCanaux(newCanaux));
     } catch (error) {
@@ -202,7 +202,8 @@ export const actionsCreators = {
   }),
   loadMembresDuCanalAsync: (idCanalCourant) => async (dispatch) => {
     try {
-      const res = await fetch(URL_CONTEXT + `/cdamassy2021/api/canal/1`);
+      const res = await fetch(URL_CONTEXT + `/cdamassy2021/api/canal/1`
+	  ,{headers:getHeaders()});
       const newMembresCanal = await res.json();
       dispatch(actionsCreators.loadMembresDuCanal(newMembresCanal));
     } catch (error) {
