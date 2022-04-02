@@ -10,6 +10,7 @@ function Membres() {
   const membresCanal = useSelector(
     (state) => state.reducer.membreCanal.membresCanal
   );
+  console.log(membresCanal);
   let membersfusion = [];
   for (const membre of membres) {
     for (const membreCanal of membresCanal) {

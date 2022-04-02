@@ -17,6 +17,7 @@ function AddMembre(props) {
   const [error, setError] = useState({
     name: true,
   });
+  const [text, setText] = useState("");
   const membreCanal = useSelector(
     (state) => state.reducer.membreCanal.membresCanal
   );
@@ -27,6 +28,7 @@ function AddMembre(props) {
     switch (name) {
       case "name":
         if (text.length > 0) {
+            setText(text);
           setError((error) => ({ ...error, name: false }));
         } else {
           setError((error) => ({ ...error, name: true }));
@@ -37,15 +39,25 @@ function AddMembre(props) {
         break;
     }
     setMembre((membre) => ({ ...membre, [name]: text }));
+    
   };
+  
 
   const onAddPress = () => {
-    const mCanal = {
-      nom: props.nom,
-      idpersonne: props.idpersonne,
+    const membre = {
+      nom: text,
+      idpersonne: 10,
     };
-    dispatch(actionsCreators.addMembre(mCanal));
+    const mCanal ={
+        idMembre: membre.idpersonne,
+        idCanal: 1,
+    }
+    console.log(membre);
+    dispatch(actionsCreators.addMembre(membre));
+    dispatch(actionsCreators.addMembreCanal(mCanal));
+
     navigation.navigate("MembresScreen");
+
   };
 
   return (
