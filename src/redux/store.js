@@ -24,6 +24,8 @@ const initialState = {
 		canaux: []
 	},
 
+  membreCanal: {membresCanal: []},
+  
   question: {
     questions: [
       {
