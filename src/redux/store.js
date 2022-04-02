@@ -14,9 +14,10 @@ const initialState = {
 	loading: false,
 	//Async operation result:
 	error: false,
+	errorMessage:'',
 
 	utilisateur: {
-		idUtilisateurCourant: 4,
+		idUtilisateurCourant: 1,
 	},
 
 	canal: { 
@@ -132,8 +133,9 @@ const actionTypes = {
 	ASYNC_OP_START: 'ASYNC_OP_START',
 	ASYNC_OP_SUCCESS: 'ASYNC_OP_SUCCESS',
 	ASYNC_OP_FAILURE: 'ASYNC_OP_FAILURE',
-	LOAD_CANAUX : 'loadCanaux',
-	LOAD_MEMEBRS_CANAL : 'loadMembresCanal',
+	LOAD_ERROR_MESSAGE : 'LOAD_ERROR_MESSAGE',
+	LOAD_CANAUX : 'loadCanaux', // <- doit être en lettres capitales
+	LOAD_MEMEBRS_CANAL : 'loadMembresCanal', // <- typo here et doit être en lettres capitales
 	LOAD_QUESTION: 'LOAD_QUESTION',
 };
 
@@ -147,6 +149,10 @@ export const actionsCreators = {
 	setAsyncOperationFailure: (error) => ({
 		type: actionTypes.ASYNC_OP_FAILURE,
 		value: error
+	}),
+	loadErrorMessage: (message) => ({
+		type: actionTypes.LOAD_ERROR_MESSAGE,
+		value: message
 	}),
 	addCanal: (canal) => ({
 		type: actionTypes.ADD_CANAL,
@@ -265,6 +271,7 @@ export const actionsCreators = {
 			//Then with the error genereted...
 			.catch((error) => {
 				console.error('Error:', error);
+				//dispatch(actionsCreators.loadErrorMessage('Erreur: '+ error));
 				dispatch(actionsCreators.setAsyncOperationFailure(error));
 			});
 	}
@@ -278,6 +285,8 @@ const reducers = function(state = initialState, action) {
 			return { ...state, loading: false, error: false };
 		case actionTypes.ASYNC_OP_FAILURE:
 			return { ...state, loading: false, error: true };
+		case actionTypes.LOAD_ERROR_MESSAGE:
+			return { ...state, errorMessage: action.value };
 		case actionTypes.LOAD_QUESTIONS:
 			return { ...state, question: { ...state.question, questions: action.value } };
 			case actionTypes.LOAD_REPONSE:
@@ -293,7 +302,7 @@ const reducers = function(state = initialState, action) {
 			return { ...state, membreCanal: { ...state.membreCanal, membresCanal: [...state.membreCanal.membresCanal.filter((mc) => { return !(mc.idMembre === action.value.idMembre && mc.idCanal === action.value.idCanal) })] } }
 		case actionTypes.LOAD_CANAUX:
 			return { ...state, canal: { ...state.canal, canaux: action.value } }
-		case actionTypes.LOAD_MEMEBRS_CANAL:
+		case actionTypes.LOAD_MEMEBRS_CANAL: // <- Typo here
 			return { ...state, membreCanal: { ...state.membreCanal, membresCanal: action.value } }
 		case actionTypes.LOAD_QUESTION:
 			return {
