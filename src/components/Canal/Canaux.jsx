@@ -16,7 +16,7 @@ function Canaux(props){
 
     return (
         <View>
-            <Text> Liste des canaux : Utilisateur No. {idUtilisateurCourant}</Text>
+            <Text> Les canaux : Utilisateur No. {idUtilisateurCourant}</Text>
             {canaux.map((canal) => {
                     return (
                     <Canal key={canal.idCanal} 

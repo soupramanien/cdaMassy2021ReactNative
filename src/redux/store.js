@@ -178,6 +178,16 @@ export const actionsCreators = {
 		type: actionTypes.LOAD_MEMEBRS_CANAL,
 		value: membresCanal
 	}),
+	loadMembresDuCanalAsync : (idCanalCourant) => async (dispatch) => {
+		try {
+			const res = await fetch(URL_CONTEXT + `/cdamassy2021/api/canal/1`)
+			const newMembresCanal = await res.json()
+			dispatch(actionsCreators.loadMembresDuCanal(newMembresCanal))
+		} catch (error) {
+			alert("Network Error")
+			console.log(error)
+		}
+	},
 	loadQuestions: (questions) => ({
 		type: actionTypes.LOAD_QUESTIONS,
 		value: questions
