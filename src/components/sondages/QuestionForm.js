@@ -84,6 +84,7 @@ const QuestionForm = () => {
 		}
 		else{
 			setIsError(true);
+			setIsSuccess(false);
 		}
 	}
   const handlePropositionChangeCallBack = (updatedProposition) => {
