@@ -13,9 +13,10 @@ function QuestionsList() {
 	// Idem ici. state.reducer.question.questions
 	const questions = useSelector((state) => state.reducer.question.questions);
 
-	const loadQuestions = (idCanalSelectionne) => {
+	const loadQuestions = () => {
 		// Calls the thunk action creator, and passes the thunk function to dispatch
-		dispatch(actionsCreators.loadQuestionsAsync(idCanalSelectionne));
+		console.log('canal:'+idCanalSelectionne);
+		if(!loading)dispatch(actionsCreators.loadQuestionsAsync(idCanalSelectionne));
 	};
 
 	useEffect(() => {
