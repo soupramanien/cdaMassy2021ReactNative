@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import PropositionList from './PropositionList';
 import QuestionTitle from './QuestionTitle';
+import ReponseForm from './ReponseForm';
 import ReponseList from './ReponseList';
 
 const Question = ({ question }) => {
@@ -22,14 +23,19 @@ const Question = ({ question }) => {
 		<View style={styles.questionStyle}>
 			<QuestionTitle question={question} />
 			<View>
-				{!isAutor && !hasAnswered ? (
-					<PropositionList
+				{/* Si pas auteur, pas encore repondu et questionType: QCM :*/}
+				{(!isAutor && !hasAnswered && question.propositions.length>0)
+				? ( <PropositionList
 						propositions={question.propositions}
 						idUtilisateurCourant={idUtilisateurCourant}
 						idQuestion={question.idQuestion}
 					/>
-				) : (
-					<ReponseList reponses={question.reponses} />
+					
+				) // Si pas auteur, pas encore repondu et questionType: LIBRE 
+				 : (!isAutor && !hasAnswered && question.propositions.length==0)
+				 ? ( <ReponseForm idQuestion={question.idQuestion}> </ReponseForm>
+				) // Sinon:
+				 : ( <ReponseList reponses={question.reponses} />
 				)}
 			</View>
 		</View>
