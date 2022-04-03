@@ -19,7 +19,7 @@ function Membres(props) {
 
   const Item = ({ membre }) => (
     <View>
-      <Membre key={membre.idMembre} membre={membre} nomCanalCourant={nomCanalCourant} />
+      <Membre key={membre.idMembre} membre={membre} />
       <DeleteMembre idCanalCourant={idCanalCourant} membre={membre} />
     </View>
   );
