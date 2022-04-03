@@ -8,7 +8,7 @@ const AppRoute = () => {
     const isLoggedIn = useSelector((state) => state.reducer.isLoggedIn);
     return (
         <NavigationContainer>
-            {/* Conditional stack navigator rendering based on login state */}
+            {/* Conditional stack navigator rendering based on isloggedIn state */}
             {
                 isLoggedIn ? <AppNavigator /> : <AuthNavigator />
             }
