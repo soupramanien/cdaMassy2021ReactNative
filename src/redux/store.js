@@ -44,59 +44,7 @@ const initialState = {
   },
 
   question: {
-    questions: [
-      {
-        idQuestion: 3,
-        libelle: "Donnez un exemple de classe abstraite",
-        idCanal: 1,
-        idAuteur: 1,
-        nomAuteur: "Tryphon Tournesol",
-        idQuestionnaire: 0,
-        propositions: [],
-        reponses: [
-          {
-            idQuestion: 3,
-            idAuteur: 4,
-            nomAuteur: "Marguerite Moulin",
-            libelle: "ArrayList",
-            dateRendu: "2022-03-22 10:13:26",
-          },
-        ],
-        typeQuestion: "LIBRE",
-      },
-      {
-        idQuestion: 2,
-        libelle: "Quel est la couleur du cheval blanc d'Henry IV?",
-        idCanal: 1,
-        idAuteur: 3,
-        nomAuteur: "Henry IV",
-        idQuestionnaire: 0,
-        propositions: [
-          {
-            idProposition: 1,
-            idQuestion: 2,
-            libelle: "blanc",
-            estCorrecte: 1,
-          },
-          {
-            idProposition: 2,
-            idQuestion: 2,
-            libelle: "gris",
-            estCorrecte: 1,
-          },
-        ],
-        reponses: [
-          {
-            idQuestion: 3,
-            idAuteur: 4,
-            nomAuteur: "Marguerite Moulin",
-            libelle: "ArrayList",
-            dateRendu: "2022-03-22 10:13:26",
-          },
-        ],
-        typeQuestion: "CHOIXMULTIPLES",
-      },
-    ],
+    questions: [],
   },
 
   efg: "test",

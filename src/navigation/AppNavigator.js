@@ -10,9 +10,10 @@ import SondagesScreen from '../screens/SondagesScreen';
 import MembresScreen from '../screens/Membres/MembresScreen';
 import CanauxScreen from '../screens/CanauxScreen';
 import CreerSondageScreen from  '../screens/CreerSondageScreen';
+
 const Stack = createNativeStackNavigator();
 
-const AppNavigator = () => {
+const AppNavigator = () => { 
     return (
         <Stack.Navigator
             initialRouteName='Home'
