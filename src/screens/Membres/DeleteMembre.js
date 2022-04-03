@@ -7,16 +7,12 @@ import { actionsCreators } from "../../redux/store";
 import { View, Button, StyleSheet } from "react-native";
 
 function DeleteMembre(props) {
-  const membreCanal = useSelector(
-    (state) => state.reducer.membreCanal.membresCanal
-  );
+  const idCanalCourant = props.idCanalCourant
+  const idMembre = props.membre.idMembre
 
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  let mCanal = {
-    idCanal: props.idCanal,
-    idMembre: props.idpersonne,
-  };
+
   const onDeletePress = () => {
     confirmAlert({
       title: "Confirm to submit",
@@ -25,8 +21,8 @@ function DeleteMembre(props) {
         {
           label: "Yes",
           onClick: () => {
-            dispatch(actionsCreators.deleteMembre(mCanal));
-            navigation.navigate("MembresScreen");
+            dispatch(actionsCreators.deleteMembreDuCanal(idCanalCourant,idMembre));
+            // navigation.navigate("MembresScreen");
           },
         },
 

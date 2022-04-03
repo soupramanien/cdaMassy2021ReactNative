@@ -151,10 +151,23 @@ export const actionsCreators = {
 		type: actionTypes.ADD_MEMBRE,
 		value: membre
 	}),
-	deleteMembre: (membreCanal) => ({
-		type: actionTypes.DELETE_MEMBRE,
-		value: membreCanal
-	}),
+	deleteMembreDuCanal : (idCanalCourant, idMembre) => (dispatch) =>{
+		try {
+			const res = fetch(URL_CONTEXT + `/cdamassy2021/api/canal/${idCanalCourant}/membre/${idMembre}`,{
+				method : 'DELETE',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					'Access-Control-Allow-Origin': '*'
+				},
+			})
+			dispatch(actionsCreators.loadMembresDuCanalAsync(idCanalCourant))
+		} catch (error) {
+			alert("Network Error")
+			console.log(error)
+		}
+	}
+	,
 	loadCanaux: (canaux) => ({
 		type: actionTypes.LOAD_CANAUX,
 		value: canaux
@@ -308,8 +321,8 @@ const reducers = function (state = initialState, action) {
 			return { ...state, canal: { ...state.canal, canaux: [...state.canal.canaux, action.value] } }
 		case actionTypes.ADD_MEMBRE:
 			return { ...state, membreCanal: { ...state.membreCanal, membresCanal: [...state.membreCanal.membresCanal, action.value] } }
-		case actionTypes.DELETE_MEMBRE:
-			return { ...state, membreCanal: { ...state.membreCanal, membresCanal: [...state.membreCanal.membresCanal.filter((mc) => { return !(mc.idMembre === action.value.idMembre && mc.idCanal === action.value.idCanal) })] } }
+		// case actionTypes.DELETE_MEMBRE:
+		// 	return { ...state, membreCanal: { ...state.membreCanal, membresCanal: [...state.membreCanal.membresCanal.filter((mc) => { return !(mc.idMembre === action.value.idMembre && mc.idCanal === action.value.idCanal) })] } }
 		case actionTypes.LOAD_CANAUX:
 			return { ...state, canal: { ...state.canal, canaux: action.value } }
 		case actionTypes.LOAD_MEMEBRS_CANAL:
