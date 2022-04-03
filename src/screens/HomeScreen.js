@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
 		padding: 6,
 		borderRadius: 12,
 		width:160,
-		margin:16,
+		margin:10,
 		},
 	libelle: {
 		color: '#fff',
@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
 	},
 	HelloMessage:{
 		color:"#0068bd",
-		fontSize:42,
-		margin:30, 
+		fontSize:28,
+		margin:20, 
 		fontWeight:'900',
 
 	}
