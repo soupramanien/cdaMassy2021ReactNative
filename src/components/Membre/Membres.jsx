@@ -35,7 +35,7 @@ function Membres(props) {
         keyExtractor={(membre) => membre.idMembre}
       />
 
-      {/* <AddMembre idCanal={membre.idCanalCourant} idpersonne={membre.idMembre}/> */}
+      <AddMembre idCanalCourant={idCanalCourant} />
     </SafeAreaView>
   );
 }

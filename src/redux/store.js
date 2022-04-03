@@ -147,14 +147,10 @@ export const actionsCreators = {
 		type: actionTypes.ADD_CANAL,
 		value: canal
 	}),
-	addMembre: (membre) => ({
-		type: actionTypes.ADD_MEMBRE,
-		value: membre
-	}),
-	deleteMembreDuCanal : (idCanalCourant, idMembre) => (dispatch) =>{
+	addMembreCanal: (idCanalCourant, idMembreAjouter) => async (dispatch) =>{
 		try {
-			const res = fetch(URL_CONTEXT + `/cdamassy2021/api/canal/${idCanalCourant}/membre/${idMembre}`,{
-				method : 'DELETE',
+			const res = await fetch(URL_CONTEXT + `/cdamassy2021/api/canal/${idCanalCourant}/membre/${idMembreAjouter}`,{
+				method : 'POST',
 				headers: {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
@@ -167,8 +163,23 @@ export const actionsCreators = {
 			alert("Network Error")
 			console.log(error)
 		}
-	}
-	,
+	},
+	deleteMembreDuCanal : (idCanalCourant, idMembre) => async (dispatch) =>{
+		try {
+			const res = await fetch(URL_CONTEXT + `/cdamassy2021/api/canal/${idCanalCourant}/membre/${idMembre}`,{
+				method : 'DELETE',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+					'Access-Control-Allow-Origin': '*'
+				},
+			})
+			dispatch(actionsCreators.loadMembresDuCanalAsync(idCanalCourant))
+		} catch (error) {
+			alert("Network Error")
+			console.log(error)
+		}
+	},
 	loadCanaux: (canaux) => ({
 		type: actionTypes.LOAD_CANAUX,
 		value: canaux

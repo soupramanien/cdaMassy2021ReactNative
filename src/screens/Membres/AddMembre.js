@@ -11,16 +11,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { actionsCreators } from "../../redux/store";
 
 function AddMembre(props) {
-  const [membre, setMembre] = useState({
-    name: "",
-  });
   const [error, setError] = useState({
     name: true,
   });
   const [text, setText] = useState("");
-  const membreCanal = useSelector(
-    (state) => state.reducer.membreCanal.membresCanal
-  );
+  const [obj, setObjet] = useState({idMembreAjouter : 0})
+  // const idCanalCourant = props.idCanalCourant
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -38,41 +34,29 @@ function AddMembre(props) {
       default:
         break;
     }
-    setMembre((membre) => ({ ...membre, [name]: text }));
-    
+      setObjet({...obj, idMembreAjouter : text})
   };
-  
+
+  console.log(obj.idMembreAjouter)
 
   const onAddPress = () => {
-    const membre = {
-      nom: text,
-      idpersonne: 10,
-    };
-    const mCanal ={
-        idMembre: membre.idpersonne,
-        idCanal: 1,
-    }
-    console.log(membre);
-    dispatch(actionsCreators.addMembre(membre));
-    dispatch(actionsCreators.addMembreCanal(mCanal));
-
-    navigation.navigate("MembresScreen");
-
+    dispatch(actionsCreators.addMembreCanal(props.idCanalCourant, obj.idMembreAjouter));
   };
 
   return (
     <SafeAreaView>
       <TextInput
-        value={membre.name}
         style={
           error.name
             ? [styles.textInput, styles.invalid]
             : [styles.textInput, styles.valid]
         }
-        placeholder="Enter Name"
+        placeholder="Enter Id du membre"
         onChangeText={(text) => onChange(text, "name")}
       />
-      <Button onPress={onAddPress} title="Ajouter" color="aquamarine" />
+      <Button onPress={onAddPress} 
+        title="Ajouter" 
+        color="aquamarine" />
     </SafeAreaView>
   );
 }
@@ -98,4 +82,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
   },
 });
+
+
 export default AddMembre;

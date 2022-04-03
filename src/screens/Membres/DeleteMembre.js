@@ -11,7 +11,6 @@ function DeleteMembre(props) {
   const idMembre = props.membre.idMembre
 
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   const onDeletePress = () => {
     confirmAlert({
@@ -22,7 +21,6 @@ function DeleteMembre(props) {
           label: "Yes",
           onClick: () => {
             dispatch(actionsCreators.deleteMembreDuCanal(idCanalCourant,idMembre));
-            // navigation.navigate("MembresScreen");
           },
         },
 
