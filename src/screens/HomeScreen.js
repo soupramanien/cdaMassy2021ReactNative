@@ -12,13 +12,15 @@ function HomeScreen(props) {
 		dispatch(actionsCreators.resetDatabaseAsync());
 	};
 
-	useEffect(() => {
-		if(utilisateurCourant==null) navigation.navigate('LoginScreen');
+	const onDisconnect = () => {
+		dispatch(actionsCreators.disconnectUser());
+	}
 
-	}, );
 	return (
 
 		<View style={styles.container}>
+			<Text style={styles.HelloMessage}> Bonjour {utilisateurCourant.prenom}</Text>
+
 			<TouchableOpacity 
 					onPress={() => navigation.navigate("CanauxScreen", {
 						canalId: 1,
@@ -49,6 +51,11 @@ function HomeScreen(props) {
 			<TouchableOpacity onPress={onResetDatabasePress} style={styles.button}>
 				<Text style={styles.libelle}>Reset Database</Text>
 			</TouchableOpacity>
+
+			<TouchableOpacity onPress={onDisconnect} style={styles.button}>
+				<Text style={styles.libelle}>Deconnexion</Text>
+			</TouchableOpacity>
+			
 			
 		</View>
 	);
@@ -74,6 +81,13 @@ const styles = StyleSheet.create({
 		padding:4,
 		margin:6,
 		alignSelf: 'center',
+	},
+	HelloMessage:{
+		color:"#0068bd",
+		fontSize:42,
+		margin:30, 
+		fontWeight:'900',
+
 	}
 });
 export default HomeScreen;

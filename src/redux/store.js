@@ -28,7 +28,6 @@ const initialState = {
   errorMessage: "",
 
   utilisateur: {
-    idUtilisateurCourant: 1,
     courant: null,
   },
 
@@ -319,7 +318,6 @@ export const actionsCreators = {
         dispatch(actionsCreators.setAsyncOperationFailure(error));
       });
   },
-
   setSignInAsync: (login) => (dispatch) => {
     dispatch(actionsCreators.setAsyncOperationStart());
     console.log("start" + login);
@@ -356,6 +354,10 @@ export const actionsCreators = {
     type: actionTypes.SET_LOGGED_IN,
     value: value,
   }),
+  disconnectUser:()=>(dispatch)=>{
+	dispatch(actionsCreators.setLoggedIn(false));
+	dispatch(actionsCreators.loadUser({}));
+  },
 };
 
 const reducers = function (state = initialState, action) {
