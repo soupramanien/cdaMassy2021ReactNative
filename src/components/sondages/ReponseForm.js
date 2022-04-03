@@ -10,7 +10,7 @@ const ReponseForm = ({idQuestion}) => {
 	const [isError, setIsError] = useState(false);
 	const [isSuccess, setIsSuccess] = useState(false);
 	const [message, setMessage] = useState('');
-	const idUtilisateurCourant = useSelector((state) => state.reducer.utilisateur.idUtilisateurCourant);
+	const idUtilisateurCourant = useSelector((state) => state.reducer.utilisateur.courant.id);
 
 	// pour premiere partie Libelle
 	const [ libelle, setLibelle ] = React.useState('');

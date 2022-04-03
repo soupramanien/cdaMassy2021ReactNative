@@ -15,7 +15,7 @@ const QuestionForm = () => {
 	const [isSuccess, setIsSuccess] = useState(false);
 	const [message, setMessage] = useState('');
 	const idCanalSelectionne = useSelector((state) => state.reducer.canal.idCanalSelectionne);
-	const idUtilisateurCourant = useSelector((state) => state.reducer.utilisateur.idUtilisateurCourant);
+	const idUtilisateurCourant = useSelector((state) => state.reducer.utilisateur.courant.id);
 
 	// pour premiere partie Libelle
 	const [ libelle, setLibelle ] = React.useState('');
