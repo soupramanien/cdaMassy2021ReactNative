@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import { ScrollView, Text, View, Button } from 'react-native';
 <<<<<<< HEAD
 import { Field, reduxForm } from 'redux-form';
@@ -6,50 +7,25 @@ import EFGForm from '../../components/EFG/EFGForm';
 =======
 >>>>>>> 243aa8b (add reliquat dispatch&add)
 
+=======
+import { StyleSheet, ScrollView, Text, View, Button } from 'react-native';
+import SelectingFormValuesForm from '../../components/EFG/EFGForm';
+>>>>>>> 9d4eef4 (add preview for efg form)
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 
 let EFGAddScreen = (props) => {
 	const route = props.route;
-	let { students } = route.params;
+	let { students, idCreateur } = route.params;
+	// const groupesAdd = '';
+	// const [groupe, setGroups] = useState('');
 
-	const reliquatDispatch = () => {
-		let modulo = 23 % 5;
-		let arrGroupes = [];
-		for (let i = 0; i < 5; i++) arrGroupes.push(minStudents);
-		if (modulo !== 0) maxStudents++;
-		while (modulo !== 0) {
-			arrGroupes[modulo - 1] = maxStudents;
-			modulo--;
-		}
-		return (groupesDispatch = arrGroupes.toString());
-	};
+	const [data, setData] = useState('');
 
-	const onSubmit = (values) => {
-		console.log('valeurs : ' + JSON.stringify(values));
-		// props.reset();
-	};
-
-	const studentsPerGroup = selector('studentsPerGroup');
-	console.log('étudiants : ' + studentsPerGroup);
-	let groupesDispatch = '';
-	let groupesAdd = '';
-
-	let minStudents = Math.floor(students / 5);
-	let maxStudents = minStudents;
-	console.log(students);
-	const reliquatAdd = () => {
-		let modulo = students % studentsPerGroup;
-		let arrGroupes = [];
-		for (let i = 0; i < 5; i++) arrGroupes.push(minStudents);
-		arrGroupes.push(modulo);
-		groupesAdd = arrGroupes.toString();
-		return groupesAdd;
-	};
-	reliquatAdd();
-	console.log(groupesAdd);
+	const [intituleEFG, setIntituleEFG] = useState('Nouvel exercice');
 
 	return (
+<<<<<<< HEAD
 		<ScrollView>
 			<Text>Création d'un exercice</Text>
 			<Text>Il y a {students} élèves dans le canal.</Text>
@@ -106,21 +82,49 @@ let EFGAddScreen = (props) => {
 			/>
 >>>>>>> 243aa8b (add reliquat dispatch&add)
 		</ScrollView>
+=======
+		<View style={styles.container}>
+			<p> Nombre d'étudiants dans le canal : {students}</p>
+
+			<SelectingFormValuesForm
+				students={students}
+				data={data}
+				setData={setData}
+				setIntituleEFG={setIntituleEFG}
+			/>
+
+			{data != '' && (
+				<>
+					<p>Aperçu de l'exercice</p>
+					<p>
+						Titre de l'exercice : {data.intitule}
+						<br />
+						Consigne : fonctionnalité à venir. <br />
+						Répartition des groupes : aucune pour le moment.
+					</p>
+					{data.groupes != 0 && (
+						<button onClick={() => console.log('Envoyé!')}>
+							Confirmer l'envoi
+						</button>
+					)}
+					{data.groupes === 0 && (
+						<button onClick={() => console.log('Envoyé!')} disabled>
+							Confirmer l'envoi
+						</button>
+					)}
+				</>
+			)}
+		</View>
+>>>>>>> 9d4eef4 (add preview for efg form)
 	);
 };
 
-EFGAddScreen = reduxForm({
-	form: 'efgForm',
-})(EFGAddScreen);
-
-const selector = formValueSelector('efgForm');
-
-EFGAddScreen = connect((state) => {
-	const intitule = selector(state, 'intitule');
-
-	return {
-		intitule,
-	};
-})(EFGAddScreen);
-
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#fff',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+});
 export default EFGAddScreen;
