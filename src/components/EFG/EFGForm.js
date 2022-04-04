@@ -65,6 +65,7 @@ let SelectingFormValuesForm = (props) => {
 						},
 						intitule: data.intitule,
 <<<<<<< HEAD
+<<<<<<< HEAD
 						groupes: parseInt(0),
 						idCanal: 1,
 						idCreateur: 3,
@@ -79,6 +80,16 @@ let SelectingFormValuesForm = (props) => {
 						idCreateur: 3,
 					};
 >>>>>>> 9d4eef4 (add preview for efg form)
+=======
+						groupes: parseInt(0),
+						idCanal: 1,
+						idCreateur: 3,
+					};
+
+					if (props.students === 4) efg.groupes = '2,2';
+					if (props.students === 5) efg.groupes = '3,2';
+
+>>>>>>> 1dc1236 (createnewbranch)
 					props.setData(efg);
 					console.log(efg);
 					// EFGServices.postEFG(() => {}, efg);
@@ -93,6 +104,7 @@ let SelectingFormValuesForm = (props) => {
 					onChange={(data) => props.setIntituleEFG(data.target.value)}
 				/>
 				<br />
+<<<<<<< HEAD
 <<<<<<< HEAD
 				{props.students >= 6 && (
 =======
@@ -116,6 +128,9 @@ let SelectingFormValuesForm = (props) => {
 				<br />
 				{students.students >= 6 && (
 >>>>>>> 9d4eef4 (add preview for efg form)
+=======
+				{props.students >= 6 && (
+>>>>>>> 1dc1236 (createnewbranch)
 					<>
 						<label>Nombre d'élèves par groupe</label>
 						<Field name='studentsPerGroup' component='select'>
@@ -127,9 +142,11 @@ let SelectingFormValuesForm = (props) => {
 						</Field>
 					</>
 				)}
-
 				<br />
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 1dc1236 (createnewbranch)
 				DISPATCH ET ADD
 				{props.students % studentsPerGroup === 1 && 'Dispatch automatique.'}
 				<br />
@@ -142,6 +159,7 @@ let SelectingFormValuesForm = (props) => {
 			</form>
 			{/* 
 
+<<<<<<< HEAD
 =======
 				{studentsPerGroup && students.students >= 6 && (
 					<>
@@ -153,6 +171,8 @@ let SelectingFormValuesForm = (props) => {
 							</p>
 						)}
 >>>>>>> 9d4eef4 (add preview for efg form)
+=======
+>>>>>>> 1dc1236 (createnewbranch)
 						{modulo >= 2 && (
 							<>
 								<div>

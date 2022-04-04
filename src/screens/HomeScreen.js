@@ -48,7 +48,7 @@ function HomeScreen(props) {
 				title='go to createEFG'
 				onPress={() =>
 					navigation.navigate('EFGAddScreen', {
-						students: 25,
+						students: 7,
 						idCreateur: 1,
 					})
 				}
