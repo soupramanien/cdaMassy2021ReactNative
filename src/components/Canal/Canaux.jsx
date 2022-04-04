@@ -10,13 +10,14 @@ function Canaux(props){
     // const idUtilisateurCourant = useSelector(state => state.reducer.utilisateur.idUtilisateurCourant)
     const canaux = useSelector(state => state.reducer.canal.canaux)
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(actionsCreators.loadCanauxAsync(idUtilisateurCourant))
     },[]);
 
     return (
         <View>
-            <Text> Les canaux : Utilisateur No. {idUtilisateurCourant}</Text>
+            <h2> Les canaux : Utilisateur No. {idUtilisateurCourant}</h2>
             {canaux.map((canal) => {
                     return (
                     <Canal key={canal.idCanal} 

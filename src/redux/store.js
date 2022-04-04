@@ -158,7 +158,6 @@ export const actionsCreators = {
 				},
 			})
 			dispatch(actionsCreators.loadMembresDuCanalAsync(idCanalCourant))
-			dispatch(actionsCreators.loadMembresDuCanal(idCanalCourant))
 		} catch (error) {
 			alert("Network Error")
 			console.log(error)

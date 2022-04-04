@@ -7,7 +7,7 @@ import {
   StyleSheet,
   TextInput,
 } from "react-native";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { actionsCreators } from "../../redux/store";
 
 function AddMembre(props) {
@@ -15,16 +15,15 @@ function AddMembre(props) {
     name: true,
   });
   const [text, setText] = useState("");
-  const [obj, setObjet] = useState({idMembreAjouter : 0})
+  const [obj, setObjet] = useState({ idMembreAjouter: 0 })
   // const idCanalCourant = props.idCanalCourant
   const dispatch = useDispatch();
-  const navigation = useNavigation();
 
   const onChange = (text, name) => {
     switch (name) {
       case "name":
         if (text.length > 0) {
-            setText(text);
+          setText(text);
           setError((error) => ({ ...error, name: false }));
         } else {
           setError((error) => ({ ...error, name: true }));
@@ -34,10 +33,10 @@ function AddMembre(props) {
       default:
         break;
     }
-      setObjet({...obj, idMembreAjouter : text})
+    setObjet({ ...obj, idMembreAjouter: text })
   };
 
-  console.log(obj.idMembreAjouter)
+  // console.log(obj.idMembreAjouter)
 
   const onAddPress = () => {
     dispatch(actionsCreators.addMembreCanal(props.idCanalCourant, obj.idMembreAjouter));
@@ -54,8 +53,8 @@ function AddMembre(props) {
         placeholder="Enter Id du membre"
         onChangeText={(text) => onChange(text, "name")}
       />
-      <Button onPress={onAddPress} 
-        title="Ajouter" 
+      <Button onPress={onAddPress}
+        title="Ajouter"
         color="aquamarine" />
     </SafeAreaView>
   );
