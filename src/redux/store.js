@@ -23,7 +23,7 @@ const initialState = {
     canaux: [
       { idCanal: 1, nom: "CANAL N°1" },
       { idCanal: 2, nom: "CANAL N°2" },
-      { idCanal: 3, nom: "CANAL N°3" },
+      { idCanal: 5, nom: "CANAL N°5" },
       { idCanal: 4, nom: "CANAL N°4" },
     ],
   },
