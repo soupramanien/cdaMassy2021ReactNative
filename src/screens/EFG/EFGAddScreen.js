@@ -16,6 +16,8 @@ let EFGAddScreen = (props) => {
 
 	return (
 		<View style={styles.container}>
+			{console.log()}
+
 			<p> Nombre d'étudiants dans le canal : {students}</p>
 
 			<SelectingFormValuesForm
@@ -32,17 +34,15 @@ let EFGAddScreen = (props) => {
 						Titre de l'exercice : {data.intitule}
 						<br />
 						Consigne : fonctionnalité à venir. <br />
-						Répartition des groupes : aucune pour le moment.
+						Répartition des groupes : {data.groupes}.
 					</p>
-					{data.groupes != 0 && (
+
+					{isNaN(data.groupes) ? (
 						<button onClick={() => console.log('Envoyé!')}>
 							Confirmer l'envoi
 						</button>
-					)}
-					{data.groupes === 0 && (
-						<button onClick={() => console.log('Envoyé!')} disabled>
-							Confirmer l'envoi
-						</button>
+					) : (
+						<button disabled>Confirmer l'envoi</button>
 					)}
 				</>
 			)}
