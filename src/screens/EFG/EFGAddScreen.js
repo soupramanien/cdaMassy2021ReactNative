@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { ScrollView, Text, View, Button } from 'react-native';
-import EFGForm from '../../components/EFG/EFGForm';
-
 import { StyleSheet, ScrollView, Text, View, Button } from 'react-native';
 import SelectingFormValuesForm from '../../components/EFG/EFGForm';
 import { connect } from 'react-redux';

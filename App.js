@@ -15,8 +15,6 @@ import EFGAddScreen from './src/screens/EFG/EFGAddScreen';
 
 import EFGDetailScreen from './src/screens/EFG/EFGDetailScreen';
 
-import EFGForm from './src/components/EFG/EFGForm';
-
 const Stack = createNativeStackNavigator();
 export default function App() {
 	return (
@@ -58,7 +56,6 @@ export default function App() {
 					<Stack.Screen
 						name='EFGAddScreen'
 						options={{ title: 'Créer un EFG' }}
-<<<<<<< HEAD
 						component={EFGAddScreen}
 					/>
 
@@ -68,9 +65,6 @@ export default function App() {
 						component={EFGDetailScreen}
 					/>
 
-=======
-						component={EFGAddScreen}></Stack.Screen>
->>>>>>> 9d4eef4 (add preview for efg form)
 					<Stack.Screen
 						name='CreerSondageScreen'
 						options={{ title: 'Creer Sondage' }}
