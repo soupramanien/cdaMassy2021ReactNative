@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { propTypes } from 'redux-form';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
+import EFGServices from '../../fetch/EFGfetch';
 
 let SelectingFormValuesForm = (props) => {
 	const {
@@ -13,75 +15,86 @@ let SelectingFormValuesForm = (props) => {
 		submitting,
 	} = props;
 
-	const students = 4;
-	let nbGroups = Math.floor(students / studentsPerGroup);
-	let groupesAdd = '';
-	const [groups, setGroups] = useState('');
+	// let nbGroups = Math.floor(students.students / studentsPerGroup);
+	// let groupesAdd = '';
+	// const [groups, setGroups] = useState('');
 
-	let minStudents = Math.floor(students / studentsPerGroup);
-	let maxStudents = minStudents;
-	let modulo = students % studentsPerGroup;
-	let arrGroupes = [];
-	for (let i = 0; i < nbGroups; i++) arrGroupes.push(minStudents);
+	// let minStudents = Math.floor(students.students / studentsPerGroup);
+	// let maxStudents = minStudents;
+	// let modulo = students.students % studentsPerGroup;
+	// let arrGroupes = [];
+	// for (let i = 0; i < nbGroups; i++) arrGroupes.push(minStudents);
 
-	const reliquatAdd = () => {
-		arrGroupes.push(modulo);
-		groupesAdd = arrGroupes.toString();
-		setGroups(arrGroupes.toString());
-		return groupesAdd;
-	};
+	// const reliquatAdd = () => {
+	// 	arrGroupes.push(modulo);
+	// 	groupesAdd = arrGroupes.toString();
+	// 	setGroups(arrGroupes.toString());
+	// 	return groupesAdd;
+	// };
 
-	const reliquatDispatch = () => {
-		if (modulo !== 0) maxStudents++;
-		while (modulo !== 0) {
-			arrGroupes[modulo - 1] = maxStudents;
-			modulo--;
-		}
-		groupesAdd = arrGroupes.toString();
-		setGroups(arrGroupes.toString());
-		return groupesAdd;
-	};
+	// const reliquatDispatch = () => {
+	// 	if (modulo !== 0) maxStudents++;
+	// 	while (modulo !== 0) {
+	// 		arrGroupes[modulo - 1] = maxStudents;
+	// 		modulo--;
+	// 	}
+	// 	groupesAdd = arrGroupes.toString();
+	// 	setGroups(arrGroupes.toString());
+	// 	return groupesAdd;
+	// };
 
-	if (students === 4 && groups === '') {
-		console.log(groups);
-		return setGroups('2,2');
-	}
-	if (students === 5 && groups === '') return setGroups('3,2');
-	if (students >= 6 && modulo < 2 && groups === '') return reliquatDispatch();
+	// if (students.students === 4 && groups === '') {
+	// 	return setGroups('2,2');
+	// }
+	// if (students.students === 5 && groups === '') return setGroups('3,2');
 
 	return (
 		<>
 			<form
-				onSubmit={handleSubmit(() => {
+				onSubmit={handleSubmit((data) => {
 					let efg = {
 						createur: {
 							idCanal: 1,
 							idPersonne: 3,
 						},
-						intitule: intitule,
-						groupes: groups,
+						intitule: data.intitule,
+						groupes: 0,
 						idCanal: 1,
 						idCreateur: 3,
 					};
+					props.setData(efg);
 					console.log(efg);
+					// EFGServices.postEFG(() => {}, efg);
 				})}>
-				<Field name='test' component='textarea' placeholder={groups} />
-				<br />
-				<br />
 				<label>Intitulé de l'exercice</label>
+				<br />
 				<Field
 					name='intitule'
 					component='input'
 					type='text'
-					placeholder="intutlé de l'exercice"
+					placeholder="Intitulé de l'exercice"
+					onChange={(data) => props.setIntituleEFG(data.target.value)}
 				/>
 				<br />
-
-				{students === 4 && <>Vos élèves seront répartis de cette façon : 2,2</>}
-				{students === 5 && <>Vos élèves seront répartis de cette façon : 3,2</>}
-
+				<button type='submit' disabled={pristine || submitting}>
+					Générer l'aperçu
+				</button>
+				<button type='button' disabled={pristine || submitting} onClick={reset}>
+					Reset values
+				</button>
+			</form>
+			{/* 
+				<Field name='test' component='textarea' placeholder={groups} />
 				<br />
-				{students >= 6 && (
+				
+				{students.students === 4 && (
+					<>Vos élèves seront répartis de cette façon : 2,2</>
+				)}
+				{students.students === 5 && (
+					<>Vos élèves seront répartis de cette façon : 3,2</>
+				)}
+				<br />
+				{students.students >= 6 && (
 					<>
 						<label>Nombre d'élèves par groupe</label>
 						<Field name='studentsPerGroup' component='select'>
@@ -93,45 +106,50 @@ let SelectingFormValuesForm = (props) => {
 						</Field>
 					</>
 				)}
+
 				<br />
-				{studentsPerGroup && students >= 6 && modulo >= 2 && (
+				{studentsPerGroup && students.students >= 6 && (
 					<>
-						<div>
-							Vous avez choisi de faire des groupes de {studentsPerGroup}.
-						</div>
-						<p>Préférez vous les dispatcher ou ajouter un nouveau groupe ?</p>
-						<label>
-							<Field
-								name='choice'
-								component='input'
-								type='radio'
-								value='dispatch'
-								onChange={() => reliquatDispatch()}
-							/>
-							Dispatch
-						</label>
-						<label>
-							<Field
-								name='choice'
-								component='input'
-								type='radio'
-								value='add'
-								onChange={() => reliquatAdd()}
-							/>
-							Ajout
-						</label>
-						{choice && <div>Vous avez choisi de {choice}</div>}
+						{modulo === 0 && 'Voici la répartition de vos groupes : ' + groups}
+						{modulo < 2 && modulo != 0 && (
+							<p>
+								Avec cette configuration, l'un de vos élèves n'a pas de groupe.
+								Nous l'avons automatiquement ajouté à l'un des groupes.{' '}
+							</p>
+						)}
+						{modulo >= 2 && (
+							<>
+								<div>
+									Vous avez choisi de faire des groupes de {studentsPerGroup}.
+								</div>
+								<p>
+									Préférez vous les dispatcher ou ajouter un nouveau groupe ?
+								</p>
+								<label>
+									<Field
+										name='choice'
+										component='input'
+										type='radio'
+										value='dispatch'
+										onChange={() => reliquatDispatch()}
+									/>
+									Dispatch
+								</label>
+								<label>
+									<Field
+										name='choice'
+										component='input'
+										type='radio'
+										value='add'
+										onChange={() => reliquatAdd()}
+									/>
+									Ajout
+								</label>
+								{choice && <div>Vous avez choisi de {choice}</div>}
+							</>
+						)}
 					</>
-				)}
-				<br />
-				<br />
-				<button type='submit' disabled={pristine || submitting}>
-					Créer l'exercice
-				</button>
-				<button type='button' disabled={pristine || submitting} onClick={reset}>
-					Reset values
-				</button>
-			</form>
+				)} */}
 		</>
 	);
 };

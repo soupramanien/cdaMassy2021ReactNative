@@ -1,12 +1,23 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
 import SelectingFormValuesForm from '../components/EFG/EFGForm';
+import EFGAddScreen from './EFG/EFGAddScreen';
 function HomeScreen(props) {
 	const navigation = props.navigation;
 
 	return (
 		<View style={styles.container}>
 			{/* <Text>Home Screen</Text> */}
-			<SelectingFormValuesForm />
+			{/* <SelectingFormValuesForm /> */}
+			{/* <EFGAddScreen /> */}
+			<Button
+				title='go to createEFG'
+				onPress={() =>
+					navigation.navigate('EFGAddScreen', {
+						students: 25,
+						idCreateur: 1,
+					})
+				}
+			/>
 			{/* <Button
 				title='Go to Sondages'
 				onPress={() =>

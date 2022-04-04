@@ -53,7 +53,7 @@ export default function App() {
 					<Stack.Screen
 						name='EFGAddScreen'
 						options={{ title: 'Créer un EFG' }}
-						component={EFGForm}></Stack.Screen>
+						component={EFGAddScreen}></Stack.Screen>
 					<Stack.Screen
 						name='CreerSondageScreen'
 						options={{ title: 'Creer Sondage' }}
