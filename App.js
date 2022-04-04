@@ -12,7 +12,11 @@ import { store } from './src/redux/store';
 import EFGScreens from './src/screens/EFG/EFGScreens';
 import EFGListScreen from './src/screens/EFG/EFGListScreen';
 import EFGAddScreen from './src/screens/EFG/EFGAddScreen';
+<<<<<<< HEAD
 import EFGDetailScreen from './src/screens/EFG/EFGDetailScreen';
+=======
+import EFGForm from './src/components/EFG/EFGForm';
+>>>>>>> 243aa8b (add reliquat dispatch&add)
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -55,6 +59,7 @@ export default function App() {
 					<Stack.Screen
 						name='EFGAddScreen'
 						options={{ title: 'Créer un EFG' }}
+<<<<<<< HEAD
 						component={EFGAddScreen}
 					/>
 
@@ -64,6 +69,9 @@ export default function App() {
 						component={EFGDetailScreen}
 					/>
 
+=======
+						component={EFGForm}></Stack.Screen>
+>>>>>>> 243aa8b (add reliquat dispatch&add)
 					<Stack.Screen
 						name='CreerSondageScreen'
 						options={{ title: 'Creer Sondage' }}
