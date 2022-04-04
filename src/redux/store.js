@@ -83,6 +83,8 @@ const initialState = {
       idCreateur: 2,
     },
   ],
+  nombreMembres:6,
+
   formateur: {
     idPersonne: 0,
     prenom: "",
@@ -110,7 +112,8 @@ const actionTypes = {
   LOAD_USER: "LOAD_USER",
   SET_LOGGED_IN: "SET_LOGGED_IN",
   LOAD_EFGS: "LOAD_EFGS",
-  LOAD_EFG:"LOAD_EFG"
+  LOAD_EFG:"LOAD_EFG",
+  LOAD_NOMBRE_MEMBRES:"LOAD_NOMBRE_MEMBRES"
 };
 
 export const actionsCreators = {
@@ -171,6 +174,23 @@ export const actionsCreators = {
       console.log(error);
     }
   },
+  loadNombreMembres:(nMembre)=>({
+		type: actionTypes.LOAD_NOMBRE_MEMBRES,
+		value: nMembre
+  }),
+
+  loadNombreMembresAsync:(idCanal) => async (dispatch) => {
+    try {
+      const res = await fetch(URL_CONTEXT + `/cdamassy2021/api/${idCanal}/EFGs/nombreMembres`
+	  ,{headers:getHeaders()});
+      const nMembresCanal = await res.json();
+      dispatch(actionsCreators.loadNombreMembres(nMembresCanal));
+    } catch (error) {
+      alert("Network Error");
+      console.log(error);
+    }
+  },
+
   loadefgs:(efgs)=>({
 	  type : actionTypes.LOAD_EFGS,
 	  value: efgs,
@@ -417,10 +437,10 @@ const reducers = function (state = initialState, action) {
           questions: [...state.question.questions, action.value],
         },
       };
+	  case actionTypes.LOAD_NOMBRE_MEMBRES:
+		  return{...state,nombreMembres : action.value}
 	  case actionTypes.LOAD_EFGS:
-		  return{
-			  ...state, efgs:[action.value]
-		  };
+		  return{ ...state, efgs: action.value};
     default:
       return state;
   }
