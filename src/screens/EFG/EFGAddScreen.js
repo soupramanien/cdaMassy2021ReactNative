@@ -9,22 +9,19 @@ let EFGAddScreen = (props) => {
 	let { students, idCreateur } = route.params;
 	// const groupesAdd = '';
 	// const [groupe, setGroups] = useState('');
-
+	console.log(idCreateur);
 	const [data, setData] = useState('');
-
-	const [intituleEFG, setIntituleEFG] = useState('Nouvel exercice');
 
 	return (
 		<View style={styles.container}>
-			{console.log()}
-
 			<p> Nombre d'étudiants dans le canal : {students}</p>
+			<p>Numéro du créateur : {idCreateur}</p>
 
 			<SelectingFormValuesForm
 				students={students}
+				idCreateur={idCreateur}
 				data={data}
 				setData={setData}
-				setIntituleEFG={setIntituleEFG}
 			/>
 
 			{data != '' && (

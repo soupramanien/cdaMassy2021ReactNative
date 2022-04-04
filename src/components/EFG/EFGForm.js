@@ -61,17 +61,20 @@ let SelectingFormValuesForm = (props) => {
 					let efg = {
 						createur: {
 							idCanal: 1,
-							idPersonne: 3,
+							idPersonne: props.idCreateur,
 						},
 						intitule: data.intitule,
 
 						groupes: parseInt(0),
 						idCanal: 1,
-						idCreateur: 3,
+						idCreateur: props.idCreateur,
 					};
-
+					console.log(efg);
+					console.log(props.idCreateur);
 					if (props.students === 4) efg.groupes = '2,2';
 					if (props.students === 5) efg.groupes = '3,2';
+
+					props.setData(efg);
 				})}>
 				<label>Intitulé de l'exercice</label>
 				<br />
@@ -80,7 +83,6 @@ let SelectingFormValuesForm = (props) => {
 					component='input'
 					type='text'
 					placeholder="Intitulé de l'exercice"
-					onChange={(data) => props.setIntituleEFG(data.target.value)}
 				/>
 				<br />
 
