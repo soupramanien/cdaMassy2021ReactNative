@@ -88,14 +88,7 @@ const initialState = {
   formateur: {
     idPersonne: 0,
     prenom: "",
-    nom: "",
-    email: "",
-    tel: "",
-    pwd: "",
-    est_formateur: 0,
-    est_gestionnaire: 0,
-    est_administrateur: 0,
-    allCanauxMembre: null,
+    nom: ""
   },
 };
 
@@ -113,7 +106,8 @@ const actionTypes = {
   SET_LOGGED_IN: "SET_LOGGED_IN",
   LOAD_EFGS: "LOAD_EFGS",
   LOAD_EFG:"LOAD_EFG",
-  LOAD_NOMBRE_MEMBRES:"LOAD_NOMBRE_MEMBRES"
+  LOAD_NOMBRE_MEMBRES:"LOAD_NOMBRE_MEMBRES",
+  LOAD_FORMATEUR:"LOAD_FORMATEUR"
 };
 
 export const actionsCreators = {
@@ -191,6 +185,38 @@ export const actionsCreators = {
     }
   },
 
+  loadFormateur:(formateur)=>({
+	type : actionTypes.LOAD_FORMATEUR,
+	value: formateur
+  }),
+
+  loadFormateurAsync:(idEFG)=>async (dispatch) => {
+    try {
+      const res = await fetch(URL_CONTEXT + `/cdamassy2021/api/1/EFGs/${idEFG}/createur`
+	  ,{headers:getHeaders()});
+      const formateur = await res.json();
+      dispatch(actionsCreators.loadFormateur(formateur));
+    } catch (error) {
+      alert("Network Error");
+      console.log(error);
+    }
+  },
+  loadEfg:(efg)=>({
+	type : actionTypes.LOAD_EFG,
+	value : efg
+  }),
+
+  loadEfgAsync:(idEfg)=>async (dispatch) => {
+    try {
+      const res = await fetch(URL_CONTEXT + `/cdamassy2021/api/1/EFGs/${idEfg}`
+	  ,{headers:getHeaders()});
+      const efg = await res.json();
+      dispatch(actionsCreators.loadEfg(efg));
+    } catch (error) {
+      alert("Network Error");
+      console.log(error);
+    }
+  },
   loadefgs:(efgs)=>({
 	  type : actionTypes.LOAD_EFGS,
 	  value: efgs,
@@ -438,9 +464,13 @@ const reducers = function (state = initialState, action) {
         },
       };
 	  case actionTypes.LOAD_NOMBRE_MEMBRES:
-		  return{...state,nombreMembres : action.value}
+		  return{...state,nombreMembres : action.value};
+	  case actionTypes.LOAD_FORMATEUR:
+		  return{...state,formateur : action.value};
 	  case actionTypes.LOAD_EFGS:
 		  return{ ...state, efgs: action.value};
+	  case actionTypes.LOAD_EFG:
+		  return{...state,efg : action.value};
     default:
       return state;
   }
