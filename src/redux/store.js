@@ -47,7 +47,18 @@ const initialState = {
     questions: [],
   },
 
-  efg: "test",
+  efg: {
+	idEfg: 1,
+	createur: {
+	  idCanal: 1,
+	  idPersonne: 1,
+	},
+	intitule: "TP définir objectif",
+	groupes: "2,3",
+	idCanal: 1,
+	idCreateur: 1
+	},
+
   efgs: [
     {
       idEfg: 1,
@@ -98,6 +109,8 @@ const actionTypes = {
   LOAD_QUESTION: "LOAD_QUESTION",
   LOAD_USER: "LOAD_USER",
   SET_LOGGED_IN: "SET_LOGGED_IN",
+  LOAD_EFGS: "LOAD_EFGS",
+  LOAD_EFG:"LOAD_EFG"
 };
 
 export const actionsCreators = {
@@ -153,6 +166,22 @@ export const actionsCreators = {
 	  ,{headers:getHeaders()});
       const newMembresCanal = await res.json();
       dispatch(actionsCreators.loadMembresDuCanal(newMembresCanal));
+    } catch (error) {
+      alert("Network Error");
+      console.log(error);
+    }
+  },
+  loadefgs:(efgs)=>({
+	  type : actionTypes.LOAD_EFGS,
+	  value: efgs,
+  }),
+
+  loadEfgsAsync: (idCanal) => async (dispatch) => {
+    try {
+      const efgs = await fetch(URL_CONTEXT + `/cdamassy2021/api/${idCanal}/EFGs`
+	  ,{headers:getHeaders()});
+      const newefgs = await efgs.json();
+      dispatch(actionsCreators.loadefgs(newefgs));
     } catch (error) {
       alert("Network Error");
       console.log(error);
@@ -388,6 +417,10 @@ const reducers = function (state = initialState, action) {
           questions: [...state.question.questions, action.value],
         },
       };
+	  case actionTypes.LOAD_EFGS:
+		  return{
+			  ...state, efgs:[action.value]
+		  };
     default:
       return state;
   }

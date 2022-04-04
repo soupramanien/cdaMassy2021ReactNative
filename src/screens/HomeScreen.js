@@ -39,7 +39,8 @@ function HomeScreen(props) {
 				<Text style={styles.libelle}>Sondages</Text>
 			</TouchableOpacity>
 
-			<TouchableOpacity onPress={() => navigation.navigate('EFGScreens')} style={styles.button}>
+			<TouchableOpacity onPress={() => navigation.navigate('EFGScreens',{idUser : utilisateurCourant.id})} 
+					style={styles.button}>
 				<Text style={styles.libelle}>Les EFGs</Text>
 			</TouchableOpacity>
 
