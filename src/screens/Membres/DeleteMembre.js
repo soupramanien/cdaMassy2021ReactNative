@@ -17,7 +17,7 @@ function DeleteMembre(props) {
     idCanal: props.idCanal,
     idMembre: props.idpersonne,
   };
-  const onDeleteMembrePress = () => {
+  const onDeletePress = () => {
     confirmAlert({
       title: "Confirm to submit",
       message: "Are you sure to do this.",
@@ -40,7 +40,7 @@ function DeleteMembre(props) {
 
   return (
     <View>
-      <Button onPress={onDeleteMembrePress} color="#841584" title="Supprimer" />
+      <Button onPress={onDeletePress} color="#841584" title="Supprimer" />
     </View>
   );
 }
