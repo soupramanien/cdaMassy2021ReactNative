@@ -64,6 +64,7 @@ let SelectingFormValuesForm = (props) => {
 							idPersonne: 3,
 						},
 						intitule: data.intitule,
+<<<<<<< HEAD
 						groupes: parseInt(0),
 						idCanal: 1,
 						idCreateur: 3,
@@ -72,6 +73,12 @@ let SelectingFormValuesForm = (props) => {
 					if (props.students === 4) efg.groupes = '2,2';
 					if (props.students === 5) efg.groupes = '3,2';
 
+=======
+						groupes: 0,
+						idCanal: 1,
+						idCreateur: 3,
+					};
+>>>>>>> 9d4eef4 (add preview for efg form)
 					props.setData(efg);
 					console.log(efg);
 					// EFGServices.postEFG(() => {}, efg);
@@ -86,7 +93,29 @@ let SelectingFormValuesForm = (props) => {
 					onChange={(data) => props.setIntituleEFG(data.target.value)}
 				/>
 				<br />
+<<<<<<< HEAD
 				{props.students >= 6 && (
+=======
+				<button type='submit' disabled={pristine || submitting}>
+					Générer l'aperçu
+				</button>
+				<button type='button' disabled={pristine || submitting} onClick={reset}>
+					Reset values
+				</button>
+			</form>
+			{/* 
+				<Field name='test' component='textarea' placeholder={groups} />
+				<br />
+				
+				{students.students === 4 && (
+					<>Vos élèves seront répartis de cette façon : 2,2</>
+				)}
+				{students.students === 5 && (
+					<>Vos élèves seront répartis de cette façon : 3,2</>
+				)}
+				<br />
+				{students.students >= 6 && (
+>>>>>>> 9d4eef4 (add preview for efg form)
 					<>
 						<label>Nombre d'élèves par groupe</label>
 						<Field name='studentsPerGroup' component='select'>
@@ -98,7 +127,9 @@ let SelectingFormValuesForm = (props) => {
 						</Field>
 					</>
 				)}
+
 				<br />
+<<<<<<< HEAD
 				DISPATCH ET ADD
 				{props.students % studentsPerGroup === 1 && 'Dispatch automatique.'}
 				<br />
@@ -111,6 +142,17 @@ let SelectingFormValuesForm = (props) => {
 			</form>
 			{/* 
 
+=======
+				{studentsPerGroup && students.students >= 6 && (
+					<>
+						{modulo === 0 && 'Voici la répartition de vos groupes : ' + groups}
+						{modulo < 2 && modulo != 0 && (
+							<p>
+								Avec cette configuration, l'un de vos élèves n'a pas de groupe.
+								Nous l'avons automatiquement ajouté à l'un des groupes.{' '}
+							</p>
+						)}
+>>>>>>> 9d4eef4 (add preview for efg form)
 						{modulo >= 2 && (
 							<>
 								<div>

@@ -58,6 +58,7 @@ export default function App() {
 					<Stack.Screen
 						name='EFGAddScreen'
 						options={{ title: 'Créer un EFG' }}
+<<<<<<< HEAD
 						component={EFGAddScreen}
 					/>
 
@@ -67,6 +68,9 @@ export default function App() {
 						component={EFGDetailScreen}
 					/>
 
+=======
+						component={EFGAddScreen}></Stack.Screen>
+>>>>>>> 9d4eef4 (add preview for efg form)
 					<Stack.Screen
 						name='CreerSondageScreen'
 						options={{ title: 'Creer Sondage' }}

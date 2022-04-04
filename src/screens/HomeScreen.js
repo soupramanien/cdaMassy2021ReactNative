@@ -1,9 +1,13 @@
 import { Button, StyleSheet, Text, View } from 'react-native';
 import SelectingFormValuesForm from '../components/EFG/EFGForm';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import EFGAddScreen from './EFG/EFGAddScreen';
 =======
 >>>>>>> 243aa8b (add reliquat dispatch&add)
+=======
+import EFGAddScreen from './EFG/EFGAddScreen';
+>>>>>>> 9d4eef4 (add preview for efg form)
 function HomeScreen(props) {
 	const navigation = props.navigation;
 
@@ -38,7 +42,17 @@ function HomeScreen(props) {
 >>>>>>> 243aa8b (add reliquat dispatch&add)
 =======
 			{/* <Text>Home Screen</Text> */}
-			<SelectingFormValuesForm />
+			{/* <SelectingFormValuesForm /> */}
+			{/* <EFGAddScreen /> */}
+			<Button
+				title='go to createEFG'
+				onPress={() =>
+					navigation.navigate('EFGAddScreen', {
+						students: 25,
+						idCreateur: 1,
+					})
+				}
+			/>
 			{/* <Button
 >>>>>>> 243aa8b (add reliquat dispatch&add)
 				title='Go to Sondages'

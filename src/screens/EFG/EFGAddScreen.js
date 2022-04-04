@@ -19,8 +19,6 @@ let EFGAddScreen = (props) => {
 
 	return (
 		<View style={styles.container}>
-			{console.log()}
-
 			<p> Nombre d'étudiants dans le canal : {students}</p>
 
 			<SelectingFormValuesForm
