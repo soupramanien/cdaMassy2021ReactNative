@@ -18,7 +18,6 @@ let EFGAddScreen = (props) => {
 	const [intituleEFG, setIntituleEFG] = useState('Nouvel exercice');
 
 	return (
-
 		<View style={styles.container}>
 			{console.log()}
 

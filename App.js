@@ -12,11 +12,10 @@ import { store } from './src/redux/store';
 import EFGScreens from './src/screens/EFG/EFGScreens';
 import EFGListScreen from './src/screens/EFG/EFGListScreen';
 import EFGAddScreen from './src/screens/EFG/EFGAddScreen';
-<<<<<<< HEAD
+
 import EFGDetailScreen from './src/screens/EFG/EFGDetailScreen';
-=======
+
 import EFGForm from './src/components/EFG/EFGForm';
->>>>>>> 243aa8b (add reliquat dispatch&add)
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -59,8 +58,6 @@ export default function App() {
 					<Stack.Screen
 						name='EFGAddScreen'
 						options={{ title: 'Créer un EFG' }}
-<<<<<<< HEAD
-<<<<<<< HEAD
 						component={EFGAddScreen}
 					/>
 
@@ -70,12 +67,6 @@ export default function App() {
 						component={EFGDetailScreen}
 					/>
 
-=======
-						component={EFGForm}></Stack.Screen>
->>>>>>> 243aa8b (add reliquat dispatch&add)
-=======
-						component={EFGAddScreen}></Stack.Screen>
->>>>>>> 9d4eef4 (add preview for efg form)
 					<Stack.Screen
 						name='CreerSondageScreen'
 						options={{ title: 'Creer Sondage' }}
@@ -84,18 +75,16 @@ export default function App() {
 					</Stack.Screen>
 
 					<Stack.Screen
-						name='CanauxScreen' component={CanauxScreen}
-						options={{ title: "Canaux", }}
-						initialParams={{}}
-					>
-					</Stack.Screen>
+						name='CanauxScreen'
+						component={CanauxScreen}
+						options={{ title: 'Canaux' }}
+						initialParams={{}}></Stack.Screen>
 
 					<Stack.Screen
-						name='MembresScreen' component={MembresScreen}
-						options={{ title: "Membres", }}
-						initialParams={{}}
-					>
-					</Stack.Screen>
+						name='MembresScreen'
+						component={MembresScreen}
+						options={{ title: 'Membres' }}
+						initialParams={{}}></Stack.Screen>
 				</Stack.Navigator>
 			</NavigationContainer>
 		</Provider>
