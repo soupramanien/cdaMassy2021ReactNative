@@ -14,6 +14,7 @@ let SelectingFormValuesForm = (props) => {
 		reset,
 		submitting,
 	} = props;
+	let modulo = props.students % studentsPerGroup;
 
 	// let nbGroups = Math.floor(students.students / studentsPerGroup);
 	// let groupesAdd = '';
@@ -47,23 +48,30 @@ let SelectingFormValuesForm = (props) => {
 	// 	return setGroups('2,2');
 	// }
 	// if (students.students === 5 && groups === '') return setGroups('3,2');
+	let nbSquad = Math.floor(props.students / studentsPerGroup);
+	const [squad, setSquad] = useState('');
 
+	let message = '';
 	const dispatchStudents = () => {
-		console.log('dispatcher');
+		setSquad('salut');
+		console.log('dans la function disptach');
 	};
 	const addSquad = () => {
-		console.log('ajouter');
+		setSquad('hello');
+		console.log('dans la function add');
 	};
+	let okChoice;
+	console.log(modulo);
 	return (
 		<>
 			<form
-				onSubmit={handleSubmit((data) => {
+				onSubmit={handleSubmit(() => {
 					let efg = {
 						createur: {
 							idCanal: 1,
 							idPersonne: props.idCreateur,
 						},
-						intitule: data.intitule,
+						intitule: intitule,
 
 						groupes: parseInt(0),
 						idCanal: 1,
@@ -85,124 +93,64 @@ let SelectingFormValuesForm = (props) => {
 					placeholder="Intitulé de l'exercice"
 				/>
 				<br />
+				<label>Nombre d'élèves par groupe</label>
 
-				{props.students >= 6 && (
+				<Field
+					name='studentsPerGroup'
+					component='select'
+					onClick={() => {
+						if (modulo >= 2) return (okChoice = true);
+						else if (modulo === 1) {
+							dispatchStudents();
+						} else if (modulo === 0) {
+							addSquad();
+						} else {
+							console.log('oups');
+						}
+					}}>
+					<option value='Select...' />
+					<option value='2'>2</option>
+					<option value='3'>3</option>
+					{props.students >= 8 && <option value='4'>4</option>}
+					{props.students >= 10 && <option value='5'>5</option>}
+				</Field>
+				<br />
+
+				{okChoice === true && (
 					<>
-						<button type='submit' disabled={pristine || submitting}>
-							Générer l'aperçu
-						</button>
-						<button
-							type='button'
-							disabled={pristine || submitting}
-							onClick={reset}>
-							Reset values
-						</button>
+						<label>Choix du reliquat</label>
+						<label>
+							<Field
+								name='choice'
+								value='dispatch'
+								component='input'
+								type='radio'
+								onClick={() => dispatchStudents()}
+							/>
+							dispatch
+						</label>
+						<label>
+							<Field
+								name='choice'
+								value='add'
+								component='input'
+								type='radio'
+								onClick={() => addSquad()}
+							/>
+							add
+						</label>
 					</>
 				)}
+
+				<br />
+
+				<button type='submit' disabled={pristine || submitting}>
+					Générer l'aperçu
+				</button>
 			</form>
 		</>
 	);
 };
-
-// 			/*
-// 				<Field name='test' component='textarea' placeholder={groups} />
-// 				<br />
-
-// 				{students.students === 4 && (
-// 					<>Vos élèves seront répartis de cette façon : 2,2</>
-// 				)
-// 				{students.students === 5 && (
-// 					<>Vos élèves seront répartis de cette façon : 3,2</>
-// 				)
-// 				<br />
-// 				{students.students >= 6 && (
-
-// 				{props.students >= 6 && (
-// >>>>>>> 1dc1236 (createnewbranch)
-// =======
-// 				{props.students >= 6 && (
-// >>>>>>> 1dc12366933c05715d7ae96d146a3a62da8ecb90
-// 					<>
-// 						<label>Nombre d'élèves par groupe</label>
-// 						<Field name='studentsPerGroup' component='select'>
-// 							<option />
-// 							<option value='2'>2</option>
-// 							<option value='3'>3</option>
-// 							{props.students >= 8 && <option value='4'>4</option>}
-// 							{props.students >= 10 && <option value='5'>5</option>}
-// 						</Field>
-// 					</>
-// 				)}
-// 				<br />
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-// =======
-// >>>>>>> 1dc1236 (createnewbranch)
-// =======
-// >>>>>>> 1dc12366933c05715d7ae96d146a3a62da8ecb90
-// 				DISPATCH ET ADD
-// 				{props.students % studentsPerGroup === 1 && 'Dispatch automatique.'}
-// 				<br />
-// 				<button type='submit' disabled={pristine || submitting}>
-// 					Générer l'aperçu
-// 				</button>
-// 				<button type='button' disabled={pristine || submitting} onClick={reset}>
-// 					Reset values
-// 				</button>
-// 			</form>
-// 			{/*
-
-// <<<<<<< HEAD
-// <<<<<<< HEAD
-// =======
-// 				{studentsPerGroup && students.students >= 6 && (
-// 					<>
-// 						{modulo === 0 && 'Voici la répartition de vos groupes : ' + groups}
-// 						{modulo < 2 && modulo != 0 && (
-// 							<p>
-// 								Avec cette configuration, l'un de vos élèves n'a pas de groupe.
-// 								Nous l'avons automatiquement ajouté à l'un des groupes.{' '}
-// 							</p>
-// 						)}
-// >>>>>>> 9d4eef4 (add preview for efg form)
-// =======
-// >>>>>>> 1dc1236 (createnewbranch)
-// =======
-// >>>>>>> 1dc12366933c05715d7ae96d146a3a62da8ecb90
-// 						{modulo >= 2 && (
-// 							<>
-// 								<div>
-// 									Vous avez choisi de faire des groupes de {studentsPerGroup}.
-// 								</div>
-// 								<p>
-// 									Préférez vous les dispatcher ou ajouter un nouveau groupe ?
-// 								</p>
-// 								<label>
-// 									<Field
-// 										name='choice'
-// 										component='input'
-// 										type='radio'
-// 										value='dispatch'
-// 										onChange={() => reliquatDispatch()}
-// 									/>
-// 									Dispatch
-// 								</label>
-// 								<label>
-// 									<Field
-// 										name='choice'
-// 										component='input'
-// 										type='radio'
-// 										value='add'
-// 										onChange={() => reliquatAdd()}
-// 									/>
-// 									Ajout
-// 								</label>
-// 								{choice && <div>Vous avez choisi de {choice}</div>}
-// 							</>
-// 						)}
-// 					</>
-// 				)} */
 
 SelectingFormValuesForm = reduxForm({
 	form: 'selectingFormValues',
