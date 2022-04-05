@@ -7,7 +7,8 @@ import thunk from 'redux-thunk';
 // et utiliser les requetes tunnelées depuuis votre mobile vers le localhost de votre machine:
 // https://ngrok.com/download
 
-//const URL_CONTEXT = 'http://9f8b-92-184-106-170.ngrok.io'; // <- l'adresse de votre tunnel
+// const URL_CONTEXT =
+// 'http://3288-2a01-cb04-75a-8200-7543-d85a-aaf4-3edc.ngrok.io'; // <- l'adresse de votre tunnel
 const URL_CONTEXT = 'http://localhost:8080';
 
 function getToken() {
@@ -104,7 +105,7 @@ const actionTypes = {
 	LOAD_QUESTION: 'LOAD_QUESTION',
 	LOAD_USER: 'LOAD_USER',
 	SET_LOGGED_IN: 'SET_LOGGED_IN',
-	ADD_EFG:'ADD_EFG',
+	ADD_EFG: 'ADD_EFG',
 	LOAD_EFGS: 'LOAD_EFGS',
 	LOAD_EFG: 'LOAD_EFG',
 	LOAD_NOMBRE_MEMBRES: 'LOAD_NOMBRE_MEMBRES',
@@ -208,11 +209,11 @@ export const actionsCreators = {
 			console.log(error);
 		}
 	},
-	addEfg:(efg)=>({
-		type:actionTypes.ADD_EFG,
-		value:efg
+	addEfg: (efg) => ({
+		type: actionTypes.ADD_EFG,
+		value: efg,
 	}),
-	addEfgAsync:(efg,idCanal) => (dispatch) => {
+	addEfgAsync: (efg, idCanal) => (dispatch) => {
 		console.log('start');
 		//promise methode
 		fetch(URL_CONTEXT + `/cdamassy2021/api/${idCanal}/EFGs/new`, {
@@ -228,7 +229,7 @@ export const actionsCreators = {
 			.then((efg) => efg.json())
 			//Then with the data from the response in JSON...
 			.then((efg) => {
-				dispatch(actionsCreators.addEfg(efg));;
+				dispatch(actionsCreators.addEfg(efg));
 			})
 			//Then with the error genereted...
 			.catch((error) => {
@@ -512,7 +513,7 @@ const reducers = function (state = initialState, action) {
 		case actionTypes.LOAD_EFG:
 			return { ...state, efg: action.value };
 		case actionTypes.ADD_EFG:
-			return{...state, efgs:[...state.efgs,action.value]};
+			return { ...state, efgs: [...state.efgs, action.value] };
 		default:
 			return state;
 	}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Button, Field, reduxForm, formValueSelector } from 'redux-form';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { Text, Button } from 'react-native';
 
 let SelectingFormValuesForm = (props) => {
 	const { studentsPerGroup, intitule, handleSubmit } = props;
@@ -47,19 +48,21 @@ let SelectingFormValuesForm = (props) => {
 
 					props.setData(efg);
 				})}>
-				<label>Intitulé de l'exercice</label>
-				<br />
+				<Text>Intitulé de l'exercice</Text>
+
 				<Field
 					name='intitule'
 					component='input'
 					type='text'
 					placeholder="Intitulé de l'exercice"
 				/>
-				<br />
-				<label>Nombre d'élèves par groupe</label>
+				<Text>Nombre d'élèves par groupe</Text>
 				<Field
 					name='studentsPerGroup'
-					component='select'
+					component='input'
+					type='number'
+					maxLength='5'
+					minLength='2'
 					onClick={() => {
 						if (modulo === 1) {
 							dispatchStudents();
@@ -67,19 +70,12 @@ let SelectingFormValuesForm = (props) => {
 						if (modulo === 0) {
 							dispatchStudents();
 						}
-					}}>
-					<option value='Select...' />
-					<option value='2'>2</option>
-					<option value='3'>3</option>
-					{props.students >= 8 && <option value='4'>4</option>}
-					{props.students >= 10 && <option value='5'>5</option>}
-				</Field>
-				<br />
+					}}></Field>
 
 				{modulo >= 2 && (
 					<>
-						<label>Choix du reliquat</label>
-						<label>
+						<Text>Choix du reliquat</Text>
+						<Text>
 							<Field
 								name='choice'
 								value='dispatch'
@@ -88,8 +84,8 @@ let SelectingFormValuesForm = (props) => {
 								onClick={() => dispatchStudents()}
 							/>
 							dispatch
-						</label>
-						<label>
+						</Text>
+						<Text>
 							<Field
 								name='choice'
 								value='add'
@@ -98,11 +94,12 @@ let SelectingFormValuesForm = (props) => {
 								onClick={() => addSquad()}
 							/>
 							add
-						</label>
+						</Text>
 					</>
 				)}
-				<br />
-				<button type='submit'>Générer l'aperçu</button>
+				<button type='submit' title="Générer l'aperçu">
+					Générer l'aperçu
+				</button>
 			</form>
 		</>
 	);

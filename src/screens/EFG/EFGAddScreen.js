@@ -8,7 +8,8 @@ import { actionsCreators } from '../../redux/store';
 let EFGAddScreen = (props) => {
 	const route = props.route;
 	const dispatch = useDispatch();
-	let { students, idCreateur,idCanal } = route.params;
+	let { students, idCreateur, idCanal } = route.params;
+
 	const [data, setData] = useState('');
 	return (
 		<View styles={styles.container}>
@@ -41,10 +42,10 @@ let EFGAddScreen = (props) => {
 						<Button
 							type='submit'
 							onPress={() => {
-								let res = {...data,idCanal:1};
+								let res = { ...data, idCanal: 1 };
 								console.log(res);
 								// EFGServices.postEFG(() => {}, data, idCanal);
-								dispatch(actionsCreators.addEfgAsync(res,1));
+								dispatch(actionsCreators.addEfgAsync(res, 1));
 								props.navigation.goBack();
 							}}
 							title="Confirmer l'envoi"

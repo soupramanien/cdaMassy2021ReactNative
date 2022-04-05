@@ -53,10 +53,8 @@ export default class EFGServices {
 			.catch((error) => error);
 	}
 
-    static getCanaux(props, idLogin) {
-		fetch(
-			`http://localhost:8080/cdamassy2021/api/canaux/${idLogin}`
-		)
+	static getCanaux(props, idLogin) {
+		fetch(`http://localhost:8080/cdamassy2021/api/canaux/${idLogin}`)
 			.then((response) => response.json())
 			.then((data) => {
 				props(data);
