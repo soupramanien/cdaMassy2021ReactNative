@@ -6,15 +6,6 @@ function HomeScreen(props) {
 	return (
 		<View style={styles.container}>
 			<Button
-				title='go to createEFG'
-				onPress={() =>
-					navigation.navigate('EFGAddScreen', {
-						students: 27,
-						idCreateur: 1,
-					})
-				}
-			/>
-			<Button
 				title='Go to Canaux'
 				onPress={() =>
 					navigation.navigate('CanauxScreen', {

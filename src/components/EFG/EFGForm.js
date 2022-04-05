@@ -1,67 +1,31 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { propTypes } from 'redux-form';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
-import EFGServices from '../../fetch/EFGfetch';
 
 let SelectingFormValuesForm = (props) => {
-	const {
-		studentsPerGroup,
-		choice,
-		intitule,
-		handleSubmit,
-		pristine,
-		reset,
-		submitting,
-	} = props;
+	const { studentsPerGroup, intitule, handleSubmit } = props;
+
 	let modulo = props.students % studentsPerGroup;
-
-	// let nbGroups = Math.floor(students.students / studentsPerGroup);
-	// let groupesAdd = '';
-	// const [groups, setGroups] = useState('');
-
-	// let minStudents = Math.floor(students.students / studentsPerGroup);
-	// let maxStudents = minStudents;
-	// let modulo = students.students % studentsPerGroup;
-	// let arrGroupes = [];
-	// for (let i = 0; i < nbGroups; i++) arrGroupes.push(minStudents);
-
-	// const reliquatAdd = () => {
-	// 	arrGroupes.push(modulo);
-	// 	groupesAdd = arrGroupes.toString();
-	// 	setGroups(arrGroupes.toString());
-	// 	return groupesAdd;
-	// };
-
-	// const reliquatDispatch = () => {
-	// 	if (modulo !== 0) maxStudents++;
-	// 	while (modulo !== 0) {
-	// 		arrGroupes[modulo - 1] = maxStudents;
-	// 		modulo--;
-	// 	}
-	// 	groupesAdd = arrGroupes.toString();
-	// 	setGroups(arrGroupes.toString());
-	// 	return groupesAdd;
-	// };
-
-	// if (students.students === 4 && groups === '') {
-	// 	return setGroups('2,2');
-	// }
-	// if (students.students === 5 && groups === '') return setGroups('3,2');
 	let nbSquad = Math.floor(props.students / studentsPerGroup);
 	const [squad, setSquad] = useState('');
+	let maxStudents = studentsPerGroup;
+	let arrSquad = [];
+	for (let i = 0; i < nbSquad; i++) arrSquad.push(studentsPerGroup);
 
-	let message = '';
-	const dispatchStudents = () => {
-		setSquad('salut');
-		console.log('dans la function disptach');
-	};
 	const addSquad = () => {
-		setSquad('hello');
-		console.log('dans la function add');
+		arrSquad.push(modulo);
+		setSquad(arrSquad.toString());
 	};
-	let okChoice;
-	console.log(modulo);
+
+	const dispatchStudents = () => {
+		if (modulo !== 0) maxStudents++;
+		while (modulo !== 0) {
+			arrSquad[modulo - 1] = maxStudents;
+			modulo--;
+		}
+		setSquad(arrSquad.toString());
+	};
+
 	return (
 		<>
 			<form
@@ -72,15 +36,14 @@ let SelectingFormValuesForm = (props) => {
 							idPersonne: props.idCreateur,
 						},
 						intitule: intitule,
-
 						groupes: parseInt(0),
 						idCanal: 1,
 						idCreateur: props.idCreateur,
 					};
-					console.log(efg);
-					console.log(props.idCreateur);
+
 					if (props.students === 4) efg.groupes = '2,2';
-					if (props.students === 5) efg.groupes = '3,2';
+					else if (props.students === 5) efg.groupes = '3,2';
+					else efg.groupes = squad;
 
 					props.setData(efg);
 				})}>
@@ -94,18 +57,15 @@ let SelectingFormValuesForm = (props) => {
 				/>
 				<br />
 				<label>Nombre d'élèves par groupe</label>
-
 				<Field
 					name='studentsPerGroup'
 					component='select'
 					onClick={() => {
-						if (modulo >= 2) return (okChoice = true);
-						else if (modulo === 1) {
+						if (modulo === 1) {
 							dispatchStudents();
-						} else if (modulo === 0) {
-							addSquad();
-						} else {
-							console.log('oups');
+						}
+						if (modulo === 0) {
+							dispatchStudents();
 						}
 					}}>
 					<option value='Select...' />
@@ -116,7 +76,7 @@ let SelectingFormValuesForm = (props) => {
 				</Field>
 				<br />
 
-				{okChoice === true && (
+				{modulo >= 2 && (
 					<>
 						<label>Choix du reliquat</label>
 						<label>
@@ -141,12 +101,8 @@ let SelectingFormValuesForm = (props) => {
 						</label>
 					</>
 				)}
-
 				<br />
-
-				<button type='submit' disabled={pristine || submitting}>
-					Générer l'aperçu
-				</button>
+				<button type='submit'>Générer l'aperçu</button>
 			</form>
 		</>
 	);

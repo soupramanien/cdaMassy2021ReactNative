@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import SelectingFormValuesForm from '../../components/EFG/EFGForm';
+import EFGServices from '../../fetch/EFGfetch';
 
 let EFGAddScreen = (props) => {
 	const route = props.route;
 	let { students, idCreateur } = route.params;
-	// const groupesAdd = '';
-	// const [groupe, setGroups] = useState('');
 	const [data, setData] = useState('');
 
 	return (
@@ -35,8 +34,13 @@ let EFGAddScreen = (props) => {
 							: data.groupes}
 						.
 					</p>
-					{isNaN(data.groupes) ? (
-						<button onClick={() => console.log('Envoyé!')}>
+					{isNaN(data.groupes) &&
+					data.intitule != '' &&
+					data.intitule != undefined ? (
+						<button
+							onClick={() => {
+								EFGServices.postEFG(() => {}, data);
+							}}>
 							Confirmer l'envoi
 						</button>
 					) : (
