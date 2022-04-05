@@ -1,25 +1,46 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import RadioForm from 'react-native-simple-radio-button';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { TextInput } from 'react-native';
+import { useSelector } from 'react-redux';
 
-export default function PropositionForm({propId}) {
+export default function PropositionForm({propId, callBack,deleteCallback}) {
+    
+
     const [libelle, setLibelle] = React.useState('');
-    const onChangeLibelle = (libelle) => {
-      setLibelle(libelle);
-      // alert(`The name you entered was:` +name);
+    const [chosenOption, setChosenOption] = useState('indéfinie'); //will store our current user options
+
+    const loading = useSelector((state) => state.reducer.loading);
+
+    const onChangeEtat=(value)=>{
+      setChosenOption(value);
     }
-  const [chosenOption, setChosenOption] = useState(''); //will store our current user options
+    const onChangeLibelle = (value) => {
+      setLibelle(value);
+    }
+
+    useEffect(() => {
+       callBack({propId,libelle,etat:chosenOption});
+    }, [libelle,chosenOption]);
+ 
   const options = [
     { label: 'indéfinie', value: 'indéfinie' },
     { label: 'correcte', value: 'correcte' },
     { label: 'incorrecte', value: 'incorrecte' },
   ]; //create our options for radio group
   return (
+    
     <View  contentContainerStyle={styles.PropositionForm}>
+      { !loading &&
       <View style={styles.libelleStyle}>
-      <Text style={styles.title}> Proposition {propId}</Text>
+        <View style={styles.titleContainer} >
+          <Text style={styles.title}> Proposition {propId}</Text>
+          <TouchableOpacity onPress={()=>deleteCallback({deleteId:propId})}>
+						<Text style={styles.buttonSupprimerText }> X </Text>
+			  	</TouchableOpacity> 
+        </View>
+
       <Text style={styles.libelleLabel} > Ecrivez une proposition de réponse {chosenOption}:</Text>
           <View style={styles.libelleInput}>
             <TextInput
@@ -44,14 +65,11 @@ export default function PropositionForm({propId}) {
               color: 'white',
             }}
             onPress={(value) => {
-              setChosenOption(value);
+              onChangeEtat(value);
             }} //if the user changes options, set the new value
           />
-      </View>
+      </View> }
       </View >
-
-
-
   );
 }
 
@@ -60,6 +78,7 @@ export default function PropositionForm({propId}) {
 const styles = StyleSheet.create({
 
   title:{
+
 		color: "#ffffff",
 		fontSize: 16,
 		fontWeight:'bold',
@@ -88,6 +107,19 @@ const styles = StyleSheet.create({
 	},
 QuestionForm: {
   alignItems:"center",
+},
+titleContainer: {
+  flexDirection:'row',
+},
+boutonSupprimerStyle: {
+  flex:1,
+  alignItems:"center",
+},
+buttonSupprimerText: {
+  color:'white',
+  fontSize:16,
+  fontWeight:'800',
+  marginBottom:12,
 },
 radio: {
  paddingLeft:16,

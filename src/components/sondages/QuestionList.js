@@ -4,7 +4,7 @@ import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { actionsCreators } from '../../redux/store';
 
-function QuestionsList({ canalId }) {
+function QuestionsList() {
 	const dispatch = useDispatch();
 	// Changé ici aussi : state.reducer.loading
 	const loading = useSelector((state) => state.reducer.loading);
@@ -13,9 +13,10 @@ function QuestionsList({ canalId }) {
 	// Idem ici. state.reducer.question.questions
 	const questions = useSelector((state) => state.reducer.question.questions);
 
-	const loadQuestions = (idCanalSelectionne) => {
+	const loadQuestions = () => {
 		// Calls the thunk action creator, and passes the thunk function to dispatch
-		dispatch(actionsCreators.loadQuestionsAsync(idCanalSelectionne));
+		console.log('canal:'+idCanalSelectionne);
+		if(!loading)dispatch(actionsCreators.loadQuestionsAsync(idCanalSelectionne));
 	};
 
 	useEffect(() => {
@@ -24,8 +25,6 @@ function QuestionsList({ canalId }) {
 
 	return (
 		<View style={styles.listContainer}>
-			{loading && <Text>loading...</Text>}
-
 			<FlatList
 				style={styles.questionList}
 				data={questions}

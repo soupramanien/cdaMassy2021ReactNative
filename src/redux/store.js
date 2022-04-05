@@ -1,3 +1,4 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import thunk from 'redux-thunk';
@@ -9,14 +10,25 @@ import thunk from 'redux-thunk';
 //const URL_CONTEXT = 'http://9f8b-92-184-106-170.ngrok.io'; // <- l'adresse de votre tunnel
 const URL_CONTEXT = 'http://localhost:8080';
 
+function getToken() {
+	return store.getState().reducer.utilisateur.courant.accessToken;
+}
+function getHeaders() {
+	let headers = new Headers();
+	headers.set('Authorization', 'Bearer ' + getToken());
+	return headers;
+}
+
 const initialState = {
+	isLoggedIn: false,
 	//Async operation state:
 	loading: false,
 	//Async operation result:
 	error: false,
+	errorMessage: '',
 
 	utilisateur: {
-		idUtilisateurCourant: 4,
+		courant: null,
 	},
 
 	canal: {
@@ -32,59 +44,19 @@ const initialState = {
 	},
 
 	question: {
-		questions: [
-			{
-				idQuestion: 3,
-				libelle: 'Donnez un exemple de classe abstraite',
-				idCanal: 1,
-				idAuteur: 1,
-				nomAuteur: 'Tryphon Tournesol',
-				idQuestionnaire: 0,
-				propositions: [],
-				reponses: [
-					{
-						idQuestion: 3,
-						idAuteur: 4,
-						nomAuteur: 'Marguerite Moulin',
-						libelle: 'ArrayList',
-						dateRendu: '2022-03-22 10:13:26',
-					},
-				],
-				typeQuestion: 'LIBRE',
-			},
-			{
-				idQuestion: 2,
-				libelle: "Quel est la couleur du cheval blanc d'Henry IV?",
-				idCanal: 1,
-				idAuteur: 3,
-				nomAuteur: 'Henry IV',
-				idQuestionnaire: 0,
-				propositions: [
-					{
-						idProposition: 1,
-						idQuestion: 2,
-						libelle: 'blanc',
-						estCorrecte: 1,
-					},
-					{
-						idProposition: 2,
-						idQuestion: 2,
-						libelle: 'gris',
-						estCorrecte: 1,
-					},
-				],
-				reponses: [
-					{
-						idQuestion: 3,
-						idAuteur: 4,
-						nomAuteur: 'Marguerite Moulin',
-						libelle: 'ArrayList',
-						dateRendu: '2022-03-22 10:13:26',
-					},
-				],
-				typeQuestion: 'CHOIXMULTIPLES',
-			},
-		],
+		questions: [],
+	},
+
+	efg: {
+		idEfg: 1,
+		createur: {
+			idCanal: 1,
+			idPersonne: 1,
+		},
+		intitule: 'TP définir objectif',
+		groupes: '2,3',
+		idCanal: 1,
+		idCreateur: 1,
 	},
 
 	efgs: [
@@ -111,17 +83,12 @@ const initialState = {
 			idCreateur: 2,
 		},
 	],
+	nombreMembres: 6,
+
 	formateur: {
 		idPersonne: 0,
 		prenom: '',
 		nom: '',
-		email: '',
-		tel: '',
-		pwd: '',
-		est_formateur: 0,
-		est_gestionnaire: 0,
-		est_administrateur: 0,
-		allCanauxMembre: null,
 	},
 };
 
@@ -131,9 +98,16 @@ const actionTypes = {
 	ASYNC_OP_START: 'ASYNC_OP_START',
 	ASYNC_OP_SUCCESS: 'ASYNC_OP_SUCCESS',
 	ASYNC_OP_FAILURE: 'ASYNC_OP_FAILURE',
+	LOAD_ERROR_MESSAGE: 'LOAD_ERROR_MESSAGE',
 	LOAD_CANAUX: 'loadCanaux',
 	LOAD_MEMEBRS_CANAL: 'loadMembresCanal',
 	LOAD_QUESTION: 'LOAD_QUESTION',
+	LOAD_USER: 'LOAD_USER',
+	SET_LOGGED_IN: 'SET_LOGGED_IN',
+	LOAD_EFGS: 'LOAD_EFGS',
+	LOAD_EFG: 'LOAD_EFG',
+	LOAD_NOMBRE_MEMBRES: 'LOAD_NOMBRE_MEMBRES',
+	LOAD_FORMATEUR: 'LOAD_FORMATEUR',
 };
 
 export const actionsCreators = {
@@ -146,6 +120,10 @@ export const actionsCreators = {
 	setAsyncOperationFailure: (error) => ({
 		type: actionTypes.ASYNC_OP_FAILURE,
 		value: error,
+	}),
+	loadErrorMessage: (message) => ({
+		type: actionTypes.LOAD_ERROR_MESSAGE,
+		value: message,
 	}),
 	addCanal: (canal) => ({
 		type: actionTypes.ADD_CANAL,
@@ -163,10 +141,108 @@ export const actionsCreators = {
 		type: actionTypes.LOAD_CANAUX,
 		value: canaux,
 	}),
+	loadCanauxAsync: (idUtilisateurCourant) => async (dispatch) => {
+		try {
+			const res = await fetch(
+				URL_CONTEXT + `/cdamassy2021/api/canaux/${idUtilisateurCourant}`,
+				{ headers: getHeaders() }
+			);
+			const newCanaux = await res.json();
+			dispatch(actionsCreators.loadCanaux(newCanaux));
+		} catch (error) {
+			alert('Network Error');
+			console.log(error);
+		}
+	},
 	loadMembresDuCanal: (membresCanal) => ({
 		type: actionTypes.LOAD_MEMEBRS_CANAL,
 		value: membresCanal,
 	}),
+	loadMembresDuCanalAsync: (idCanalCourant) => async (dispatch) => {
+		try {
+			const res = await fetch(URL_CONTEXT + `/cdamassy2021/api/canal/1`, {
+				headers: getHeaders(),
+			});
+			const newMembresCanal = await res.json();
+			dispatch(actionsCreators.loadMembresDuCanal(newMembresCanal));
+		} catch (error) {
+			alert('Network Error');
+			console.log(error);
+		}
+	},
+	loadNombreMembres: (nMembre) => ({
+		type: actionTypes.LOAD_NOMBRE_MEMBRES,
+		value: nMembre,
+	}),
+
+	loadNombreMembresAsync: (idCanal) => async (dispatch) => {
+		try {
+			const res = await fetch(
+				URL_CONTEXT + `/cdamassy2021/api/${idCanal}/EFGs/nombreMembres`,
+				{ headers: getHeaders() }
+			);
+			const nMembresCanal = await res.json();
+			dispatch(actionsCreators.loadNombreMembres(nMembresCanal));
+		} catch (error) {
+			alert('Network Error');
+			console.log(error);
+		}
+	},
+
+	loadFormateur: (formateur) => ({
+		type: actionTypes.LOAD_FORMATEUR,
+		value: formateur,
+	}),
+
+	loadFormateurAsync: (idEFG) => async (dispatch) => {
+		try {
+			const res = await fetch(
+				URL_CONTEXT + `/cdamassy2021/api/1/EFGs/${idEFG}/createur`,
+				{ headers: getHeaders() }
+			);
+			const formateur = await res.json();
+			dispatch(actionsCreators.loadFormateur(formateur));
+		} catch (error) {
+			alert('Network Error');
+			console.log(error);
+		}
+	},
+	loadEfg: (efg) => ({
+		type: actionTypes.LOAD_EFG,
+		value: efg,
+	}),
+
+	loadEfgAsync: (idEfg) => async (dispatch) => {
+		try {
+			const res = await fetch(
+				URL_CONTEXT + `/cdamassy2021/api/1/EFGs/${idEfg}`,
+				{ headers: getHeaders() }
+			);
+			const efg = await res.json();
+			dispatch(actionsCreators.loadEfg(efg));
+		} catch (error) {
+			alert('Network Error');
+			console.log(error);
+		}
+	},
+	loadefgs: (efgs) => ({
+		type: actionTypes.LOAD_EFGS,
+		value: efgs,
+	}),
+
+	loadEfgsAsync: (idCanal) => async (dispatch) => {
+		try {
+			const efgs = await fetch(
+				URL_CONTEXT + `/cdamassy2021/api/${idCanal}/EFGs`,
+				{ headers: getHeaders() }
+			);
+			const newefgs = await efgs.json();
+			dispatch(actionsCreators.loadefgs(newefgs));
+		} catch (error) {
+			alert('Network Error');
+			console.log(error);
+		}
+	},
 	loadQuestions: (questions) => ({
 		type: actionTypes.LOAD_QUESTIONS,
 		value: questions,
@@ -179,11 +255,38 @@ export const actionsCreators = {
 		type: actionTypes.LOAD_QUESTION,
 		value: question,
 	}),
+	resetDatabaseAsync: () => (dispatch) => {
+		dispatch(actionsCreators.setAsyncOperationStart());
+		//promise methode
+		fetch(URL_CONTEXT + `/cdamassy2021/api/database/reset`, {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+				'Access-Control-Allow-Origin': '*',
+				Authorization: 'Bearer ' + getToken(),
+			},
+		})
+			.then((response) => response.json())
+			//Then with the data from the response in JSON...
+			.then((reponse) => {
+				console.log('Success:', reponse);
+				dispatch(actionsCreators.setAsyncOperationSuccess());
+			})
+			//Then with the error genereted...
+			.catch((error) => {
+				console.error('Error:', error);
+				dispatch(actionsCreators.setAsyncOperationFailure(error));
+			});
+	},
+
 	loadQuestionsAsync: (idCanalSelectionne) => async (dispatch) => {
 		dispatch(actionsCreators.setAsyncOperationStart());
 		try {
 			const res = await fetch(
-				URL_CONTEXT + `/cdamassy2021/api/question/bycanal/${idCanalSelectionne}`
+				URL_CONTEXT +
+					`/cdamassy2021/api/question/bycanal/${idCanalSelectionne}`,
+				{ headers: getHeaders() }
 			);
 			const newQuestions = await res.json();
 			dispatch(actionsCreators.loadQuestions(newQuestions));
@@ -194,6 +297,7 @@ export const actionsCreators = {
 			dispatch(actionsCreators.setAsyncOperationFailure());
 		}
 	},
+
 	addReponseAsync: (reponse) => (dispatch) => {
 		dispatch(actionsCreators.setAsyncOperationStart());
 		//promise methode
@@ -203,6 +307,7 @@ export const actionsCreators = {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Origin': '*',
+				Authorization: 'Bearer ' + getToken(),
 			},
 			body: JSON.stringify(reponse),
 		})
@@ -219,10 +324,10 @@ export const actionsCreators = {
 				dispatch(actionsCreators.setAsyncOperationFailure(error));
 			});
 	},
+
 	addQuestionAsync: (question) => (dispatch) => {
 		dispatch(actionsCreators.setAsyncOperationStart());
 		console.log('start');
-
 		//promise methode
 		fetch(URL_CONTEXT + `/cdamassy2021/api/question/`, {
 			method: 'POST',
@@ -230,6 +335,7 @@ export const actionsCreators = {
 				'Content-Type': 'application/json',
 				Accept: 'application/json',
 				'Access-Control-Allow-Origin': '*',
+				Authorization: 'Bearer ' + getToken(),
 			},
 			body: JSON.stringify(question),
 		})
@@ -243,8 +349,49 @@ export const actionsCreators = {
 			//Then with the error genereted...
 			.catch((error) => {
 				console.error('Error:', error);
+				//dispatch(actionsCreators.loadErrorMessage('Erreur: '+ error));
 				dispatch(actionsCreators.setAsyncOperationFailure(error));
 			});
+	},
+	setSignInAsync: (login) => (dispatch) => {
+		dispatch(actionsCreators.setAsyncOperationStart());
+		console.log('start' + login);
+		//promise methode
+		fetch(URL_CONTEXT + `/cdamassy2021/api/auth/login`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+				'Access-Control-Allow-Origin': '*',
+			},
+			body: JSON.stringify(login),
+		})
+			.then((user) => user.json())
+			//Then with the data from the response in JSON...
+			.then((user) => {
+				console.log('Success:', user);
+				dispatch(actionsCreators.loadUser(user));
+				dispatch(actionsCreators.setLoggedIn(true));
+				dispatch(actionsCreators.setAsyncOperationSuccess());
+			})
+			//Then with the error genereted...
+			.catch((error) => {
+				console.error('Error:', error);
+				//dispatch(actionsCreators.loadErrorMessage('Erreur: '+ error));
+				dispatch(actionsCreators.setAsyncOperationFailure(error));
+			});
+	},
+	loadUser: (user) => ({
+		type: actionTypes.LOAD_USER,
+		value: user,
+	}),
+	setLoggedIn: (value) => ({
+		type: actionTypes.SET_LOGGED_IN,
+		value: value,
+	}),
+	disconnectUser: () => (dispatch) => {
+		dispatch(actionsCreators.setLoggedIn(false));
+		dispatch(actionsCreators.loadUser({}));
 	},
 };
 
@@ -256,6 +403,15 @@ const reducers = function (state = initialState, action) {
 			return { ...state, loading: false, error: false };
 		case actionTypes.ASYNC_OP_FAILURE:
 			return { ...state, loading: false, error: true };
+		case actionTypes.LOAD_USER:
+			return {
+				...state,
+				utilisateur: { ...state.utilisateur, courant: action.value },
+			};
+		case actionTypes.SET_LOGGED_IN:
+			return { ...state, isLoggedIn: action.value };
+		case actionTypes.LOAD_ERROR_MESSAGE:
+			return { ...state, errorMessage: action.value };
 		case actionTypes.LOAD_QUESTIONS:
 			return {
 				...state,
@@ -306,7 +462,7 @@ const reducers = function (state = initialState, action) {
 			};
 		case actionTypes.LOAD_CANAUX:
 			return { ...state, canal: { ...state.canal, canaux: action.value } };
-		case actionTypes.LOAD_MEMEBRS_CANAL:
+		case actionTypes.LOAD_MEMEBRS_CANAL: // <- Typo here
 			return {
 				...state,
 				membreCanal: { ...state.membreCanal, membresCanal: action.value },
@@ -319,6 +475,14 @@ const reducers = function (state = initialState, action) {
 					questions: [...state.question.questions, action.value],
 				},
 			};
+		case actionTypes.LOAD_NOMBRE_MEMBRES:
+			return { ...state, nombreMembres: action.value };
+		case actionTypes.LOAD_FORMATEUR:
+			return { ...state, formateur: action.value };
+		case actionTypes.LOAD_EFGS:
+			return { ...state, efgs: action.value };
+		case actionTypes.LOAD_EFG:
+			return { ...state, efg: action.value };
 		default:
 			return state;
 	}

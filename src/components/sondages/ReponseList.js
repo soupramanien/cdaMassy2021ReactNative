@@ -5,8 +5,8 @@ import Reponse from './Reponse';
 const ReponseList = ({ reponses }) => {
 	console.log("reponse: "+ reponses.indexOf(0).libelle + "nb other:" + reponses.length);
 	const [displayedResponses, setDisplayedResponses] = useState(reponses.slice(0,3));
-	const totalItems = reponses.length;
-	const isNoReponse = totalItems < 1;
+	let totalItems = reponses.length;
+	let isNoReponse = totalItems < 1;
 
 	function onShowMoreResponse() {
 		console.log('Show more:')
@@ -14,11 +14,15 @@ const ReponseList = ({ reponses }) => {
 		console.log("displayed:"+totalItems)
 
 	}
+
+	useEffect(() => {
+		setDisplayedResponses(reponses.slice(0,3));
+	}, [reponses]);
 	
 	return (
 		<View>
 			{isNoReponse ? (
-				<Text value=" Aucune réponse pour le moment ">
+				<Text style={styles.info}>Aucune réponse pour le moment.
 					{/* <form class="input_form">
                         <input type="text" class="input_form__field" placeholder="Réponse" />
                         <button type="button" class="input_btn input_btn--primary input_btn--inside input_uppercase">Envoyer</button>

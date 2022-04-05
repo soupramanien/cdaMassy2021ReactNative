@@ -5,9 +5,9 @@ import EFGServices from '../../fetch/EFGfetch';
 
 let EFGAddScreen = (props) => {
 	const route = props.route;
-	let { students, idCreateur, idCanal } = route.params;
+	let { students, idCreateur } = route.params;
 	const [data, setData] = useState('');
-
+	const idCanal = 1;
 	return (
 		<View styles={styles.container}>
 			<Text>Créer un exercice</Text>
@@ -37,8 +37,10 @@ let EFGAddScreen = (props) => {
 					data.intitule != '' &&
 					data.intitule != undefined ? (
 						<Button
-							onClick={() => {
-								EFGServices.postEFG(() => {}, data, data.idCanal);
+							type='submit'
+							onPress={() => {
+								console.log(data);
+								EFGServices.postEFG(() => {}, data, idCanal);
 							}}
 							title="Confirmer l'envoi"
 						/>

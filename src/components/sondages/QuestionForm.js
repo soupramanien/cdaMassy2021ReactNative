@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import ReactDOM from 'react-dom';
-import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableOpacityBase, View } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, TouchableOpacityBase, TurboModuleRegistry, View } from 'react-native';
 import { SafeAreaView, TextInput } from 'react-native';
 import { Button } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { isValid } from 'redux-form';
+import { actionsCreators } from '../../redux/store';
 import PropositionForm from './PropositionForm';
 
 const QuestionForm = () => {
+	const dispatch = useDispatch();
+	const [isError, setIsError] = useState(false);
+	const [isSuccess, setIsSuccess] = useState(false);
+	const [message, setMessage] = useState('');
 	const idCanalSelectionne = useSelector((state) => state.reducer.canal.idCanalSelectionne);
-	const idUtilisateurCourant = useSelector((state) => state.reducer.utilisateur.idUtilisateurCourant);
+	const idUtilisateurCourant = useSelector((state) => state.reducer.utilisateur.courant.id);
+
 	// pour premiere partie Libelle
 	const [ libelle, setLibelle ] = React.useState('');
 	const [ propId, setPropId ] = React.useState(0);
@@ -19,33 +26,89 @@ const QuestionForm = () => {
 	// pour la deuximeme partie Propositions
 	const [ propositions, setPropositions ] = useState([  ]);
 	const onPress = () => {
-		let newId = propId + 1;
-		setPropId(newId);
-		console.log(propId);
-		setPropositions((propositions) => [ ...propositions, { propId: newId, libelle: '', etat: 'correcte' } ]);
+		setPropId(propId + 1);
 	};
 
+	useEffect(() => {
+		console.log(propId);
+		if(propId!=0)setPropositions((propositions) => [ ...propositions, { propId, libelle: '', etat: 'indéfinie' } ]);
+	}, [propId])
+	
+
+	function isQuestionValid(){
+		let isValid = true;
+		if(libelle.length==0 || libelle.length>255){
+			setMessage("Le libelle de la question doit faire entre 1 et 255 characteres");
+			isValid = false;
+		}
+		propositions.forEach(prop => {
+			if(prop.libelle.length==0 || prop.libelle.length>255){
+				setMessage("Le libelle chaque proposition doit contenir entre 1 et 255 characteres");
+				isValid=false;
+				return;
+			}
+		});
+		return isValid;
+	}
 	//handle submit question
 	function onPostQuestion() {
-		let question = new Object();
-		question.libelle = libelle;
-		question.idAuteur = idUtilisateurCourant;
-		question.idCanalSelectionne = idCanalSelectionne;
-		question.propositions = propositions;
-		console.log(question);
+		if(isQuestionValid())
+		{
+			let question = new Object();
+			question.libelle = libelle;
+			question.idAuteur = idUtilisateurCourant;
+			question.idCanal = idCanalSelectionne;
+			//question.reponses = [];
+			question.propositions = propositions.map((prop)=>{
+				const propositionDto = {libelle:prop.libelle};
+				switch(prop.etat){
+					case 'incorrecte':
+						return {...propositionDto,estCorrecte:0};
+					case 'correcte':
+						return {...propositionDto,estCorrecte:1};
+					case 'indéfinie':
+						return {...propositionDto,estCorrecte:2};
+					default:
+						break;
+				}
+			});
+			console.log(question);
+			// Calls the thunk action creator, and passes the thunk function to dispatch
+			dispatch(actionsCreators.addQuestionAsync(question));
+			setLibelle('');
+			setPropositions([]);
+			setPropId(0);
+			setIsSuccess(true);
+			setIsError(false);
+			setMessage('Question Saved !');
+		}
+		else{
+			setIsError(true);
+			setIsSuccess(false);
+		}
+	}
+  const handlePropositionChangeCallBack = (updatedProposition) => {
+	// function handlePropositionChangeCallBack() {
+		setPropositions((propositions) => propositions = propositions.map((prop)=>(prop.propId == updatedProposition.propId) 	// trouver la question pour laquelle (id == action.value.idQuestion) 
+		? updatedProposition				// et ajouter action.value (la reponse) à sa liste de réponses
+		: prop))
+	}
+const handleDeletePropositionCallback= ({deleteId}) => {
+		setPropositions(propositions.filter(prop=>prop.propId != deleteId)); 	// ne renvoie que les elements pour lesquels le test est true.)
+	}
 
-		// Calls the thunk action creator, and passes the thunk function to dispatch
-		//	dispatch(actionsCreators.addQuestionAsync(reponse));
-	}
-	function handlePropositionChangeCallBack() {
-		console.log('coucou');
-	}
+	useEffect(() => {
+		console.log(JSON.stringify(propositions));
+	}, [propositions]);
+	
 
 	return (
 		<ScrollView contentContainerStyle={styles.screenStyle}>
+
 			 <View style={styles.QuestionForm}>
 				 <View  style={styles.libelleStyle}>
 					<Text style={styles.title}> Nouveau sondage:</Text>
+
 					<Text style={styles.libelleLabel} > Ecrivez votre question:</Text>
 					<View style={styles.libelleInput}>
 						
@@ -61,7 +124,6 @@ const QuestionForm = () => {
 					</View>
 				 </View>
 
-
 				<View >
 					{/* <Text style={styles.baseText}>PROPOSITIONS</Text> */}
 					{propositions.map((proposition) => (
@@ -71,12 +133,16 @@ const QuestionForm = () => {
 							etat={proposition.etat}
 							propId={proposition.propId}
 							onclick={() => onPostQuestion(question.propositions)}
+              				callBack={handlePropositionChangeCallBack}
+							deleteCallback={handleDeletePropositionCallback}
 						/>
 					))}
 				</View>
 				<TouchableOpacity style={styles.boutonStyle} onPress={onPress}>
 						<Text style={styles.buttonText}> Ajouter proposition</Text>
 				</TouchableOpacity>
+				{isError && <Text style={styles.errorMessage}>{message}</Text>}
+				{isSuccess && <Text style={styles.successMessage}>{message}</Text>}
 				<TouchableOpacity style={styles.boutonValiderStyle}onPress={onPostQuestion}>
 						<Text style={styles.buttonValiderText}>Valider sondage</Text>
 				</TouchableOpacity>
@@ -94,6 +160,22 @@ const styles = StyleSheet.create({
 	title:{
 		color: "#ffffff",
 		fontSize: 18,
+		fontWeight:'bold',
+		width:256,
+		paddingBottom:10,
+	},
+	errorMessage:{
+		color: "red",
+		fontSize: 18,
+		textAlign:'center',
+		fontWeight:'bold',
+		width:256,
+		paddingBottom:10,
+	},
+	successMessage:{
+		color: "green",
+		fontSize: 18,
+		textAlign:'center',
 		fontWeight:'bold',
 		width:256,
 		paddingBottom:10,
