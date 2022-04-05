@@ -87,7 +87,6 @@ const initialState = {
 		],
 	},
 
-	efg: 'test',
 	efgs: [
 		{
 			idEfg: 1,

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { Button, Field, reduxForm, formValueSelector } from 'redux-form';
 
 let SelectingFormValuesForm = (props) => {
 	const { studentsPerGroup, intitule, handleSubmit } = props;
@@ -32,12 +32,12 @@ let SelectingFormValuesForm = (props) => {
 				onSubmit={handleSubmit(() => {
 					let efg = {
 						createur: {
-							idCanal: 1,
+							idCanal: props.idCanal,
 							idPersonne: props.idCreateur,
 						},
 						intitule: intitule,
 						groupes: parseInt(0),
-						idCanal: 1,
+						idCanal: props.idCanal,
 						idCreateur: props.idCreateur,
 					};
 

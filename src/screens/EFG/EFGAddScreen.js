@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Button, StyleSheet, View, Text } from 'react-native';
 import SelectingFormValuesForm from '../../components/EFG/EFGForm';
 import EFGServices from '../../fetch/EFGfetch';
 
 let EFGAddScreen = (props) => {
 	const route = props.route;
-	let { students, idCreateur } = route.params;
+	let { students, idCreateur, idCanal } = route.params;
 	const [data, setData] = useState('');
 
 	return (
 		<View styles={styles.container}>
-			<p> Nombre d'étudiants dans le canal : {students}</p>
-			<p>Numéro du créateur : {idCreateur}</p>
+			<Text>Créer un exercice</Text>
 			<SelectingFormValuesForm
 				students={students}
 				idCreateur={idCreateur}
@@ -20,8 +19,8 @@ let EFGAddScreen = (props) => {
 			/>
 			{data != '' && (
 				<>
-					<p>Aperçu de l'exercice</p>
-					<p>
+					<Text>Aperçu de l'exercice</Text>
+					<Text>
 						Titre de l'exercice :
 						{data.intitule === undefined
 							? "Veuillez entrer un intitulé pour l'exercice"
@@ -33,18 +32,18 @@ let EFGAddScreen = (props) => {
 							? "Veuillez choisir un nombre d'élève par groupe."
 							: data.groupes}
 						.
-					</p>
+					</Text>
 					{isNaN(data.groupes) &&
 					data.intitule != '' &&
 					data.intitule != undefined ? (
-						<button
+						<Button
 							onClick={() => {
-								EFGServices.postEFG(() => {}, data);
-							}}>
-							Confirmer l'envoi
-						</button>
+								EFGServices.postEFG(() => {}, data, data.idCanal);
+							}}
+							title="Confirmer l'envoi"
+						/>
 					) : (
-						<button disabled>Confirmer l'envoi</button>
+						<Button title="Confirmer l'envoi" disabled />
 					)}
 				</>
 			)}
@@ -54,7 +53,6 @@ let EFGAddScreen = (props) => {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
 		backgroundColor: '#fff',
 		alignItems: 'center',
 		justifyContent: 'center',
