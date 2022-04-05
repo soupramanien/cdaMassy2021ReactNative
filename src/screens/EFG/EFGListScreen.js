@@ -68,6 +68,7 @@ export default function EFGListScreen({ navigation, route }) {
 						navigation.navigate('EFGAddScreen', {
 							students: nombreMembres,
 							idCreateur: 1,
+							idCanal:canalId
 						})
 					}
 				/>

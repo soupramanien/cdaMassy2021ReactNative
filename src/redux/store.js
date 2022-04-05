@@ -104,6 +104,7 @@ const actionTypes = {
 	LOAD_QUESTION: 'LOAD_QUESTION',
 	LOAD_USER: 'LOAD_USER',
 	SET_LOGGED_IN: 'SET_LOGGED_IN',
+	ADD_EFG:'ADD_EFG',
 	LOAD_EFGS: 'LOAD_EFGS',
 	LOAD_EFG: 'LOAD_EFG',
 	LOAD_NOMBRE_MEMBRES: 'LOAD_NOMBRE_MEMBRES',
@@ -206,6 +207,33 @@ export const actionsCreators = {
 			alert('Network Error');
 			console.log(error);
 		}
+	},
+	addEfg:(efg)=>({
+		type:actionTypes.ADD_EFG,
+		value:efg
+	}),
+	addEfgAsync:(efg,idCanal) => (dispatch) => {
+		console.log('start');
+		//promise methode
+		fetch(URL_CONTEXT + `/cdamassy2021/api/${idCanal}/EFGs/new`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+				'Access-Control-Allow-Origin': '*',
+				Authorization: 'Bearer ' + getToken(),
+			},
+			body: JSON.stringify(efg),
+		})
+			.then((efg) => efg.json())
+			//Then with the data from the response in JSON...
+			.then((efg) => {
+				dispatch(actionsCreators.addEfg(efg));;
+			})
+			//Then with the error genereted...
+			.catch((error) => {
+				console.error('Error:', error);
+			});
 	},
 	loadEfg: (efg) => ({
 		type: actionTypes.LOAD_EFG,
@@ -483,6 +511,8 @@ const reducers = function (state = initialState, action) {
 			return { ...state, efgs: action.value };
 		case actionTypes.LOAD_EFG:
 			return { ...state, efg: action.value };
+		case actionTypes.ADD_EFG:
+			return{...state, efgs:[...state.efgs,action.value]};
 		default:
 			return state;
 	}

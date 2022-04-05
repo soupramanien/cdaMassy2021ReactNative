@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, View, Text } from 'react-native';
+import { useDispatch } from 'react-redux';
 import SelectingFormValuesForm from '../../components/EFG/EFGForm';
 import EFGServices from '../../fetch/EFGfetch';
+import { actionsCreators } from '../../redux/store';
 
 let EFGAddScreen = (props) => {
 	const route = props.route;
-	let { students, idCreateur } = route.params;
+	const dispatch = useDispatch();
+	let { students, idCreateur,idCanal } = route.params;
 	const [data, setData] = useState('');
-	const idCanal = 1;
 	return (
 		<View styles={styles.container}>
 			<Text>Créer un exercice</Text>
@@ -39,8 +41,11 @@ let EFGAddScreen = (props) => {
 						<Button
 							type='submit'
 							onPress={() => {
-								console.log(data);
-								EFGServices.postEFG(() => {}, data, idCanal);
+								let res = {...data,idCanal:1};
+								console.log(res);
+								// EFGServices.postEFG(() => {}, data, idCanal);
+								dispatch(actionsCreators.addEfgAsync(res,1));
+								props.navigation.goBack();
 							}}
 							title="Confirmer l'envoi"
 						/>
